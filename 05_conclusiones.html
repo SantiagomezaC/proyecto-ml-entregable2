@@ -223,7 +223,7 @@
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01_correcciones.html">Trazabilidad de correcciones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_correcciones.html">Respuesta a la evaluación del Entregable 1</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_datos.html">Datos: ETL y análisis exploratorio</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados</span></p>
@@ -432,12 +432,16 @@ anchos que los del informe original, que subestimaba la incertidumbre en esa pro
 años, el mejor benchmark de clasificación es Random Forest con ponderación por clase (PR-AUC
 externa de 0,910 ± 0,075), pero Random Forest, XGBoost, SVM y KNN son estadísticamente
 indistinguibles; Naive Bayes, el árbol de decisión y la regresión logística quedan por debajo,
-con diferencias significativas tras la corrección de Holm. La ventaja de los modelos no lineales
+con diferencias significativas tras la corrección de Holm. La dificultad de cada bloque se explica casi por completo por
+la proporción de días positivos que exigen anticipar una entrada a la banda (correlación de
+Spearman de −0,93 con la PR-AUC del bloque), lo que da un origen físico a la variabilidad entre
+periodos. La ventaja de los modelos no lineales
 sobre la regresión logística confirma la recomendación de explorarlos.</p>
 <p>El tercero se refiere al balanceo. Ninguna técnica mejora la discriminación medida con PR-AUC:
 la ponderación por clase y el sobremuestreo desplazan el punto de operación hacia una mayor
-exhaustividad a costa de la precisión, y ADASYN la empeora, porque concentra los sintéticos en
-la frontera de la banda, donde la clase está peor definida.</p>
+exhaustividad a costa de la precisión, y ADASYN la empeora, porque asigna el 81 % de su peso de
+muestreo a positivos situados junto a los límites de la banda e interpola entre días contiguos
+del mismo episodio.</p>
 <p>El cuarto se refiere a la optimización de hiperparámetros. Con 16 evaluaciones por pliegue, la
 rejilla, la búsqueda aleatoria, TPE y el algoritmo genético alcanzan la misma calidad final. TPE
 y el algoritmo genético llegan antes que la rejilla, con un efecto grande, y solo
@@ -453,9 +457,9 @@ con ejecución concurrente.</p>
 <p>El sexto se refiere a la regresión y a la interpretación. SVR y XGBoost forman el conjunto de
 confianza de modelos y reducen en un tercio el error de la persistencia. SHAP muestra que la
 distancia del caudal actual a la descarga efectiva, el nivel del caudal y su tendencia de corto
-plazo dominan la predicción, con un aporte marginal de Puerto Salgar. LIME coincide con SHAP en
-los días bien clasificados y se aparta de él cerca de los bordes de la banda, donde su sustituto
-lineal no representa la curvatura del modelo. Los errores se concentran en los días que cruzan los límites de la banda por
+plazo dominan la predicción, con un aporte marginal de Puerto Salgar. En una muestra de 200 días
+de prueba, LIME identifica las mismas variables relevantes que SHAP, pero cerca de los límites de
+la banda invierte el sentido de algunas contribuciones secundarias. Los errores se concentran en los días que cruzan los límites de la banda por
 un margen pequeño, donde la etiqueta binaria trata igual un caudal que roza el umbral y uno que
 cae en el centro de la banda.</p>
 </section>
