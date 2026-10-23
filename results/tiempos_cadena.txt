@@ -1,0 +1,9 @@
+== 22:59:23 INICIO clf
+== 03:36:03 INICIO reg
+== 07:12:53 INICIO final_models clf
+== 07:15:17 FIN final_models clf (código 0)
+== 07:15:17 INICIO final_models reg
+== 07:23:07 FIN final_models reg (código 0)
+== 08:27:51 INICIO computational
+== 08:28:55 FIN computational (código 0)
+== CADENA COMPLETA
