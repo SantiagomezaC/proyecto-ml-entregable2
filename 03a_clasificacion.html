@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -433,7 +433,8 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">json</span><span class="o">,</span><span class="w"> </span><span class="nn">pickle</span><span class="o">,</span><span class="w"> </span><span class="nn">warnings</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Resultados de clasificación.</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">json</span><span class="o">,</span><span class="w"> </span><span class="nn">pickle</span><span class="o">,</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">".."</span><span class="p">)</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">)</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span><span class="o">,</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span><span class="o">,</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
@@ -472,7 +473,8 @@ y la semilla, está en <code class="docutils literal notranslate"><span class="p
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fmt</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">m</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="n">s</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Tabla maestra.</span>
+<span class="n">fmt</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">m</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="n">s</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span>
 <span class="n">vista</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"pr_auc_mean"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"Modelo"</span><span class="p">:</span> <span class="n">vista</span><span class="o">.</span><span class="n">nombre</span><span class="p">,</span> <span class="s2">"Balanceo"</span><span class="p">:</span> <span class="n">vista</span><span class="o">.</span><span class="n">balanceo_nombre</span><span class="p">,</span> <span class="s2">"Optimizador"</span><span class="p">:</span> <span class="n">vista</span><span class="o">.</span><span class="n">optimizador_nombre</span><span class="p">,</span>
               <span class="s2">"PR-AUC"</span><span class="p">:</span> <span class="p">[</span><span class="n">fmt</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vista</span><span class="o">.</span><span class="n">pr_auc_mean</span><span class="p">,</span> <span class="n">vista</span><span class="o">.</span><span class="n">pr_auc_std</span><span class="p">)],</span>
@@ -767,7 +769,8 @@ y la semilla, está en <code class="docutils literal notranslate"><span class="p
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">orden</span> <span class="o">=</span> <span class="n">mejores</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"pr_auc_mean"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">modelo</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Tabla maestra.</span>
+<span class="n">orden</span> <span class="o">=</span> <span class="n">mejores</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"pr_auc_mean"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">modelo</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">3.9</span><span class="p">))</span>
 <span class="n">datos_caja</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">orden</span><span class="p">):</span>
@@ -997,7 +1000,8 @@ pareados y no en comparaciones de medias.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">base</span> <span class="o">=</span> <span class="n">pl</span><span class="p">[</span><span class="n">pl</span><span class="o">.</span><span class="n">balanceo</span> <span class="o">==</span> <span class="s2">"ninguno"</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">"modelo"</span><span class="p">,</span> <span class="s2">"optimizador"</span><span class="p">,</span> <span class="s2">"pliegue"</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Efecto del balanceo de clases.</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">pl</span><span class="p">[</span><span class="n">pl</span><span class="o">.</span><span class="n">balanceo</span> <span class="o">==</span> <span class="s2">"ninguno"</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">"modelo"</span><span class="p">,</span> <span class="s2">"optimizador"</span><span class="p">,</span> <span class="s2">"pliegue"</span><span class="p">])</span>
 <span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"smote"</span><span class="p">,</span> <span class="s2">"adasyn"</span><span class="p">,</span> <span class="s2">"balanced"</span><span class="p">):</span>
     <span class="n">otro</span> <span class="o">=</span> <span class="n">pl</span><span class="p">[</span><span class="n">pl</span><span class="o">.</span><span class="n">balanceo</span> <span class="o">==</span> <span class="n">b</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">"modelo"</span><span class="p">,</span> <span class="s2">"optimizador"</span><span class="p">,</span> <span class="s2">"pliegue"</span><span class="p">])</span>
@@ -1049,7 +1053,8 @@ pareados y no en comparaciones de medias.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tab_b</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Efecto del balanceo de clases.</span>
+<span class="n">tab_b</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1302,7 +1307,8 @@ entrenamiento (1947-2009), se reentrenó el pipeline y se evaluó una única vez
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">y_clf_test</span><span class="o">.</span><span class="n">values</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Desempeño en la prueba reservada.</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">y_clf_test</span><span class="o">.</span><span class="n">values</span>
 <span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">orden</span><span class="p">:</span>
     <span class="n">r</span> <span class="o">=</span> <span class="n">fin</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
@@ -1461,7 +1467,8 @@ entrenamiento (1947-2009), se reentrenó el pipeline y se evaluó una única vez
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mf">4.2</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Desempeño en la prueba reservada.</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mf">4.2</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">orden</span><span class="p">):</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">fin</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s2">"pred_test"</span><span class="p">]</span>
     <span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span> <span class="n">pr_</span><span class="p">,</span> <span class="n">rc_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">precision_recall_curve</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
@@ -1493,7 +1500,8 @@ entrenamiento (1947-2009), se reentrenó el pipeline y se evaluó una única vez
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">orden</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Desempeño en la prueba reservada.</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">orden</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">orden</span><span class="p">):</span>
     <span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="p">(</span><span class="n">fin</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s2">"pred_test"</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mf">.5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">estilo</span><span class="o">.</span><span class="n">mapa_seq</span><span class="p">());</span> <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
@@ -1533,10 +1541,10 @@ aunque el modelo produzca muchas falsas alarmas, porque los verdaderos negativos
 <span class="bibtex-citation" id="id1">[<a class="reference internal" href="04_reproducibilidad.html#id75" title="Takaya Saito and Marc Rehmsmeier. The precision-recall plot is more informative than the ROC plot when evaluating binary classifiers on imbalanced datasets. PLOS ONE, 10(3):e0118432, 2015.">Saito and Rehmsmeier, 2015</a>]</span>. Entre precisión y exhaustividad, el costo relativo depende del uso. Para
 programar una campaña de muestreo de sedimentos o una purga de embalse, un falso negativo
 (no anticipar un periodo de transporte dominante) significa perder la ventana de operación,
-mientras que un falso positivo cuesta una movilización innecesaria; en ese escenario conviene
-privilegiar la exhaustividad, y el umbral puede bajarse a partir de la curva de la
+mientras que un falso positivo cuesta una movilización innecesaria; en ese escenario se privilegia
+la exhaustividad, y el umbral puede bajarse a partir de la curva de la
 <a class="reference internal" href="#fig-roc-pr"><span class="std std-numref">Figura 9</span></a>. Para la planificación de dragados, en cambio, las falsas alarmas tienen un
-costo directo y conviene la precisión. Al reportar la PR-AUC, que integra todos los umbrales, la
+costo directo y la precisión resulta prioritaria. Al reportar la PR-AUC, que integra todos los umbrales, la
 comparación entre modelos no depende de esa elección, que corresponde al usuario final.</p>
 </section>
 </section>
@@ -1549,7 +1557,8 @@ comparación entre modelos no depende de esa elección, que corresponde al usuar
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Calibración de probabilidades.</span>
+<span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mf">4.2</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">orden</span><span class="p">):</span>
     <span class="n">r</span> <span class="o">=</span> <span class="n">fin</span><span class="p">[</span><span class="n">m</span><span class="p">];</span> <span class="n">s</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s2">"pred_test"</span><span class="p">]</span>
@@ -1593,7 +1602,8 @@ comparación entre modelos no depende de esa elección, que corresponde al usuar
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cal</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Calibración de probabilidades.</span>
+<span class="n">cal</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1732,7 +1742,8 @@ cuando la decisión en las predicciones fuera de muestra fue favorable.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rob</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">RESULTADOS</span> <span class="o">/</span> <span class="s2">"robustez"</span> <span class="o">/</span> <span class="s2">"robustez.csv"</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Robustez y estabilidad.</span>
+<span class="n">rob</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">RESULTADOS</span> <span class="o">/</span> <span class="s2">"robustez"</span> <span class="o">/</span> <span class="s2">"robustez.csv"</span><span class="p">)</span>
 <span class="n">sem</span> <span class="o">=</span> <span class="n">rob</span><span class="p">[</span><span class="n">rob</span><span class="o">.</span><span class="n">tipo</span> <span class="o">==</span> <span class="s2">"semilla"</span><span class="p">]</span>
 <span class="n">var_sem</span> <span class="o">=</span> <span class="n">sem</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">"modelo"</span><span class="p">,</span> <span class="s2">"pliegue"</span><span class="p">])</span><span class="o">.</span><span class="n">pr_auc</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"modelo"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="n">var_blq</span> <span class="o">=</span> <span class="n">sem</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">"modelo"</span><span class="p">,</span> <span class="s2">"seed"</span><span class="p">])</span><span class="o">.</span><span class="n">pr_auc</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"modelo"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>

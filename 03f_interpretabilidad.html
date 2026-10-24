@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -406,6 +406,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretabilidad-global">Interpretabilidad global</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretabilidad-local">Interpretabilidad local</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparacion-con-lime">Comparación con LIME</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretabilidad-del-modelo-de-regresion">Interpretabilidad del modelo de regresión</a></li>
 </ul>
             </nav>
         </div>
@@ -442,7 +443,7 @@
 <span class="n">mejores</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">RESULTADOS</span> <span class="o">/</span> <span class="s2">"mejores_clf.csv"</span><span class="p">)</span>
 <span class="n">fin</span> <span class="o">=</span> <span class="p">{</span><span class="n">r</span><span class="p">[</span><span class="s2">"modelo"</span><span class="p">]:</span> <span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">RESULTADOS</span> <span class="o">/</span> <span class="s2">"final_clf.pkl"</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">))}</span>
 <span class="c1"># Para SHAP se usa el mejor modelo de árboles (explicación exacta con TreeSHAP); XGBoost además es el</span>
-<span class="c1"># modelo que la guía pide comparar con LIME.</span>
+<span class="c1"># modelo que se compara con LIME.</span>
 <span class="n">arboles</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">mejores</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"pr_auc_mean"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">modelo</span> <span class="k">if</span> <span class="n">m</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"xgboost"</span><span class="p">,</span> <span class="s2">"random_forest"</span><span class="p">,</span> <span class="s2">"arbol"</span><span class="p">)]</span>
 <span class="n">M</span> <span class="o">=</span> <span class="s2">"xgboost"</span>
 <span class="n">pipe</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ARTEFACTOS</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">M</span><span class="si">}</span><span class="s2">.joblib"</span><span class="p">)</span>
@@ -464,8 +465,9 @@
 </div>
 </details>
 </div>
-<p>Este capítulo analiza el modelo de clasificación con SHAP <span class="bibtex-citation" id="id1">[<a class="reference internal" href="04_reproducibilidad.html#id56" title="Scott M. Lundberg and Su-In Lee. A unified approach to interpreting model predictions. In Advances in Neural Information Processing Systems, volume 30. 2017.">Lundberg and Lee, 2017</a>]</span> y compara sus
-explicaciones con las de LIME. El modelo explicado es <span class="pasted-text">XGBoost</span>, que
+<p>Este capítulo analiza el modelo de clasificación con SHAP <span class="bibtex-citation" id="id1">[<a class="reference internal" href="04_reproducibilidad.html#id56" title="Scott M. Lundberg and Su-In Lee. A unified approach to interpreting model predictions. In Advances in Neural Information Processing Systems, volume 30. 2017.">Lundberg and Lee, 2017</a>]</span>, compara sus
+explicaciones con las de LIME y, en la última sección, aplica el mismo análisis al mejor modelo
+de regresión. El modelo de clasificación explicado es <span class="pasted-text">XGBoost</span>, que
 ocupa el puesto <span class="pasted-text">2</span> entre los benchmarks de clasificación y admite el
 algoritmo TreeSHAP <span class="bibtex-citation" id="id2">[<a class="reference internal" href="04_reproducibilidad.html#id57" title="Scott M. Lundberg, Gabriel Erion, Hugh Chen, Alex DeGrave, Jordan M. Prutkin, Bala Nair, Ronit Katz, Jonathan Himmelfarb, Nisha Bansal, and Su-In Lee. From local explanations to global understanding with explainable AI for trees. Nature Machine Intelligence, 2(1):56–67, 2020.">Lundberg <em>et al.</em>, 2020</a>]</span>, que calcula los valores de Shapley de forma exacta y en
 tiempo polinómico recorriendo los caminos de cada árbol. Los valores se expresan en log-odds de
@@ -495,7 +497,7 @@ la clase positiva, la escala aditiva del modelo.</p>
 </details>
 <div class="cell_output docutils container">
 <figure class="align-default" id="fig-shap-resumen">
-<img alt="_images/6cffd4d2b3373d0f5ccd55a04b7b4e597a06bf70a6d242363550cdfb1fc82110.png" src="_images/6cffd4d2b3373d0f5ccd55a04b7b4e597a06bf70a6d242363550cdfb1fc82110.png" />
+<img alt="_images/5ebcd04882e3bdf8951921e1e12f7c202c3589150bf41c91de9409909948c74c.png" src="_images/5ebcd04882e3bdf8951921e1e12f7c202c3589150bf41c91de9409909948c74c.png" />
 <figcaption>
 <p><span class="caption-number">Figura 19 </span><span class="caption-text">Gráfico resumen de SHAP en la prueba 2010-2026. Cada punto es un día; la posición horizontal es la contribución a la predicción (log-odds) y el color, el valor de la variable (rojo alto, azul bajo).</span><a class="headerlink" href="#fig-shap-resumen" title="Link to this image">#</a></p>
 </figcaption>
@@ -793,6 +795,131 @@ explicación de SHAP es la más fiel al modelo, y la de LIME debe leerse en cuan
 variables que identifica y su importancia relativa, pero no en cuanto al sentido de las
 contribuciones secundarias.</p>
 </section>
+<section id="interpretabilidad-del-modelo-de-regresion">
+<h2>Interpretabilidad del modelo de regresión<a class="headerlink" href="#interpretabilidad-del-modelo-de-regresion" title="Link to this heading">#</a></h2>
+<p>En regresión, SVR y XGBoost forman el conjunto de confianza de modelos de la comparación
+estadística y sus errores en la prueba difieren en menos de 2 m³/s, de modo que ambos pueden
+considerarse el mejor modelo de esa tarea. Se explica XGBoost porque TreeSHAP calcula sus valores
+de Shapley de forma exacta, mientras que la SVR con núcleo RBF exigiría KernelSHAP, una
+aproximación por muestreo cuyo costo crece con el número de observaciones explicadas. El modelo
+se reconstruyó con los hiperparámetros seleccionados en el entrenamiento 1947-2009, y sus
+predicciones coinciden con las guardadas en los resultados finales. Dado que el objetivo se
+estandariza dentro del pipeline, los valores de Shapley se reescalan a m³/s multiplicándolos por
+la desviación estándar del caudal de entrenamiento, transformación lineal que conserva la
+propiedad de eficiencia.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reconstruye el mejor XGBoost de regresión con sus hiperparámetros finales y verifica que</span>
+<span class="c1"># reproduce las predicciones guardadas</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">construir_pipeline</span>
+<span class="n">fin_reg</span> <span class="o">=</span> <span class="p">{</span><span class="n">r</span><span class="p">[</span><span class="s2">"modelo"</span><span class="p">]:</span> <span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">RESULTADOS</span> <span class="o">/</span> <span class="s2">"final_reg.pkl"</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">))}</span>
+<span class="n">r_xgb</span> <span class="o">=</span> <span class="n">fin_reg</span><span class="p">[</span><span class="s2">"xgboost"</span><span class="p">]</span>
+<span class="n">modelo_reg</span> <span class="o">=</span> <span class="n">construir_pipeline</span><span class="p">(</span><span class="s2">"reg"</span><span class="p">,</span> <span class="s2">"xgboost"</span><span class="p">,</span> <span class="n">r_xgb</span><span class="p">[</span><span class="s2">"params"</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">D</span><span class="o">.</span><span class="n">y_reg</span><span class="p">)</span>
+<span class="n">pred_reg</span> <span class="o">=</span> <span class="n">modelo_reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">"reg_dif_pred"</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">pred_reg</span> <span class="o">-</span> <span class="n">r_xgb</span><span class="p">[</span><span class="s2">"pred_test"</span><span class="p">])</span><span class="o">.</span><span class="n">max</span><span class="p">()),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">"reg_rmse_xgb"</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">r_xgb</span><span class="p">[</span><span class="s2">"metricas_test"</span><span class="p">][</span><span class="s2">"rmse"</span><span class="p">]),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">"reg_rmse_svr"</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">fin_reg</span><span class="p">[</span><span class="s2">"svr"</span><span class="p">][</span><span class="s2">"metricas_test"</span><span class="p">][</span><span class="s2">"rmse"</span><span class="p">]),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># TreeSHAP sobre el estimador interno; los valores se llevan de la escala estandarizada a m³/s</span>
+<span class="n">pipe_reg</span> <span class="o">=</span> <span class="n">modelo_reg</span><span class="o">.</span><span class="n">regressor_</span>
+<span class="n">Zr</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">X_test</span><span class="o">.</span><span class="n">values</span>
+<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">paso</span> <span class="ow">in</span> <span class="n">pipe_reg</span><span class="o">.</span><span class="n">steps</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+    <span class="n">Zr</span> <span class="o">=</span> <span class="n">paso</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">Zr</span><span class="p">)</span>
+<span class="n">sv_std</span> <span class="o">=</span> <span class="n">shap</span><span class="o">.</span><span class="n">TreeExplainer</span><span class="p">(</span><span class="n">pipe_reg</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])(</span><span class="n">Zr</span><span class="p">)</span>
+<span class="n">escala</span><span class="p">,</span> <span class="n">media</span> <span class="o">=</span> <span class="n">modelo_reg</span><span class="o">.</span><span class="n">transformer_</span><span class="o">.</span><span class="n">scale_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">modelo_reg</span><span class="o">.</span><span class="n">transformer_</span><span class="o">.</span><span class="n">mean_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sv_reg</span> <span class="o">=</span> <span class="n">shap</span><span class="o">.</span><span class="n">Explanation</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">sv_std</span><span class="o">.</span><span class="n">values</span> <span class="o">*</span> <span class="n">escala</span><span class="p">,</span> <span class="n">base_values</span><span class="o">=</span><span class="n">sv_std</span><span class="o">.</span><span class="n">base_values</span> <span class="o">*</span> <span class="n">escala</span> <span class="o">+</span> <span class="n">media</span><span class="p">,</span>
+                          <span class="n">data</span><span class="o">=</span><span class="n">Xte</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">Xte</span><span class="o">.</span><span class="n">median</span><span class="p">())</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="p">[</span><span class="n">etiqueta</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Xte</span><span class="o">.</span><span class="n">columns</span><span class="p">])</span>
+<span class="n">shap</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">beeswarm</span><span class="p">(</span><span class="n">sv_reg</span><span class="p">,</span> <span class="n">max_display</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_size</span><span class="o">=</span><span class="p">(</span><span class="mf">9.5</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Contribuciones SHAP por variable (regresión, m³/s)"</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">imp_reg</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">sv_reg</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">Xte</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">glue</span><span class="p">(</span><span class="sa">f</span><span class="s2">"reg_top</span><span class="si">{</span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">etiqueta</span><span class="p">(</span><span class="n">imp_reg</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">k</span><span class="p">]),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">"reg_imp1"</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">imp_reg</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">"reg_frac_top5"</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">imp_reg</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">imp_reg</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">"reg_pos_dist"</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">imp_reg</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">"dist_qef"</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-shap-reg-resumen">
+<img alt="_images/13ca41b886b3f18f5ede1fc8caf063376f2357d3283266918f20852f0a76bba7.png" src="_images/13ca41b886b3f18f5ede1fc8caf063376f2357d3283266918f20852f0a76bba7.png" />
+<figcaption>
+<p><span class="caption-number">Figura 21 </span><span class="caption-text">Gráfico resumen de SHAP del modelo de regresión (XGBoost) en la prueba 2010-2026. La posición horizontal es la contribución al caudal predicho en t + 15 (m³/s) y el color, el valor de la variable.</span><a class="headerlink" href="#fig-shap-reg-resumen" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<p>Las predicciones del modelo reconstruido difieren de las guardadas en un máximo de
+<span class="pasted-text">0,0</span> m³/s, y su RMSE en la prueba es de <span class="pasted-text">641</span> m³/s,
+frente a <span class="pasted-text">643</span> m³/s de la SVR. La variable dominante es
+«<span class="pasted-text">Caudal actual en Calamar al cuadrado (m⁶/s²)</span>», con una contribución media de <span class="pasted-text">1.134</span> m³/s, seguida de
+«<span class="pasted-text">Caudal en Calamar hace 1 días (m³/s)</span>» y «<span class="pasted-text">Coseno del ciclo anual (–)</span>»; las cinco primeras concentran el
+<span class="pasted-text">64 %</span> de la importancia total. El nivel actual del caudal y sus rezagos
+cortos fijan la base de la predicción, y los armónicos estacionales la corrigen según la época del
+año, de acuerdo con el régimen bimodal descrito en el capítulo 2. A diferencia de la clasificación,
+la distancia del caudal a la descarga efectiva ocupa apenas el puesto <span class="pasted-text">8</span>.
+Esa diferencia es coherente con la naturaleza de cada tarea, dado que en regresión el objetivo es
+el caudal mismo y su relación con el caudal actual es monótona, mientras que en clasificación la
+pertenencia a una banda exige una variable que mida la cercanía a su centro.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Explicaciones locales del día mejor predicho y del día con mayor error absoluto</span>
+<span class="n">yq_te</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">y_reg_test</span><span class="o">.</span><span class="n">values</span>
+<span class="n">err_reg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">yq_te</span> <span class="o">-</span> <span class="n">pred_reg</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">nombre</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">tit</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(((</span><span class="s2">"ok"</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">err_reg</span><span class="p">)),</span> <span class="s2">"(a) Menor error"</span><span class="p">),</span>
+                                       <span class="p">(</span><span class="s2">"mal"</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">err_reg</span><span class="p">)),</span> <span class="s2">"(b) Mayor error"</span><span class="p">))):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">sca</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">shap</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">waterfall</span><span class="p">(</span><span class="n">sv_reg</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">max_display</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">tit</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">D</span><span class="o">.</span><span class="n">fechas_test</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">%Y-%m-%d</span><span class="si">}</span><span class="s2">, observado </span><span class="si">{</span><span class="n">yq_te</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2"> m³/s, "</span>
+                 <span class="sa">f</span><span class="s2">"predicho </span><span class="si">{</span><span class="n">pred_reg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2"> m³/s"</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">glue</span><span class="p">(</span><span class="sa">f</span><span class="s2">"reg_fecha_</span><span class="si">{</span><span class="n">nombre</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">D</span><span class="o">.</span><span class="n">fechas_test</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">%Y-%m-%d</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">glue</span><span class="p">(</span><span class="sa">f</span><span class="s2">"reg_obs_</span><span class="si">{</span><span class="n">nombre</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">yq_te</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">glue</span><span class="p">(</span><span class="sa">f</span><span class="s2">"reg_pred_</span><span class="si">{</span><span class="n">nombre</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">pred_reg</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">glue</span><span class="p">(</span><span class="sa">f</span><span class="s2">"reg_hoy_</span><span class="si">{</span><span class="n">nombre</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Xte</span><span class="o">.</span><span class="n">calamar_cuad</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">])),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">top</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">sv_reg</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">Xte</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">glue</span><span class="p">(</span><span class="sa">f</span><span class="s2">"reg_top_</span><span class="si">{</span><span class="n">nombre</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"; "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">etiqueta</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">top</span><span class="p">),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">"reg_base"</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">sv_reg</span><span class="o">.</span><span class="n">base_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-shap-reg-local">
+<img alt="_images/054e9e91e725409c7a62ef95b3b4f6bbcb1fb9081c200bb61483e7940442af3a.png" src="_images/054e9e91e725409c7a62ef95b3b4f6bbcb1fb9081c200bb61483e7940442af3a.png" />
+<figcaption>
+<p><span class="caption-number">Figura 22 </span><span class="caption-text">Explicaciones locales del modelo de regresión en dos días de la prueba. (a) Día con el menor error absoluto; (b) día con el mayor error absoluto. Las contribuciones están en m³/s.</span><a class="headerlink" href="#fig-shap-reg-local" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<p>Ambas explicaciones parten del valor esperado del modelo, <span class="pasted-text">7.229</span> m³/s. En el
+día mejor predicho (<span class="pasted-text">2021-12-28</span>) el caudal observado fue de
+<span class="pasted-text">8.489</span> m³/s y la predicción, de <span class="pasted-text">8.489</span> m³/s; el río
+partía de <span class="pasted-text">10.494</span> m³/s y las contribuciones principales
+(«<span class="pasted-text">Caudal actual en Calamar al cuadrado (m⁶/s²); Coseno del ciclo anual (–); Cambio en 1 d de Calamar (m³/s)</span>») corresponden al nivel del caudal, a la época del año y a su variación del último día.
+El mayor error ocurrió el <span class="pasted-text">2026-01-30</span>, cuando el caudal alcanzó
+<span class="pasted-text">8.184</span> m³/s quince días después de un estado de <span class="pasted-text">6.588</span> m³/s
+y el modelo predijo <span class="pasted-text">5.095</span> m³/s. Las variables que dominan esa predicción
+(«<span class="pasted-text">Caudal actual en Calamar al cuadrado (m⁶/s²); Coseno del ciclo anual (–); Cambio en 1 d de Calamar (m³/s)</span>») describen el paso de la temporada de lluvias de fin de año a la
+temporada seca, de manera que el modelo reprodujo la recesión típica de enero y no anticipó un
+ascenso atípico. Ese error tiene el mismo origen que el error elevado de la clasificación, dado
+que ninguno de los predictores contiene información sobre la precipitación que produce los
+ascensos rápidos fuera de la temporada de lluvias.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -864,6 +991,7 @@ contribuciones secundarias.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretabilidad-global">Interpretabilidad global</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretabilidad-local">Interpretabilidad local</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparacion-con-lime">Comparación con LIME</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretabilidad-del-modelo-de-regresion">Interpretabilidad del modelo de regresión</a></li>
 </ul>
   </nav></div>
 

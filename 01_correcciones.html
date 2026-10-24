@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -477,16 +477,17 @@ no incluye el optimismo de seleccionar hiperparámetros con los mismos datos con
 </section>
 <section id="estaciones-sin-registro-y-periodo-de-modelado">
 <h2>Estaciones sin registro y periodo de modelado<a class="headerlink" href="#estaciones-sin-registro-y-periodo-de-modelado" title="Link to this heading">#</a></h2>
-<p>La revisión mostró que el problema era mayor de lo reconocido en el informe anterior. Entre el
-40 % y el 48 % de los valores de El Banco, San Roque, Tres Cruces y Coyongal eran medianas
-asignadas a años anteriores a su instalación, ocurrida entre 1972 y 1975. Ese faltante es
+<p>La revisión mostró que el problema era mayor de lo reconocido en el informe anterior. En El Banco,
+San Roque, Tres Cruces y Coyongal faltaba entre el 40 % y el 48 % del registro, en su mayor parte
+correspondiente a años anteriores a su instalación, ocurrida entre 1972 y 1975, y esos valores se
+llenaban con la mediana. Ese faltante es
 estructural: depende de la fecha y no del estado hidrológico, y la mediana impuesta convertía
 cuatro predictores en constantes durante tres décadas del entrenamiento, mientras que la prueba
 se evaluaba con valores observados. Las distribuciones de esos predictores diferían, por
 construcción, entre entrenamiento y prueba.</p>
 <p>Se evaluaron dos diseños que eliminan la imputación estructural. El primero conserva las seis
 estaciones y recorta el periodo de modelado a 1976, lo que deja 18.359 observaciones, por debajo
-del mínimo de 20.000 que exige la guía. El segundo conserva el periodo 1947-2026 y restringe los
+del mínimo de 20.000 observaciones exigido. El segundo conserva el periodo 1947-2026 y restringe los
 predictores a las estaciones con registro en todo ese intervalo, Calamar y Puerto Salgar (en
 operación desde 1946), con 28.558 observaciones después de descontar la separación de 30 días
 entre entrenamiento y prueba. Con los mismos modelos de referencia y la misma prueba, XGBoost

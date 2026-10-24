@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -436,7 +436,8 @@ estadística y la interpretabilidad.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">json</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">".."</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Modelos benchmark: diseño experimental.</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">json</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">".."</span><span class="p">)</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span><span class="o">,</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">myst_nb</span><span class="w"> </span><span class="kn">import</span> <span class="n">glue</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">src.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">DATOS_PROC</span><span class="p">,</span> <span class="n">SEED</span>
@@ -618,7 +619,8 @@ cuadrático medio.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Espacios de búsqueda.</span>
+<span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">tarea</span><span class="p">,</span> <span class="n">esp</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">"clasificación"</span><span class="p">,</span> <span class="n">ESPACIOS_CLF</span><span class="p">),</span> <span class="p">(</span><span class="s2">"regresión"</span><span class="p">,</span> <span class="n">ESPACIOS_REG</span><span class="p">)):</span>
     <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">params</span> <span class="ow">in</span> <span class="n">esp</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
@@ -1091,7 +1093,7 @@ el mismo dominio. Los rangos se fijaron con criterios del problema y no de forma
 KNN, el número de vecinos va de 5 a 200 en escala logarítmica: con la autocorrelación del caudal,
 los vecinos más cercanos de un día son sus propios días contiguos, y valores pequeños sobreajustan.
 En la regresión logística y la SVM, C y γ recorren cuatro o cinco órdenes de magnitud en escala
-logarítmica, como recomienda la guía para parámetros de regularización y de escala. En los
+logarítmica, práctica habitual para parámetros de regularización y de escala. En los
 árboles, la profundidad máxima (2 a 16) y el tamaño mínimo de hoja (5 a 300 días, logarítmico)
 controlan la complejidad frente a un tamaño efectivo reducido. En Random Forest se fijó
 <code class="docutils literal notranslate"><span class="pre">max_samples</span> <span class="pre">=</span> <span class="pre">0,3</span></code>, con un efecto doble: la submuestra decorrelaciona los árboles y reduce el

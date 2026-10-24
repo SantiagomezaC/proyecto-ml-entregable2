@@ -43,7 +43,10 @@ con ejecución concurrente.
 El sexto se refiere a la regresión y a la interpretación. SVR y XGBoost forman el conjunto de
 confianza de modelos y reducen en un tercio el error de la persistencia. SHAP muestra que la
 distancia del caudal actual a la descarga efectiva, el nivel del caudal y su tendencia de corto
-plazo dominan la predicción, con un aporte marginal de Puerto Salgar. En una muestra de 200 días
+plazo dominan la predicción, con un aporte marginal de Puerto Salgar. En el modelo de regresión,
+el nivel actual del caudal y los armónicos estacionales concentran la mayor parte de la
+importancia, y la distancia a la descarga efectiva pierde el peso que tiene en la clasificación,
+porque el caudal futuro guarda una relación monótona con el caudal actual. En una muestra de 200 días
 de prueba, LIME identifica las mismas variables relevantes que SHAP, pero cerca de los límites de
 la banda invierte el sentido de algunas contribuciones secundarias. Los errores se concentran en los días que cruzan los límites de la banda por
 un margen pequeño, donde la etiqueta binaria trata igual un caudal que roza el umbral y uno que
@@ -59,32 +62,3 @@ limitada. El 89,6 % del registro de Calamar tiene nivel de aprobación prelimina
 regulación por embalses y el cambio de uso del suelo implican que el pasado puede no representar
 el futuro; la evaluación en el periodo 2010-2026 sugiere que la relación aprendida se mantiene,
 pero no lo garantiza ante cambios mayores en la cuenca.
-
-## Trabajo futuro
-
-La incorporación de precipitación y del índice oceánico de El Niño es la extensión con mayor
-potencial, porque ataca la fuente principal de error. En el plano metodológico, el patrón de
-errores en los bordes de la banda sugiere aprovechar la naturaleza continua del caudal que
-define la clase, en lugar de entrenar solo con la etiqueta binaria.
-
-## Declaración de autoría
-
-El proyecto partió de una revisión bibliográfica sobre hidrología y geomorfología fluvial, en
-particular sobre el transporte de sedimentos, el análisis magnitud-frecuencia y el concepto de
-descarga efectiva, así como sobre los antecedentes del río Magdalena. A partir de la información
-retenida en esa revisión, los autores plantearon la idea del proyecto. Las decisiones sobre el
-problema, los datos, el diseño experimental y la interpretación de los resultados corresponden a
-los autores, que declaran comprender y poder defender cada parte del código, del análisis y de
-los resultados presentados en este informe.
-
-| Etapa | Responsable |
-|---|---|
-| Revisión bibliográfica | Kevin Clemente Rosario y Manuel Santiago Meza Castro |
-| Entregable 1: base de datos, análisis exploratorio y modelo base | Kevin Clemente Rosario |
-| Entregable 2: 140 modelos, optimización y comparación estadística | Manuel Santiago Meza Castro |
-
-Firmado,
-
-**Kevin Clemente Rosario** · Geólogo · Estudiante de M.Sc.
-
-**Manuel Santiago Meza Castro** · Estudiante de Geología y de M.Sc.
