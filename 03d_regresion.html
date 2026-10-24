@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Regresión del caudal a quince días &#8212; Descarga efectiva en el río Magdalena: Entregable 2</title>
+    <title>Regresión del caudal a quince días &#8212; Anticipación de los periodos de descarga efectiva en el río Magdalena</title>
   
   
   
@@ -202,8 +202,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="Descarga efectiva en el río Magdalena: Entregable 2 - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Descarga efectiva en el río Magdalena: Entregable 2 - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="Anticipación de los periodos de descarga efectiva en el río Magdalena - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Anticipación de los periodos de descarga efectiva en el río Magdalena - Home"/>
   
   
 </a></div>
@@ -220,13 +220,13 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="intro.html">
-                    Descarga efectiva en el río Magdalena
+                    Anticipación de los periodos de descarga efectiva en el río Magdalena
                 </a>
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01_correcciones.html">Respuesta a la evaluación del Entregable 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_correcciones.html">Correcciones a la versión anterior</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_datos.html">Datos: ETL y análisis exploratorio</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados</span></p>
@@ -243,8 +243,8 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Cierre</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="04_reproducibilidad.html">Reproducibilidad y bibliografía</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_conclusiones.html">Conclusiones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_reproducibilidad.html">Reproducibilidad y bibliografía</a></li>
 </ul>
 
     </div>
@@ -422,8 +422,8 @@
   <section class="tex2jax_ignore mathjax_ignore" id="regresion-del-caudal-a-quince-dias">
 <h1>Regresión del caudal a quince días<a class="headerlink" href="#regresion-del-caudal-a-quince-dias" title="Link to this heading">#</a></h1>
 <p>La tarea auxiliar de regresión predice el caudal de Calamar en <em>t</em> + 15 (m³/s) con los mismos
-predictores, las mismas particiones y el mismo motor de experimentos. Además de cumplir la parte
-de regresión del Entregable 2, ofrece una lectura complementaria del problema: una regresión
+predictores, las mismas particiones y el mismo motor de experimentos. Además de completar el
+análisis con una tarea continua, ofrece una lectura complementaria del problema: una regresión
 precisa del caudal no garantiza una clasificación precisa de la banda, porque los errores que
 importan para la clase son los que ocurren cerca de los límites.</p>
 <div class="cell tag_hide-input docutils container">
@@ -433,7 +433,7 @@ importan para la clase son los que ocurren cerca de los límites.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Regresión del caudal a quince días.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importa librerías y carga los resultados finales de los modelos de regresión</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">pickle</span><span class="o">,</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">".."</span><span class="p">)</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">)</span>
@@ -786,7 +786,7 @@ importan para la clase son los que ocurren cerca de los límites.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Métricas en la prueba reservada.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Métricas en la prueba frente a la persistencia y pruebas de supuestos de los residuos</span>
 <span class="n">yte</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">y_reg_test</span><span class="o">.</span><span class="n">values</span>
 <span class="n">q_pers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">X_test</span><span class="o">.</span><span class="n">calamar_cuad</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 <span class="n">filas</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">"Modelo"</span><span class="p">:</span> <span class="s2">"Persistencia (Q(t+15) = Q(t))"</span><span class="p">,</span> <span class="s2">"Optimizador"</span><span class="p">:</span> <span class="s2">"—"</span><span class="p">,</span>
@@ -919,7 +919,7 @@ importan para la clase son los que ocurren cerca de los límites.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Métricas en la prueba reservada.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Muestra la tabla de pruebas sobre los residuos (White, BDS, Ljung-Box y normalidad)</span>
 <span class="n">tab_prue</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1070,7 +1070,7 @@ de largo plazo y bootstrap estacionario.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Entrenamiento, validación y prueba.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Predicciones del mejor modelo en entrenamiento, validación y prueba</span>
 <span class="n">r</span> <span class="o">=</span> <span class="n">fin</span><span class="p">[</span><span class="n">mejor_reg</span><span class="p">]</span>
 <span class="n">fmej</span> <span class="o">=</span> <span class="n">mej</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"modelo"</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mejor_reg</span><span class="p">]</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">src.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">cargar_carpeta</span>
@@ -1101,7 +1101,7 @@ de largo plazo y bootstrap estacionario.</p>
 <figure class="align-default" id="fig-reg-series">
 <img alt="_images/4813e0278c87ee1350a3b8019ea9074393c1353991ead684cf468b4d033a5524.png" src="_images/4813e0278c87ee1350a3b8019ea9074393c1353991ead684cf468b4d033a5524.png" />
 <figcaption>
-<p><span class="caption-number">Figura 16 </span><span class="caption-text">Caudal observado y predicho a quince días por el mejor modelo de regresión. Entrenamiento (ajuste dentro de muestra, 1947-1985), validación (predicciones fuera de muestra del bucle externo, 1986-2009) y prueba reservada (2010-2026). Para legibilidad se muestran medias semanales.</span><a class="headerlink" href="#fig-reg-series" title="Link to this image">#</a></p>
+<p><span class="caption-number">Figura 18 </span><span class="caption-text">Caudal observado y predicho a quince días por el mejor modelo de regresión. Entrenamiento (ajuste dentro de muestra, 1947-1985), validación (predicciones fuera de muestra del bucle externo, 1986-2009) y prueba reservada (2010-2026). Para legibilidad se muestran medias semanales.</span><a class="headerlink" href="#fig-reg-series" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </div>
@@ -1191,7 +1191,7 @@ de largo plazo y bootstrap estacionario.</p>
 </table>
 </div></div></div>
 </div>
-<p>La <a class="reference internal" href="#fig-reg-series"><span class="std std-numref">Figura 16</span></a> y la tabla anterior permiten evaluar el sobreajuste y la estabilidad
+<p>La <a class="reference internal" href="#fig-reg-series"><span class="std std-numref">Figura 18</span></a> y la tabla anterior permiten evaluar el sobreajuste y la estabilidad
 temporal del mejor regresor. El error dentro de muestra en el entrenamiento
 (<span class="pasted-text">613</span> m³/s) es del mismo orden que el error fuera de muestra en la
 validación externa (<span class="pasted-text">580</span> m³/s) y en la prueba reservada
@@ -1220,7 +1220,7 @@ se concentran los errores de todos los clasificadores.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Análisis de residuos.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Diagnóstico de residuos: residuo frente a predicción, histograma y ACF</span>
 <span class="n">e</span> <span class="o">=</span> <span class="n">yte</span> <span class="o">-</span> <span class="n">r</span><span class="p">[</span><span class="s2">"pred_test"</span><span class="p">]</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">))</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"pred_test"</span><span class="p">],</span> <span class="n">e</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">RIO</span><span class="p">);</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">ALE</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -1243,13 +1243,13 @@ se concentran los errores de todos los clasificadores.</p>
 <figure class="align-default" id="fig-residuos">
 <img alt="_images/76355503c4c77d56a76660e5e88ba51749d80c0eba64d0ac2c1a1a1e58820f5e.png" src="_images/76355503c4c77d56a76660e5e88ba51749d80c0eba64d0ac2c1a1a1e58820f5e.png" />
 <figcaption>
-<p><span class="caption-number">Figura 17 </span><span class="caption-text">Residuos del mejor modelo de regresión en la prueba. (a) Residuo frente a la predicción; (b) histograma con la densidad normal de igual media y desviación; (c) función de autocorrelación.</span><a class="headerlink" href="#fig-residuos" title="Link to this image">#</a></p>
+<p><span class="caption-number">Figura 19 </span><span class="caption-text">Residuos del mejor modelo de regresión en la prueba. (a) Residuo frente a la predicción; (b) histograma con la densidad normal de igual media y desviación; (c) función de autocorrelación.</span><a class="headerlink" href="#fig-residuos" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </div>
 </div>
 <p>La autocorrelación del residuo decae hasta anularse hacia los rezagos 20 a 25
-(<a class="reference internal" href="#fig-residuos"><span class="std std-numref">Figura 17</span></a>c), como corresponde a la estructura de media móvil descrita. El diagrama
+(<a class="reference internal" href="#fig-residuos"><span class="std std-numref">Figura 19</span></a>c), como corresponde a la estructura de media móvil descrita. El diagrama
 de residuo frente a predicción no muestra un sesgo sistemático en la mayor parte del rango, salvo
 por encima de unos 12.500 m³/s, donde los residuos son mayoritariamente negativos: el modelo
 sobreestima las crecidas mayores, que en el entrenamiento son pocas. Muestra también

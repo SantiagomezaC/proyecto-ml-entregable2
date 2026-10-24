@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Respuesta a la evaluación del Entregable 1 &#8212; Descarga efectiva en el río Magdalena: Entregable 2</title>
+    <title>Correcciones a la versión anterior &#8212; Anticipación de los periodos de descarga efectiva en el río Magdalena</title>
   
   
   
@@ -69,7 +69,7 @@
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
     <link rel="next" title="Datos: ETL y análisis exploratorio" href="02_datos.html" />
-    <link rel="prev" title="Descarga efectiva en el río Magdalena" href="intro.html" />
+    <link rel="prev" title="Anticipación de los periodos de descarga efectiva en el río Magdalena" href="intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="es"/>
   <meta name="docsearch:version" content="" />
@@ -202,8 +202,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="Descarga efectiva en el río Magdalena: Entregable 2 - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Descarga efectiva en el río Magdalena: Entregable 2 - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="Anticipación de los periodos de descarga efectiva en el río Magdalena - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Anticipación de los periodos de descarga efectiva en el río Magdalena - Home"/>
   
   
 </a></div>
@@ -220,13 +220,13 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="intro.html">
-                    Descarga efectiva en el río Magdalena
+                    Anticipación de los periodos de descarga efectiva en el río Magdalena
                 </a>
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Respuesta a la evaluación del Entregable 1</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Correcciones a la versión anterior</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_datos.html">Datos: ETL y análisis exploratorio</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados</span></p>
@@ -243,8 +243,8 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Cierre</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="04_reproducibilidad.html">Reproducibilidad y bibliografía</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_conclusiones.html">Conclusiones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_reproducibilidad.html">Reproducibilidad y bibliografía</a></li>
 </ul>
 
     </div>
@@ -395,7 +395,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Respuesta a la evaluación del Entregable 1</h1>
+    <h1>Correcciones a la versión anterior</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -422,9 +422,9 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="respuesta-a-la-evaluacion-del-entregable-1">
-<h1>Respuesta a la evaluación del Entregable 1<a class="headerlink" href="#respuesta-a-la-evaluacion-del-entregable-1" title="Link to this heading">#</a></h1>
-<p>La evaluación del Entregable 1 reconoció la auditoría de la serie de transporte de sedimentos,
+  <section class="tex2jax_ignore mathjax_ignore" id="correcciones-a-la-version-anterior">
+<h1>Correcciones a la versión anterior<a class="headerlink" href="#correcciones-a-la-version-anterior" title="Link to this heading">#</a></h1>
+<p>La evaluación de la versión anterior del estudio reconoció la auditoría de la serie de transporte de sedimentos,
 la estimación robusta de la descarga efectiva, la verificación geográfica de los tiempos de
 tránsito y el uso de la persistencia como modelo de referencia. Identificó, además, tres
 problemas metodológicos del modelo base: los intervalos de confianza se obtuvieron remuestreando
@@ -452,7 +452,7 @@ que elimina bloques completos; un jackknife por observaciones individuales hered
 sesgo que se buscaba corregir.</p>
 <p>La misma dependencia afecta la comparación entre modelos. Los pliegues de una validación
 cronológica comparten la mayor parte del conjunto de entrenamiento, por lo que sus puntajes no
-son independientes y la prueba t pareada del Entregable 1 subestimaba la varianza de las
+son independientes y la prueba t pareada de la versión anterior subestimaba la varianza de las
 diferencias. Las comparaciones sobre los doce bloques externos se basan ahora en la prueba de
 Wilcoxon con corrección de Holm y en la t corregida de Nadeau y Bengio <span class="bibtex-citation" id="id3">[<a class="reference internal" href="04_reproducibilidad.html#id40" title="Claude Nadeau and Yoshua Bengio. Inference for the generalization error. Machine Learning, 52:239–281, 2003.">Nadeau and Bengio, 2003</a>]</span>, que infla la varianza por
 el factor <span class="math notranslate nohighlight">\(1/k + n_{\text{prueba}}/n_{\text{entrenamiento}}\)</span>. Para que estas pruebas pareadas sean
@@ -462,7 +462,7 @@ los mismos bloques.</p>
 </section>
 <section id="regularizacion-del-modelo-base">
 <h2>Regularización del modelo base<a class="headerlink" href="#regularizacion-del-modelo-base" title="Link to this heading">#</a></h2>
-<p>En el Entregable 1 la regresión logística se entrenó con el valor por defecto C = 1. En esta
+<p>En la versión anterior la regresión logística se entrenó con el valor por defecto C = 1. En esta
 versión, C se selecciona por búsqueda en rejilla entre once valores espaciados
 logarítmicamente de <span class="math notranslate nohighlight">\(10^{-3}\)</span> a <span class="math notranslate nohighlight">\(10^{2}\)</span>, con penalización L1 o L2, mediante validación
 cronológica de cinco pliegues sobre el entrenamiento 1947-2009 y una separación de 30 días entre
@@ -492,7 +492,7 @@ predictores a las estaciones con registro en todo ese intervalo, Calamar y Puert
 operación desde 1946), con 28.558 observaciones después de descontar la separación de 30 días
 entre entrenamiento y prueba. Con los mismos modelos de referencia y la misma prueba, XGBoost
 obtiene una PR-AUC de 0,941 con el segundo diseño, frente a 0,919 con el recorte a 1976 y 0,940
-con el diseño imputado del Entregable 1; en la regresión logística los tres valores (0,880, 0,882
+con el diseño imputado de la versión anterior; en la regresión logística los tres valores (0,880, 0,882
 y 0,875) difieren en menos de una centésima. La ventaja del modelo no lineal proviene, por tanto,
 de los treinta años adicionales de registro, que abarcan más ciclos de El Niño y La Niña y un
 intervalo más amplio de estados hidrológicos, y no de las estaciones del bajo Magdalena. Esto es
@@ -505,7 +505,7 @@ segundo diseño; las seis estaciones se conservan solo en el análisis de sensib
 sin registro de cada estación mediante la prueba de Mann-Whitney, el tamaño de efecto A de Vargha
 y Delaney y la corrección de Holm. En Puerto Salgar A = 0,379, lo que indica que los huecos se
 concentran en aguas bajas; el mecanismo es MAR respecto del caudal de Calamar y no MCAR. Este
-diagnóstico corrige también un argumento del Entregable 1, que invocaba el mecanismo MAR para
+diagnóstico corrige también un argumento de la versión anterior, que invocaba el mecanismo MAR para
 justificar la mediana sin distinguir los faltantes estructurales de los operativos. Bajo un
 mecanismo MAR la imputación apropiada es la condicional, y la mediana solo es defendible si su
 efecto sobre el desempeño es despreciable. En los doce bloques externos, la diferencia media de
@@ -534,7 +534,7 @@ estructura.</p>
 <h2>Reproducibilidad<a class="headerlink" href="#reproducibilidad" title="Link to this heading">#</a></h2>
 <p>El README se reescribió con la descripción del problema, la estructura del repositorio, la
 instalación del entorno, los comandos de reproducción en orden y la ejecución de las pruebas.
-El ETL y la construcción de variables, que en el Entregable 1 residían en celdas de cuaderno con
+El ETL y la construcción de variables, que en la versión anterior residían en celdas de cuaderno con
 rutas absolutas, se trasladaron a los módulos <code class="docutils literal notranslate"><span class="pre">src/etl.py</span></code> y <code class="docutils literal notranslate"><span class="pre">src/features.py</span></code>, con rutas
 relativas centralizadas en <code class="docutils literal notranslate"><span class="pre">src/config.py</span></code>; el comando <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">scripts.etl</span></code> regenera todas las
 tablas de <code class="docutils literal notranslate"><span class="pre">data/processed/</span></code>.</p>
@@ -588,7 +588,7 @@ debajo de la incertidumbre del intervalo por bloques.</p>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">anterior</p>
-        <p class="prev-next-title">Descarga efectiva en el río Magdalena</p>
+        <p class="prev-next-title">Anticipación de los periodos de descarga efectiva en el río Magdalena</p>
       </div>
     </a>
     <a class="right-next"

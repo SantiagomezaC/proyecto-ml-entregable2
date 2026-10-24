@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Modelos benchmark: diseño experimental &#8212; Descarga efectiva en el río Magdalena: Entregable 2</title>
+    <title>Modelos benchmark: diseño experimental &#8212; Anticipación de los periodos de descarga efectiva en el río Magdalena</title>
   
   
   
@@ -202,8 +202,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="Descarga efectiva en el río Magdalena: Entregable 2 - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Descarga efectiva en el río Magdalena: Entregable 2 - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="Anticipación de los periodos de descarga efectiva en el río Magdalena - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Anticipación de los periodos de descarga efectiva en el río Magdalena - Home"/>
   
   
 </a></div>
@@ -220,13 +220,13 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="intro.html">
-                    Descarga efectiva en el río Magdalena
+                    Anticipación de los periodos de descarga efectiva en el río Magdalena
                 </a>
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01_correcciones.html">Respuesta a la evaluación del Entregable 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_correcciones.html">Correcciones a la versión anterior</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_datos.html">Datos: ETL y análisis exploratorio</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados</span></p>
@@ -243,8 +243,8 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Cierre</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="04_reproducibilidad.html">Reproducibilidad y bibliografía</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_conclusiones.html">Conclusiones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_reproducibilidad.html">Reproducibilidad y bibliografía</a></li>
 </ul>
 
     </div>
@@ -424,7 +424,7 @@
                   
   <section class="tex2jax_ignore mathjax_ignore" id="modelos-benchmark-diseno-experimental">
 <h1>Modelos benchmark: diseño experimental<a class="headerlink" href="#modelos-benchmark-diseno-experimental" title="Link to this heading">#</a></h1>
-<p>Este capítulo y sus secciones desarrollan el Entregable 2. Aquí se fija el diseño común a las
+<p>Este capítulo y sus secciones presentan los modelos benchmark. Aquí se fija el diseño común a las
 140 combinaciones (validación anidada, espacios de búsqueda, optimizadores y técnicas de
 balanceo); las secciones siguientes presentan los resultados de clasificación, la comparación
 de los optimizadores, la optimización computacional, la tarea de regresión, la comparación
@@ -436,7 +436,7 @@ estadística y la interpretabilidad.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Modelos benchmark: diseño experimental.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importa librerías y carga las particiones externas de la validación anidada</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">json</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">".."</span><span class="p">)</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span><span class="o">,</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">myst_nb</span><span class="w"> </span><span class="kn">import</span> <span class="n">glue</span>
@@ -619,7 +619,7 @@ cuadrático medio.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Espacios de búsqueda.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Tabla de los espacios de búsqueda de hiperparámetros de cada modelo</span>
 <span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">tarea</span><span class="p">,</span> <span class="n">esp</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">"clasificación"</span><span class="p">,</span> <span class="n">ESPACIOS_CLF</span><span class="p">),</span> <span class="p">(</span><span class="s2">"regresión"</span><span class="p">,</span> <span class="n">ESPACIOS_REG</span><span class="p">)):</span>
     <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">params</span> <span class="ow">in</span> <span class="n">esp</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>

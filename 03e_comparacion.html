@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Comparación estadística de los benchmarks &#8212; Descarga efectiva en el río Magdalena: Entregable 2</title>
+    <title>Comparación estadística de los benchmarks &#8212; Anticipación de los periodos de descarga efectiva en el río Magdalena</title>
   
   
   
@@ -202,8 +202,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="Descarga efectiva en el río Magdalena: Entregable 2 - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Descarga efectiva en el río Magdalena: Entregable 2 - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="Anticipación de los periodos de descarga efectiva en el río Magdalena - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Anticipación de los periodos de descarga efectiva en el río Magdalena - Home"/>
   
   
 </a></div>
@@ -220,13 +220,13 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="intro.html">
-                    Descarga efectiva en el río Magdalena
+                    Anticipación de los periodos de descarga efectiva en el río Magdalena
                 </a>
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01_correcciones.html">Respuesta a la evaluación del Entregable 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_correcciones.html">Correcciones a la versión anterior</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_datos.html">Datos: ETL y análisis exploratorio</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados</span></p>
@@ -243,8 +243,8 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Cierre</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="04_reproducibilidad.html">Reproducibilidad y bibliografía</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_conclusiones.html">Conclusiones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_reproducibilidad.html">Reproducibilidad y bibliografía</a></li>
 </ul>
 
     </div>
@@ -441,7 +441,7 @@ dirigidas entre finalistas con corrección de Holm y tamaños del efecto.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Comparación estadística de los benchmarks.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importa librerías y carga los resultados de las pruebas estadísticas</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">json</span><span class="o">,</span><span class="w"> </span><span class="nn">pickle</span><span class="o">,</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">".."</span><span class="p">)</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">)</span>
@@ -476,7 +476,7 @@ dirigidas entre finalistas con corrección de Holm y tamaños del efecto.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Etapa 1: prueba global sobre las 112 combinaciones.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Friedman y Nemenyi sobre las 112 combinaciones de clasificación</span>
 <span class="n">c112</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">((</span><span class="n">E</span> <span class="o">/</span> <span class="s2">"cd_112.json"</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"chi2"</span><span class="p">,</span> <span class="s2">"p"</span><span class="p">,</span> <span class="s2">"cd"</span><span class="p">,</span> <span class="s2">"pares_signif"</span><span class="p">,</span> <span class="s2">"pares_total"</span><span class="p">,</span> <span class="s2">"gl"</span><span class="p">):</span>
     <span class="n">glue</span><span class="p">(</span><span class="sa">f</span><span class="s2">"c112_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">c112</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -590,7 +590,7 @@ finalistas.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Etapa 2: diagrama de diferencia crítica entre los mejores de cada modelo.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Friedman, Nemenyi y diagrama de diferencia crítica de los siete modelos</span>
 <span class="n">tabla</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">E</span> <span class="o">/</span> <span class="s2">"universo_pliegues.csv"</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">fr</span> <span class="o">=</span> <span class="n">friedman</span><span class="p">(</span><span class="n">tabla</span><span class="p">);</span> <span class="n">ne</span> <span class="o">=</span> <span class="n">nemenyi</span><span class="p">(</span><span class="n">fr</span><span class="p">[</span><span class="s2">"rangos"</span><span class="p">],</span> <span class="n">fr</span><span class="p">[</span><span class="s2">"n_bloques"</span><span class="p">])</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">src.estilo</span><span class="w"> </span><span class="kn">import</span> <span class="n">dibujar_cd</span>
@@ -605,7 +605,7 @@ finalistas.</p>
 <figure class="align-default" id="fig-cd-bench">
 <img alt="_images/e78c2fe3d9fd5910944087cb83f2edbad677d07b462c1e3a0bd16ae51e8f008f.png" src="_images/e78c2fe3d9fd5910944087cb83f2edbad677d07b462c1e3a0bd16ae51e8f008f.png" />
 <figcaption>
-<p><span class="caption-number">Figura 18 </span><span class="caption-text">Diagrama de diferencia crítica de la mejor combinación de cada modelo (PR-AUC en 12 bloques). Las barras grises unen modelos cuya diferencia de rango medio no supera la CD de Nemenyi.</span><a class="headerlink" href="#fig-cd-bench" title="Link to this image">#</a></p>
+<p><span class="caption-number">Figura 20 </span><span class="caption-text">Diagrama de diferencia crítica de la mejor combinación de cada modelo (PR-AUC en 12 bloques). Las barras grises unen modelos cuya diferencia de rango medio no supera la CD de Nemenyi.</span><a class="headerlink" href="#fig-cd-bench" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </div>
@@ -617,7 +617,7 @@ finalistas.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Etapa 2: diagrama de diferencia crítica entre los mejores de cada modelo.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pares de modelos con diferencia significativa según Nemenyi</span>
 <span class="n">ne</span><span class="p">[</span><span class="s2">"pares"</span><span class="p">]</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">modelo_a</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">modelo_a</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">NOMBRES_MODELO</span><span class="p">),</span> <span class="n">modelo_b</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">modelo_b</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">NOMBRES_MODELO</span><span class="p">))</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"p_nemenyi"</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -839,7 +839,7 @@ difuso en el centro.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Comparaciones dirigidas en la prueba reservada: DeLong con Holm.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># DeLong con corrección de Holm entre los tres mejores clasificadores</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">y_clf_test</span><span class="o">.</span><span class="n">values</span>
 <span class="n">top</span> <span class="o">=</span> <span class="n">mejores</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"pr_auc_mean"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">modelo</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 <span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
@@ -942,7 +942,7 @@ días) y en las pruebas sobre bloques externos.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Intervalos de confianza y tamaños del efecto.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Intervalos de confianza por bootstrap de bloques (BCa) de PR-AUC y ROC-AUC</span>
 <span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">mejores</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"pr_auc_mean"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">modelo</span><span class="p">:</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">fin</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s2">"pred_test"</span><span class="p">]</span>
@@ -1215,7 +1215,7 @@ decisión por media, no una superioridad demostrada.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Model Confidence Set.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Model Confidence Set sobre los modelos de regresión</span>
 <span class="n">mcs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">E</span> <span class="o">/</span> <span class="s2">"mcs_regresion.csv"</span><span class="p">)</span>
 <span class="n">glue</span><span class="p">(</span><span class="s2">"mcs_n"</span><span class="p">,</span> <span class="nb">int</span><span class="p">((</span><span class="n">mcs</span><span class="p">[</span><span class="s2">"¿En el conjunto?"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"Sí"</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">glue</span><span class="p">(</span><span class="s2">"mcs_mejor"</span><span class="p">,</span> <span class="n">mcs</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"Combinación"</span><span class="p">],</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -1493,7 +1493,7 @@ se rechace. Con α = 0,10, el conjunto de confianza retiene <span class="pasted-
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Comparaciones dirigidas: Giacomini-White, Clark-West y Diebold-Mariano.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Comparaciones dirigidas de regresión: Diebold-Mariano (HLN), Giacomini-White, Clark-West y SPA</span>
 <span class="n">dirig</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">E</span> <span class="o">/</span> <span class="s2">"regresion_dirigidas.csv"</span><span class="p">)</span>
 <span class="n">cw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">E</span> <span class="o">/</span> <span class="s2">"regresion_clark_west.csv"</span><span class="p">)</span>
 <span class="n">sp</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">((</span><span class="n">E</span> <span class="o">/</span> <span class="s2">"spa_regresion.json"</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">))</span>

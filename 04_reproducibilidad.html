@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Reproducibilidad y bibliografía &#8212; Descarga efectiva en el río Magdalena: Entregable 2</title>
+    <title>Reproducibilidad y bibliografía &#8212; Anticipación de los periodos de descarga efectiva en el río Magdalena</title>
   
   
   
@@ -66,8 +66,7 @@
     <link rel="icon" href="_static/logo.png"/>
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
-    <link rel="next" title="Conclusiones" href="05_conclusiones.html" />
-    <link rel="prev" title="Interpretabilidad global y local" href="03f_interpretabilidad.html" />
+    <link rel="prev" title="Conclusiones" href="05_conclusiones.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="es"/>
   <meta name="docsearch:version" content="" />
@@ -200,8 +199,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="Descarga efectiva en el río Magdalena: Entregable 2 - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Descarga efectiva en el río Magdalena: Entregable 2 - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="Anticipación de los periodos de descarga efectiva en el río Magdalena - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Anticipación de los periodos de descarga efectiva en el río Magdalena - Home"/>
   
   
 </a></div>
@@ -218,13 +217,13 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="intro.html">
-                    Descarga efectiva en el río Magdalena
+                    Anticipación de los periodos de descarga efectiva en el río Magdalena
                 </a>
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01_correcciones.html">Respuesta a la evaluación del Entregable 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_correcciones.html">Correcciones a la versión anterior</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_datos.html">Datos: ETL y análisis exploratorio</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados</span></p>
@@ -241,8 +240,8 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Cierre</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Reproducibilidad y bibliografía</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_conclusiones.html">Conclusiones</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Reproducibilidad y bibliografía</a></li>
 </ul>
 
     </div>
@@ -430,7 +429,7 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Entorno.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Versiones del entorno y semilla global</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">platform</span><span class="o">,</span><span class="w"> </span><span class="nn">json</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">".."</span><span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">importlib.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">version</span>
@@ -557,7 +556,7 @@ mutación. La sensibilidad a la semilla se evaluó explícitamente con cinco sem
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Tabla maestra de experimentos.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Tabla maestra por pliegue con hiperparámetros, métricas y tiempos</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">src.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">tabla_pliegues</span>
 <span class="n">partes</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">carpeta</span><span class="p">,</span> <span class="n">tarea</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">"clf_calamar"</span><span class="p">,</span> <span class="s2">"clasificación"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"reg_calamar"</span><span class="p">,</span> <span class="s2">"regresión"</span><span class="p">)):</span>
@@ -1056,22 +1055,13 @@ README. Las pruebas unitarias se ejecutan con <code class="docutils literal notr
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="03f_interpretabilidad.html"
+       href="05_conclusiones.html"
        title="página anterior">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">anterior</p>
-        <p class="prev-next-title">Interpretabilidad global y local</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="05_conclusiones.html"
-       title="siguiente página">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">siguiente</p>
         <p class="prev-next-title">Conclusiones</p>
       </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>

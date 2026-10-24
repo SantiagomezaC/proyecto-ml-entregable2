@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Resultados de clasificación &#8212; Descarga efectiva en el río Magdalena: Entregable 2</title>
+    <title>Resultados de clasificación &#8212; Anticipación de los periodos de descarga efectiva en el río Magdalena</title>
   
   
   
@@ -202,8 +202,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="Descarga efectiva en el río Magdalena: Entregable 2 - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Descarga efectiva en el río Magdalena: Entregable 2 - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="Anticipación de los periodos de descarga efectiva en el río Magdalena - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Anticipación de los periodos de descarga efectiva en el río Magdalena - Home"/>
   
   
 </a></div>
@@ -220,13 +220,13 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="intro.html">
-                    Descarga efectiva en el río Magdalena
+                    Anticipación de los periodos de descarga efectiva en el río Magdalena
                 </a>
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01_correcciones.html">Respuesta a la evaluación del Entregable 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_correcciones.html">Correcciones a la versión anterior</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_datos.html">Datos: ETL y análisis exploratorio</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados</span></p>
@@ -243,8 +243,8 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Cierre</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="04_reproducibilidad.html">Reproducibilidad y bibliografía</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_conclusiones.html">Conclusiones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_reproducibilidad.html">Reproducibilidad y bibliografía</a></li>
 </ul>
 
     </div>
@@ -413,6 +413,7 @@
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calibracion-de-probabilidades">Calibración de probabilidades</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#robustez-y-estabilidad">Robustez y estabilidad</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sensibilidad-al-horizonte-de-prediccion">Sensibilidad al horizonte de predicción</a></li>
 </ul>
             </nav>
         </div>
@@ -433,7 +434,7 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Resultados de clasificación.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importa librerías y carga la tabla maestra, los mejores benchmarks y los modelos finales</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">json</span><span class="o">,</span><span class="w"> </span><span class="nn">pickle</span><span class="o">,</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">".."</span><span class="p">)</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">)</span>
@@ -465,7 +466,7 @@
 <p>Las <span class="pasted-text">112</span> combinaciones se evaluaron en los doce bloques externos
 (<span class="pasted-text">1344</span> optimizaciones). La tabla muestra las veinte mejores según la PR-AUC
 media del bucle externo; la tabla completa, con los hiperparámetros de cada pliegue, el tiempo
-y la semilla, está en <code class="docutils literal notranslate"><span class="pre">results/tabla_maestra.csv</span></code> (capítulo 4).</p>
+y la semilla, está en <code class="docutils literal notranslate"><span class="pre">results/tabla_maestra.csv</span></code> (capítulo 5).</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -473,7 +474,7 @@ y la semilla, está en <code class="docutils literal notranslate"><span class="p
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Tabla maestra.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Las 20 mejores combinaciones según la PR-AUC media del bucle externo (media ± desviación)</span>
 <span class="n">fmt</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">m</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="n">s</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span>
 <span class="n">vista</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"pr_auc_mean"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"Modelo"</span><span class="p">:</span> <span class="n">vista</span><span class="o">.</span><span class="n">nombre</span><span class="p">,</span> <span class="s2">"Balanceo"</span><span class="p">:</span> <span class="n">vista</span><span class="o">.</span><span class="n">balanceo_nombre</span><span class="p">,</span> <span class="s2">"Optimizador"</span><span class="p">:</span> <span class="n">vista</span><span class="o">.</span><span class="n">optimizador_nombre</span><span class="p">,</span>
@@ -769,7 +770,7 @@ y la semilla, está en <code class="docutils literal notranslate"><span class="p
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Tabla maestra.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Distribución de la PR-AUC por bloque externo de la mejor combinación de cada modelo</span>
 <span class="n">orden</span> <span class="o">=</span> <span class="n">mejores</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"pr_auc_mean"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">modelo</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">3.9</span><span class="p">))</span>
 <span class="n">datos_caja</span> <span class="o">=</span> <span class="p">[]</span>
@@ -800,7 +801,7 @@ y la semilla, está en <code class="docutils literal notranslate"><span class="p
 <figure class="align-default" id="fig-cajas-modelos">
 <img alt="_images/b3b51b5f5b3b44a4567fc29ca74e62bb786669b68d29db126869bda4bffd3d37.png" src="_images/b3b51b5f5b3b44a4567fc29ca74e62bb786669b68d29db126869bda4bffd3d37.png" />
 <figcaption>
-<p><span class="caption-number">Figura 7 </span><span class="caption-text">PR-AUC externa por bloque de cada modelo (mejor combinación de balanceo y optimizador). Cada punto es un bloque de dos años; la caja resume los doce bloques.</span><a class="headerlink" href="#fig-cajas-modelos" title="Link to this image">#</a></p>
+<p><span class="caption-number">Figura 8 </span><span class="caption-text">PR-AUC externa por bloque de cada modelo (mejor combinación de balanceo y optimizador). Cada punto es un bloque de dos años; la caja resume los doce bloques.</span><a class="headerlink" href="#fig-cajas-modelos" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </div>
@@ -972,7 +973,7 @@ misma serie.</p>
 </table>
 </div></div></div>
 </div>
-<p>La <a class="reference internal" href="#fig-cajas-modelos"><span class="std std-numref">Figura 7</span></a> muestra que la variabilidad entre bloques supera con amplitud la
+<p>La <a class="reference internal" href="#fig-cajas-modelos"><span class="std std-numref">Figura 8</span></a> muestra que la variabilidad entre bloques supera con amplitud la
 diferencia entre los mejores modelos, y la tabla anterior permite identificar su causa. La
 dificultad de un bloque depende menos de cuántos días están en la banda que de cuántos de ellos
 exigen anticipar una entrada: días en que el caudal todavía está fuera de la banda en <em>t</em> y la
@@ -1000,7 +1001,7 @@ pareados y no en comparaciones de medias.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Efecto del balanceo de clases.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Efecto de cada técnica de balanceo frente a no balancear, pareado por modelo, optimizador y bloque</span>
 <span class="n">base</span> <span class="o">=</span> <span class="n">pl</span><span class="p">[</span><span class="n">pl</span><span class="o">.</span><span class="n">balanceo</span> <span class="o">==</span> <span class="s2">"ninguno"</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">"modelo"</span><span class="p">,</span> <span class="s2">"optimizador"</span><span class="p">,</span> <span class="s2">"pliegue"</span><span class="p">])</span>
 <span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"smote"</span><span class="p">,</span> <span class="s2">"adasyn"</span><span class="p">,</span> <span class="s2">"balanced"</span><span class="p">):</span>
@@ -1041,7 +1042,7 @@ pareados y no en comparaciones de medias.</p>
 <figure class="align-default" id="fig-balanceo">
 <img alt="_images/6993c8ed0e5f78851a4c76fb3b4d7331d74e45f76a5f94b92a31cef0c49d7d5e.png" src="_images/6993c8ed0e5f78851a4c76fb3b4d7331d74e45f76a5f94b92a31cef0c49d7d5e.png" />
 <figcaption>
-<p><span class="caption-number">Figura 8 </span><span class="caption-text">Cambio medio de cada métrica respecto de no balancear, por modelo y técnica (promedio sobre optimizadores y bloques). Valores positivos indican mejora.</span><a class="headerlink" href="#fig-balanceo" title="Link to this image">#</a></p>
+<p><span class="caption-number">Figura 9 </span><span class="caption-text">Cambio medio de cada métrica respecto de no balancear, por modelo y técnica (promedio sobre optimizadores y bloques). Valores positivos indican mejora.</span><a class="headerlink" href="#fig-balanceo" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </div>
@@ -1053,7 +1054,7 @@ pareados y no en comparaciones de medias.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Efecto del balanceo de clases.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Muestra la tabla del efecto del balanceo</span>
 <span class="n">tab_b</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1218,15 +1219,15 @@ qué días están en la banda.</p>
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  File "C:\Users\User\miniconda3\envs\ml-final\Lib\site-packages\joblib\externals\loky\backend\context.py", line 257, in _count_physical_cores
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  File "C:\Users\Qclem\miniconda3\envs\jbook\Lib\site-packages\joblib\externals\loky\backend\context.py", line 257, in _count_physical_cores
     cpu_info = subprocess.run(
                ^^^^^^^^^^^^^^^
-  File "C:\Users\User\miniconda3\envs\ml-final\Lib\subprocess.py", line 548, in run
+  File "C:\Users\Qclem\miniconda3\envs\jbook\Lib\subprocess.py", line 548, in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\User\miniconda3\envs\ml-final\Lib\subprocess.py", line 1026, in __init__
+  File "C:\Users\Qclem\miniconda3\envs\jbook\Lib\subprocess.py", line 1026, in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-  File "C:\Users\User\miniconda3\envs\ml-final\Lib\subprocess.py", line 1538, in _execute_child
+  File "C:\Users\Qclem\miniconda3\envs\jbook\Lib\subprocess.py", line 1538, in _execute_child
     hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 </pre></div>
@@ -1307,7 +1308,7 @@ entrenamiento (1947-2009), se reentrenó el pipeline y se evaluó una única vez
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Desempeño en la prueba reservada.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Métricas de cada modelo final en la prueba reservada 2010-2026</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">y_clf_test</span><span class="o">.</span><span class="n">values</span>
 <span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">orden</span><span class="p">:</span>
@@ -1467,7 +1468,7 @@ entrenamiento (1947-2009), se reentrenó el pipeline y se evaluó una única vez
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Desempeño en la prueba reservada.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Curvas ROC y de precisión-exhaustividad en la prueba</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mf">4.2</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">orden</span><span class="p">):</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">fin</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s2">"pred_test"</span><span class="p">]</span>
@@ -1488,7 +1489,7 @@ entrenamiento (1947-2009), se reentrenó el pipeline y se evaluó una única vez
 <figure class="align-default" id="fig-roc-pr">
 <img alt="_images/d6ddee351887749c504554e4028fedff7a646aed77fc1106b25cf49e293b47da.png" src="_images/d6ddee351887749c504554e4028fedff7a646aed77fc1106b25cf49e293b47da.png" />
 <figcaption>
-<p><span class="caption-number">Figura 9 </span><span class="caption-text">Curvas ROC y de precisión-exhaustividad en la prueba 2010-2026 de la mejor combinación de cada modelo.</span><a class="headerlink" href="#fig-roc-pr" title="Link to this image">#</a></p>
+<p><span class="caption-number">Figura 10 </span><span class="caption-text">Curvas ROC y de precisión-exhaustividad en la prueba 2010-2026 de la mejor combinación de cada modelo.</span><a class="headerlink" href="#fig-roc-pr" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </div>
@@ -1500,7 +1501,7 @@ entrenamiento (1947-2009), se reentrenó el pipeline y se evaluó una única vez
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Desempeño en la prueba reservada.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Matrices de confusión en la prueba con umbral 0,5</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">orden</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">orden</span><span class="p">):</span>
     <span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="p">(</span><span class="n">fin</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s2">"pred_test"</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mf">.5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
@@ -1519,7 +1520,7 @@ entrenamiento (1947-2009), se reentrenó el pipeline y se evaluó una única vez
 <figure class="align-default" id="fig-confusion">
 <img alt="_images/4ff3e9299d6613b678fc97145cccdacc7b53ce55c36eeb61a953bbd2699dd2f3.png" src="_images/4ff3e9299d6613b678fc97145cccdacc7b53ce55c36eeb61a953bbd2699dd2f3.png" />
 <figcaption>
-<p><span class="caption-number">Figura 10 </span><span class="caption-text">Matrices de confusión en la prueba (umbral 0,5) de la mejor combinación de cada modelo.</span><a class="headerlink" href="#fig-confusion" title="Link to this image">#</a></p>
+<p><span class="caption-number">Figura 11 </span><span class="caption-text">Matrices de confusión en la prueba (umbral 0,5) de la mejor combinación de cada modelo.</span><a class="headerlink" href="#fig-confusion" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </div>
@@ -1543,7 +1544,7 @@ programar una campaña de muestreo de sedimentos o una purga de embalse, un fals
 (no anticipar un periodo de transporte dominante) significa perder la ventana de operación,
 mientras que un falso positivo cuesta una movilización innecesaria; en ese escenario se privilegia
 la exhaustividad, y el umbral puede bajarse a partir de la curva de la
-<a class="reference internal" href="#fig-roc-pr"><span class="std std-numref">Figura 9</span></a>. Para la planificación de dragados, en cambio, las falsas alarmas tienen un
+<a class="reference internal" href="#fig-roc-pr"><span class="std std-numref">Figura 10</span></a>. Para la planificación de dragados, en cambio, las falsas alarmas tienen un
 costo directo y la precisión resulta prioritaria. Al reportar la PR-AUC, que integra todos los umbrales, la
 comparación entre modelos no depende de esa elección, que corresponde al usuario final.</p>
 </section>
@@ -1557,7 +1558,7 @@ comparación entre modelos no depende de esa elección, que corresponde al usuar
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Calibración de probabilidades.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calibración: diagrama de confiabilidad, Brier y ECE, antes y después de recalibrar con Platt</span>
 <span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mf">4.2</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">orden</span><span class="p">):</span>
@@ -1590,7 +1591,7 @@ comparación entre modelos no depende de esa elección, que corresponde al usuar
 <figure class="align-default" id="fig-calibracion">
 <img alt="_images/631fe9d99e454f53584492729a29eeaa28492ccd60ed89af99683e57250d774a.png" src="_images/631fe9d99e454f53584492729a29eeaa28492ccd60ed89af99683e57250d774a.png" />
 <figcaption>
-<p><span class="caption-number">Figura 11 </span><span class="caption-text">Diagramas de confiabilidad en la prueba, antes (línea continua) y después (línea discontinua) de la recalibración de Platt ajustada con las predicciones fuera de muestra del bucle externo.</span><a class="headerlink" href="#fig-calibracion" title="Link to this image">#</a></p>
+<p><span class="caption-number">Figura 12 </span><span class="caption-text">Diagramas de confiabilidad en la prueba, antes (línea continua) y después (línea discontinua) de la recalibración de Platt ajustada con las predicciones fuera de muestra del bucle externo.</span><a class="headerlink" href="#fig-calibracion" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </div>
@@ -1602,7 +1603,7 @@ comparación entre modelos no depende de esa elección, que corresponde al usuar
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Calibración de probabilidades.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Muestra la tabla de calibración</span>
 <span class="n">cal</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1742,7 +1743,7 @@ cuando la decisión en las predicciones fuera de muestra fue favorable.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcula y muestra los resultados de Robustez y estabilidad.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Robustez frente a la semilla: variabilidad entre semillas comparada con la variabilidad entre bloques</span>
 <span class="n">rob</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">RESULTADOS</span> <span class="o">/</span> <span class="s2">"robustez"</span> <span class="o">/</span> <span class="s2">"robustez.csv"</span><span class="p">)</span>
 <span class="n">sem</span> <span class="o">=</span> <span class="n">rob</span><span class="p">[</span><span class="n">rob</span><span class="o">.</span><span class="n">tipo</span> <span class="o">==</span> <span class="s2">"semilla"</span><span class="p">]</span>
 <span class="n">var_sem</span> <span class="o">=</span> <span class="n">sem</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">"modelo"</span><span class="p">,</span> <span class="s2">"pliegue"</span><span class="p">])</span><span class="o">.</span><span class="n">pr_auc</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"modelo"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
@@ -1803,6 +1804,180 @@ tiempo, las diez mejores combinaciones de la tabla maestra se separan en apenas
 entre semillas y muy inferior a la variabilidad entre bloques. Las diferencias entre los mejores
 benchmarks no son, por tanto, mayores que la variabilidad intrínseca de cada uno, y decidir entre
 ellos exige las pruebas formales de la sección de comparación estadística.</p>
+</section>
+<section id="sensibilidad-al-horizonte-de-prediccion">
+<h2>Sensibilidad al horizonte de predicción<a class="headerlink" href="#sensibilidad-al-horizonte-de-prediccion" title="Link to this heading">#</a></h2>
+<p>El horizonte de quince días se fijó al plantear el problema, antes de examinar el periodo de
+prueba. Para verificar que esa elección no convierte la tarea en un problema trivial ni en uno
+inabordable, se repitió el entrenamiento de los modelos finales de regresión logística y Random
+Forest con horizontes de 1, 7, 15, 30 y 60 días, conservando sus hiperparámetros, los predictores
+y el corte de prueba, y se comparó su PR-AUC con la de la persistencia, que supone que el río
+estará dentro de <em>h</em> días en la misma condición que hoy. El análisis es de sensibilidad y no se
+usó para elegir el horizonte.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reentrena la logística y Random Forest finales para cada horizonte y los compara con la persistencia</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">average_precision_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">construir_tarea</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.splits</span><span class="w"> </span><span class="kn">import</span> <span class="n">separar_prueba</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">construir_pipeline</span><span class="p">,</span> <span class="n">puntaje_continuo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">SEED</span>
+<span class="n">caudales</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">DATOS_PROC</span> <span class="o">/</span> <span class="s2">"caudales.csv"</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s2">"fecha"</span><span class="p">])</span>
+<span class="n">par_c</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">((</span><span class="n">DATOS_PROC</span> <span class="o">/</span> <span class="s2">"parametros.json"</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">))[</span><span class="s2">"calamar"</span><span class="p">]</span>
+<span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">):</span>
+    <span class="n">t_h</span> <span class="o">=</span> <span class="n">construir_tarea</span><span class="p">(</span><span class="n">caudales</span><span class="p">,</span> <span class="s2">"calamar"</span><span class="p">,</span> <span class="n">par_c</span><span class="p">[</span><span class="s2">"PREDICTORAS"</span><span class="p">],</span> <span class="n">par_c</span><span class="p">[</span><span class="s2">"TRANSITOS"</span><span class="p">],</span> <span class="n">par_c</span><span class="p">[</span><span class="s2">"Q_EF"</span><span class="p">],</span>
+                          <span class="nb">tuple</span><span class="p">(</span><span class="n">par_c</span><span class="p">[</span><span class="s2">"LIM"</span><span class="p">]),</span> <span class="n">horizonte</span><span class="o">=</span><span class="n">h</span><span class="p">)</span>
+    <span class="n">d_h</span><span class="p">,</span> <span class="n">cols_h</span> <span class="o">=</span> <span class="n">t_h</span><span class="p">[</span><span class="s2">"datos"</span><span class="p">],</span> <span class="n">t_h</span><span class="p">[</span><span class="s2">"columnas"</span><span class="p">]</span>
+    <span class="n">i_tr</span><span class="p">,</span> <span class="n">i_te</span> <span class="o">=</span> <span class="n">separar_prueba</span><span class="p">(</span><span class="n">d_h</span><span class="o">.</span><span class="n">fecha</span><span class="p">)</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">d_h</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i_tr</span><span class="p">],</span> <span class="n">d_h</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i_te</span><span class="p">]</span>
+    <span class="n">fila</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Horizonte (días)"</span><span class="p">:</span> <span class="n">h</span><span class="p">,</span> <span class="s2">"Prevalencia"</span><span class="p">:</span> <span class="n">b</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+            <span class="s2">"Persistencia"</span><span class="p">:</span> <span class="n">average_precision_score</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">calamar</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="o">*</span><span class="n">par_c</span><span class="p">[</span><span class="s2">"LIM"</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))}</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"logistica"</span><span class="p">,</span> <span class="s2">"random_forest"</span><span class="p">):</span>
+        <span class="n">pipe_h</span> <span class="o">=</span> <span class="n">construir_pipeline</span><span class="p">(</span><span class="s2">"clf"</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">fin</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s2">"params"</span><span class="p">],</span> <span class="n">fin</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s2">"balanceo"</span><span class="p">],</span> <span class="n">a</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">SEED</span><span class="p">)</span>
+        <span class="n">pipe_h</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">cols_h</span><span class="p">],</span> <span class="n">a</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+        <span class="n">fila</span><span class="p">[</span><span class="n">NOMBRES_MODELO</span><span class="p">[</span><span class="n">m</span><span class="p">]]</span> <span class="o">=</span> <span class="n">average_precision_score</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">puntaje_continuo</span><span class="p">(</span><span class="n">pipe_h</span><span class="p">,</span> <span class="n">b</span><span class="p">[</span><span class="n">cols_h</span><span class="p">]))</span>
+    <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fila</span><span class="p">)</span>
+<span class="n">hz</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"Horizonte (días)"</span><span class="p">)</span>
+<span class="n">nl</span><span class="p">,</span> <span class="n">nr</span> <span class="o">=</span> <span class="n">NOMBRES_MODELO</span><span class="p">[</span><span class="s2">"logistica"</span><span class="p">],</span> <span class="n">NOMBRES_MODELO</span><span class="p">[</span><span class="s2">"random_forest"</span><span class="p">]</span>
+<span class="n">hz</span><span class="p">[</span><span class="s2">"Ventaja de RF sobre la persistencia"</span><span class="p">]</span> <span class="o">=</span> <span class="n">hz</span><span class="p">[</span><span class="n">nr</span><span class="p">]</span> <span class="o">-</span> <span class="n">hz</span><span class="p">[</span><span class="s2">"Persistencia"</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">((</span><span class="n">nr</span><span class="p">,</span> <span class="n">SED</span><span class="p">),</span> <span class="p">(</span><span class="n">nl</span><span class="p">,</span> <span class="n">CAU</span><span class="p">),</span> <span class="p">(</span><span class="s2">"Persistencia"</span><span class="p">,</span> <span class="n">RIO</span><span class="p">)):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hz</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">hz</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="s2">"-o"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">col</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hz</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">hz</span><span class="p">[</span><span class="s2">"Prevalencia"</span><span class="p">],</span> <span class="s2">":"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">NEU</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Prevalencia"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">"Horizonte de predicción (días)"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"PR-AUC en la prueba"</span><span class="p">,</span> <span class="n">xticks</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">hz</span><span class="o">.</span><span class="n">index</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Desempeño según el horizonte"</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">hz</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+    <span class="n">glue</span><span class="p">(</span><span class="sa">f</span><span class="s2">"hz_pers_</span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">hz</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">h</span><span class="p">,</span> <span class="s2">"Persistencia"</span><span class="p">]),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">glue</span><span class="p">(</span><span class="sa">f</span><span class="s2">"hz_rf_</span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">hz</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">h</span><span class="p">,</span> <span class="n">nr</span><span class="p">]),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">glue</span><span class="p">(</span><span class="sa">f</span><span class="s2">"hz_log_</span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">hz</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">h</span><span class="p">,</span> <span class="n">nl</span><span class="p">]),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">glue</span><span class="p">(</span><span class="sa">f</span><span class="s2">"hz_ven_</span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">hz</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">h</span><span class="p">,</span> <span class="s2">"Ventaja de RF sobre la persistencia"</span><span class="p">]),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-sensibilidad-horizonte">
+<img alt="_images/eaae3b6f2446649a38925ddd921730f4753269088e8270adb6b787ba8e3c70ed.png" src="_images/eaae3b6f2446649a38925ddd921730f4753269088e8270adb6b787ba8e3c70ed.png" />
+<figcaption>
+<p><span class="caption-number">Figura 13 </span><span class="caption-text">PR-AUC en la prueba 2010-2026 según el horizonte de predicción. La línea gris marca la prevalencia de la clase positiva, que corresponde a una predicción sin información.</span><a class="headerlink" href="#fig-sensibilidad-horizonte" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Tabla de PR-AUC en la prueba por horizonte de predicción</span>
+<span class="n">hz</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Prevalencia</th>
+      <th>Persistencia</th>
+      <th>Regresión logística</th>
+      <th>Random Forest</th>
+      <th>Ventaja de RF sobre la persistencia</th>
+    </tr>
+    <tr>
+      <th>Horizonte (días)</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>0.251</td>
+      <td>0.967</td>
+      <td>0.999</td>
+      <td>1.000</td>
+      <td>0.032</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.251</td>
+      <td>0.812</td>
+      <td>0.966</td>
+      <td>0.984</td>
+      <td>0.172</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>0.252</td>
+      <td>0.652</td>
+      <td>0.891</td>
+      <td>0.950</td>
+      <td>0.297</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>0.253</td>
+      <td>0.450</td>
+      <td>0.669</td>
+      <td>0.817</td>
+      <td>0.367</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>0.253</td>
+      <td>0.275</td>
+      <td>0.487</td>
+      <td>0.614</td>
+      <td>0.338</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>A un día de antelación la persistencia alcanza una PR-AUC de <span class="pasted-text">0,967</span>, de modo
+que repetir el estado actual resuelve casi por completo la tarea y un modelo apenas aporta
+información. A medida que el horizonte crece, la persistencia pierde capacidad con rapidez,
+mientras que los modelos lo hacen con mayor lentitud. A quince días, Random Forest obtiene
+<span class="pasted-text">0,950</span> y la regresión logística <span class="pasted-text">0,891</span>, frente a
+<span class="pasted-text">0,652</span> de la persistencia, una ventaja de <span class="pasted-text">0,297</span> para
+Random Forest. A treinta días la ventaja relativa se mantiene (<span class="pasted-text">0,367</span>), pero
+el desempeño absoluto desciende a <span class="pasted-text">0,817</span>, y a sesenta días a
+<span class="pasted-text">0,614</span>. El horizonte de quince días ofrece, en consecuencia, una antelación
+suficiente para programar una purga o un dragado con un desempeño que todavía permite usar la
+predicción en la operación, y el problema a ese horizonte no es trivial, porque la persistencia
+queda muy por debajo de los modelos. La caída más lenta de Random Forest frente a la regresión
+logística en los horizontes largos es coherente con la ventaja de los modelos no lineales
+documentada en este capítulo.</p>
 </section>
 </section>
 
@@ -1880,6 +2055,7 @@ ellos exige las pruebas formales de la sección de comparación estadística.</p
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calibracion-de-probabilidades">Calibración de probabilidades</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#robustez-y-estabilidad">Robustez y estabilidad</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sensibilidad-al-horizonte-de-prediccion">Sensibilidad al horizonte de predicción</a></li>
 </ul>
   </nav></div>
 
