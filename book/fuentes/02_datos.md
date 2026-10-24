@@ -21,6 +21,7 @@ periodos y la sensibilidad del desempeño a la estrategia de imputación.
 
 ```{code-cell} ipython3
 :tags: [hide-input]
+# Calcula y muestra los resultados de Datos: ETL y análisis exploratorio.
 import sys, json, warnings
 sys.path.insert(0, "..")
 warnings.filterwarnings("ignore")
@@ -53,6 +54,7 @@ originales.
 
 ```{code-cell} ipython3
 :tags: [hide-input]
+# Calcula y muestra los resultados de Fuente, estructura y ETL.
 filas = []
 for e in EST:
     s = caudales.set_index("fecha")[e]
@@ -92,6 +94,7 @@ mystnb:
       punteada, el del diseño alternativo con la red completa (1976).
     name: fig-cobertura
 ---
+# Calcula y muestra los resultados de Corrección 1: periodo de modelado y mecanismo de los faltantes.
 cob = caudales.set_index("fecha")[EST].notna().resample("YS").mean() * 100
 fig, ax = plt.subplots(figsize=(10, 3.4))
 im = ax.imshow(cob.T, aspect="auto", cmap=estilo.mapa_seq(), vmin=0, vmax=100,
@@ -108,14 +111,15 @@ La primera conserva las seis estaciones y recorta el periodo de modelado a 1976,
 última estación de la red (Coyongal, marzo de 1975) acumula un año de registro. La segunda
 conserva el periodo largo y restringe los predictores a las estaciones que existen durante
 todo él: Calamar, la estación objetivo, y Puerto Salgar, con registro desde 1946, de modo que
-el modelado empieza el 1 de enero de 1947. La guía del curso fija además un mínimo de 20.000
-observaciones. La tabla siguiente compara los tres diseños (el del Entregable 1 y las dos
+el modelado empieza el 1 de enero de 1947. Se exige además un mínimo de 20.000 observaciones.
+La tabla siguiente compara los tres diseños (el del Entregable 1 y las dos
 alternativas) con los mismos modelos de referencia evaluados en la prueba reservada.
 
 ```{code-cell} ipython3
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Corrección 1: periodo de modelado y mecanismo de los faltantes.
 from src.features import construir_tarea
 from src.splits import separar_prueba
 from sklearn.metrics import average_precision_score
@@ -150,7 +154,7 @@ dis.round(3)
 ```
 
 El recorte a 1976 resuelve la imputación pero deja {glue:text}`n_r76:,` observaciones, por
-debajo del mínimo de la guía. El diseño adoptado cumple ambas exigencias: no imputa ninguna
+debajo del mínimo exigido. El diseño adoptado cumple ambas exigencias: no imputa ninguna
 estación en años en que no existía y dispone de {glue:text}`n_a47:,` observaciones. La
 comparación empírica lo respalda. Con XGBoost, la PR-AUC en la prueba es
 {glue:text}`xg_a47:.3f` con Calamar y Puerto Salgar desde 1947, frente a {glue:text}`xg_r76:.3f`
@@ -172,6 +176,7 @@ descarga efectiva se mantiene sobre 1940-2009, porque solo usa la serie de Calam
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Corrección 1: periodo de modelado y mecanismo de los faltantes.
 inicio_op = {"pto_salgar": "1947-01-01", "arrancaplumas": "1947-01-01"}
 filas = []
 for e in EST:
@@ -219,6 +224,7 @@ condicional.
 
 ```{code-cell} ipython3
 :tags: [hide-input]
+# Calcula y muestra los resultados de Auditoría de la serie de transporte y descarga efectiva.
 aud = pd.read_csv(DATOS_PROC / "auditoria_transporte.csv")
 glue("r2_min", float(aud.r2.min()), display=False)
 glue("n_r2_alto", int((aud.r2 > 0.997).sum()), display=False)
@@ -248,6 +254,7 @@ mystnb:
       frecuencia por el transporte de un día típico; su máximo define la descarga efectiva.
     name: fig-mf
 ---
+# Calcula y muestra los resultados de Auditoría de la serie de transporte y descarga efectiva.
 mf = pd.read_csv(DATOS_PROC / "magnitud_frecuencia.csv")
 fig, ax = plt.subplots(figsize=(9.5, 3.8))
 ax.bar(mf.q_centro, 100 * mf.frec_rel, width=mf.q_sup - mf.q_inf, color=CAU, alpha=.45, label="Frecuencia")
@@ -276,6 +283,7 @@ mystnb:
       entrenamiento (1947-2009) de la prueba reservada (2010-2026).
     name: fig-prev
 ---
+# Calcula y muestra los resultados de Variable objetivo.
 tr = tarea[tarea.fecha < FECHA_CORTE_TEST]; te = tarea[tarea.fecha >= pd.Timestamp(FECHA_CORTE_TEST) + pd.Timedelta(days=30)]
 anual = tarea.groupby(tarea.fecha.dt.year).y.mean() * 100
 fig, ax = plt.subplots(figsize=(10, 3.2))
@@ -307,6 +315,7 @@ distintas.
 
 ```{code-cell} ipython3
 :tags: [hide-input]
+# Calcula y muestra los resultados de Análisis univariado y bivariado.
 cols_q = [e for e in EST if e != "arrancaplumas"]
 d47m = caudales[caudales.fecha >= INICIO_MODELADO]
 desc = d47m[cols_q].describe(percentiles=[.05, .25, .5, .75, .95]).T
@@ -335,6 +344,7 @@ mystnb:
       Magdalena forman dos bloques débilmente acoplados.
     name: fig-corr
 ---
+# Calcula y muestra los resultados de Análisis univariado y bivariado.
 d76 = caudales[(caudales.fecha >= "1976-01-01") & (caudales.fecha < FECHA_CORTE_TEST)]
 cm = d76[EST].corr(method="spearman")
 fig, ax = plt.subplots(figsize=(6.4, 5.2))
@@ -350,6 +360,7 @@ plt.show()
 
 ```{code-cell} ipython3
 :tags: [hide-input]
+# Calcula y muestra los resultados de Análisis univariado y bivariado.
 from sklearn.feature_selection import mutual_info_classif
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 cols = par["BASE_COLS"] + par["DOM_COLS"]
@@ -388,6 +399,7 @@ en los modelos lineales, cuyo parámetro se ajusta en la sección de correccione
 
 ```{code-cell} ipython3
 :tags: [hide-input]
+# Calcula y muestra los resultados de Componente temporal.
 from statsmodels.tsa.stattools import adfuller, kpss, acf, pacf
 from statsmodels.tsa.seasonal import STL
 s = caudales[(caudales.fecha >= INICIO_MODELADO) & (caudales.fecha < FECHA_CORTE_TEST)].set_index("fecha").calamar
@@ -430,6 +442,7 @@ mystnb:
     caption: Descomposición STL robusta del caudal medio mensual en Calamar (1947-2009).
     name: fig-stl
 ---
+# Calcula y muestra los resultados de Componente temporal.
 fig, axs = plt.subplots(4, 1, figsize=(10, 6.4), sharex=True)
 for ax, (serie, nombre, c) in zip(axs, [(mens, "Observado", RIO), (stl.trend, "Tendencia", SED),
                                         (stl.seasonal, "Estacional", CAU), (stl.resid, "Residuo", NEU)]):
@@ -448,6 +461,7 @@ se cuantifica a continuación.
 
 ```{code-cell} ipython3
 :tags: [hide-input]
+# Calcula y muestra los resultados de Componente temporal.
 def psi(a, b, bins=10):
     q = np.quantile(a, np.linspace(0, 1, bins + 1)); q[0], q[-1] = -np.inf, np.inf
     pa, pb_ = np.histogram(a, q)[0] / len(a), np.histogram(b, q)[0] / len(b)
@@ -490,6 +504,7 @@ favor del diseño adoptado, que no usa esas estaciones como predictores de Calam
 
 ```{code-cell} ipython3
 :tags: [hide-input]
+# Calcula y muestra los resultados de Componente temporal.
 from src.etl import tiempos_transito
 ubic = pd.read_csv(DATOS_PROC / "ubicaciones.csv")
 ubic.columns = ["estacion", "codigo", "departamento", "municipio", "lat", "lon", "altitud"]
@@ -520,6 +535,7 @@ mystnb:
       Varianza explicada acumulada; (b) proyección en las dos primeras componentes, coloreada por clase.
     name: fig-pca
 ---
+# Calcula y muestra los resultados de Análisis multivariado.
 from sklearn.decomposition import PCA
 from sklearn.ensemble import IsolationForest
 from sklearn.covariance import MinCovDet
@@ -569,6 +585,7 @@ detección de atípicos se apoya en Isolation Forest, que no requiere ese supues
 
 ```{code-cell} ipython3
 :tags: [hide-input]
+# Calcula y muestra los resultados de Auditoría de fuga de datos.
 from sklearn.metrics import roc_auc_score
 fuga = pd.DataFrame([{"variable": c, "AUC": max(roc_auc_score(tr.y, Xtr[c]), 1 - roc_auc_score(tr.y, Xtr[c]))}
                      for c in cols]).sort_values("AUC", ascending=False)
@@ -603,6 +620,7 @@ la única entidad es la red de estaciones.
 
 ```{code-cell} ipython3
 :tags: [hide-input]
+# Calcula y muestra los resultados de Corrección 2 y 3: modelo base con regularización ajustada e intervalos por bloques.
 from sklearn.model_selection import GridSearchCV, TimeSeriesSplit
 from sklearn.metrics import average_precision_score, f1_score
 from src.models import construir_pipeline

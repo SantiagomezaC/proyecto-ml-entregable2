@@ -21,6 +21,7 @@ importan para la clase son los que ocurren cerca de los límites.
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Regresión del caudal a quince días.
 import sys, pickle, warnings
 sys.path.insert(0, "..")
 warnings.filterwarnings("ignore")
@@ -55,6 +56,7 @@ pd.DataFrame({"Modelo": vista.nombre, "Optimizador": vista.optimizador_nombre,
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Métricas en la prueba reservada.
 yte = D.y_reg_test.values
 q_pers = np.sqrt(D.X_test.calamar_cuad.values)
 filas = [{"Modelo": "Persistencia (Q(t+15) = Q(t))", "Optimizador": "—",
@@ -87,6 +89,7 @@ tab_test.round(3)
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Métricas en la prueba reservada.
 tab_prue.round(4)
 ```
 
@@ -120,6 +123,7 @@ mystnb:
       prueba reservada (2010-2026). Para legibilidad se muestran medias semanales.
     name: fig-reg-series
 ---
+# Calcula y muestra los resultados de Entrenamiento, validación y prueba.
 r = fin[mejor_reg]
 fmej = mej.set_index("modelo").loc[mejor_reg]
 from src.analysis import cargar_carpeta
@@ -205,6 +209,7 @@ mystnb:
       histograma con la densidad normal de igual media y desviación; (c) función de autocorrelación.
     name: fig-residuos
 ---
+# Calcula y muestra los resultados de Análisis de residuos.
 e = yte - r["pred_test"]
 fig, axs = plt.subplots(1, 3, figsize=(12, 3.5))
 axs[0].scatter(r["pred_test"], e, s=4, alpha=.3, color=RIO); axs[0].axhline(0, color=ALE, lw=1)

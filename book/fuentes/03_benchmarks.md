@@ -21,6 +21,7 @@ estadística y la interpretabilidad.
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Modelos benchmark: diseño experimental.
 import sys, json; sys.path.insert(0, "..")
 import numpy as np, pandas as pd
 from myst_nb import glue
@@ -86,6 +87,7 @@ cuadrático medio.
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Espacios de búsqueda.
 filas = []
 for tarea, esp in (("clasificación", ESPACIOS_CLF), ("regresión", ESPACIOS_REG)):
     for m, params in esp.items():
@@ -104,7 +106,7 @@ el mismo dominio. Los rangos se fijaron con criterios del problema y no de forma
 KNN, el número de vecinos va de 5 a 200 en escala logarítmica: con la autocorrelación del caudal,
 los vecinos más cercanos de un día son sus propios días contiguos, y valores pequeños sobreajustan.
 En la regresión logística y la SVM, C y γ recorren cuatro o cinco órdenes de magnitud en escala
-logarítmica, como recomienda la guía para parámetros de regularización y de escala. En los
+logarítmica, práctica habitual para parámetros de regularización y de escala. En los
 árboles, la profundidad máxima (2 a 16) y el tamaño mínimo de hoja (5 a 300 días, logarítmico)
 controlan la complejidad frente a un tamaño efectivo reducido. En Random Forest se fijó
 `max_samples = 0,3`, con un efecto doble: la submuestra decorrelaciona los árboles y reduce el

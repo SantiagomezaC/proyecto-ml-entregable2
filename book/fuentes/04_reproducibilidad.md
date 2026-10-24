@@ -17,6 +17,7 @@ kernelspec:
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Entorno.
 import sys, platform, json
 sys.path.insert(0, "..")
 from importlib.metadata import version
@@ -47,6 +48,7 @@ mutación. La sensibilidad a la semilla se evaluó explícitamente con cinco sem
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Tabla maestra de experimentos.
 from src.analysis import tabla_pliegues
 partes = []
 for carpeta, tarea in (("clf_calamar", "clasificación"), ("reg_calamar", "regresión")):

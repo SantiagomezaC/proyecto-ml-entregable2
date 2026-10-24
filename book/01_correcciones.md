@@ -55,9 +55,10 @@ no incluye el optimismo de seleccionar hiperparámetros con los mismos datos con
 
 ## Estaciones sin registro y periodo de modelado
 
-La revisión mostró que el problema era mayor de lo reconocido en el informe anterior. Entre el
-40 % y el 48 % de los valores de El Banco, San Roque, Tres Cruces y Coyongal eran medianas
-asignadas a años anteriores a su instalación, ocurrida entre 1972 y 1975. Ese faltante es
+La revisión mostró que el problema era mayor de lo reconocido en el informe anterior. En El Banco,
+San Roque, Tres Cruces y Coyongal faltaba entre el 40 % y el 48 % del registro, en su mayor parte
+correspondiente a años anteriores a su instalación, ocurrida entre 1972 y 1975, y esos valores se
+llenaban con la mediana. Ese faltante es
 estructural: depende de la fecha y no del estado hidrológico, y la mediana impuesta convertía
 cuatro predictores en constantes durante tres décadas del entrenamiento, mientras que la prueba
 se evaluaba con valores observados. Las distribuciones de esos predictores diferían, por
@@ -65,7 +66,7 @@ construcción, entre entrenamiento y prueba.
 
 Se evaluaron dos diseños que eliminan la imputación estructural. El primero conserva las seis
 estaciones y recorta el periodo de modelado a 1976, lo que deja 18.359 observaciones, por debajo
-del mínimo de 20.000 que exige la guía. El segundo conserva el periodo 1947-2026 y restringe los
+del mínimo de 20.000 observaciones exigido. El segundo conserva el periodo 1947-2026 y restringe los
 predictores a las estaciones con registro en todo ese intervalo, Calamar y Puerto Salgar (en
 operación desde 1946), con 28.558 observaciones después de descontar la separación de 30 días
 entre entrenamiento y prueba. Con los mismos modelos de referencia y la misma prueba, XGBoost

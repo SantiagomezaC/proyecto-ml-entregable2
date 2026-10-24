@@ -1,6 +1,6 @@
 # Descarga efectiva en el río Magdalena
 
-**Kevin Clemente Rosario · Manuel Santiago Meza Castro**
+Autores: Kevin Clemente y Manuel Meza
 Maestría · Universidad del Norte · Machine Learning, 2026-30
 
 ```{admonition} Entregable 2: modelos benchmark

@@ -15,6 +15,7 @@ kernelspec:
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Resultados de clasificación.
 import sys, json, pickle, warnings
 sys.path.insert(0, "..")
 warnings.filterwarnings("ignore")
@@ -49,6 +50,7 @@ y la semilla, está en `results/tabla_maestra.csv` (capítulo 4).
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Tabla maestra.
 fmt = lambda m, s: f"{m:.3f} ± {s:.3f}"
 vista = res.sort_values("pr_auc_mean", ascending=False).head(20)
 pd.DataFrame({"Modelo": vista.nombre, "Balanceo": vista.balanceo_nombre, "Optimizador": vista.optimizador_nombre,
@@ -69,6 +71,7 @@ mystnb:
       un bloque de dos años; la caja resume los doce bloques.
     name: fig-cajas-modelos
 ---
+# Calcula y muestra los resultados de Tabla maestra.
 orden = mejores.sort_values("pr_auc_mean", ascending=False).modelo.tolist()
 fig, ax = plt.subplots(figsize=(10, 3.9))
 datos_caja = []
@@ -165,6 +168,7 @@ mystnb:
       optimizadores y bloques). Valores positivos indican mejora.
     name: fig-balanceo
 ---
+# Calcula y muestra los resultados de Efecto del balanceo de clases.
 base = pl[pl.balanceo == "ninguno"].set_index(["modelo", "optimizador", "pliegue"])
 filas = []
 for b in ("smote", "adasyn", "balanced"):
@@ -203,6 +207,7 @@ for b in ("SMOTE", "ADASYN", "class_weight"):
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Efecto del balanceo de clases.
 tab_b.round(4)
 ```
 
@@ -269,6 +274,7 @@ entrenamiento (1947-2009), se reentrenó el pipeline y se evaluó una única vez
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Desempeño en la prueba reservada.
 y = D.y_clf_test.values
 filas = []
 for m in orden:
@@ -292,6 +298,7 @@ mystnb:
     caption: Curvas ROC y de precisión-exhaustividad en la prueba 2010-2026 de la mejor combinación de cada modelo.
     name: fig-roc-pr
 ---
+# Calcula y muestra los resultados de Desempeño en la prueba reservada.
 fig, axs = plt.subplots(1, 2, figsize=(11, 4.2))
 for i, m in enumerate(orden):
     s = fin[m]["pred_test"]
@@ -314,6 +321,7 @@ mystnb:
     caption: Matrices de confusión en la prueba (umbral 0,5) de la mejor combinación de cada modelo.
     name: fig-confusion
 ---
+# Calcula y muestra los resultados de Desempeño en la prueba reservada.
 fig, axs = plt.subplots(1, len(orden), figsize=(14, 2.6))
 for ax, m in zip(axs, orden):
     cm = confusion_matrix(y, (fin[m]["pred_test"] >= .5).astype(int))
@@ -344,10 +352,10 @@ aunque el modelo produzca muchas falsas alarmas, porque los verdaderos negativos
 {cite}`saito2015`. Entre precisión y exhaustividad, el costo relativo depende del uso. Para
 programar una campaña de muestreo de sedimentos o una purga de embalse, un falso negativo
 (no anticipar un periodo de transporte dominante) significa perder la ventana de operación,
-mientras que un falso positivo cuesta una movilización innecesaria; en ese escenario conviene
-privilegiar la exhaustividad, y el umbral puede bajarse a partir de la curva de la
+mientras que un falso positivo cuesta una movilización innecesaria; en ese escenario se privilegia
+la exhaustividad, y el umbral puede bajarse a partir de la curva de la
 {numref}`fig-roc-pr`. Para la planificación de dragados, en cambio, las falsas alarmas tienen un
-costo directo y conviene la precisión. Al reportar la PR-AUC, que integra todos los umbrales, la
+costo directo y la precisión resulta prioritaria. Al reportar la PR-AUC, que integra todos los umbrales, la
 comparación entre modelos no depende de esa elección, que corresponde al usuario final.
 
 ## Calibración de probabilidades
@@ -361,6 +369,7 @@ mystnb:
       recalibración de Platt ajustada con las predicciones fuera de muestra del bucle externo.
     name: fig-calibracion
 ---
+# Calcula y muestra los resultados de Calibración de probabilidades.
 filas = []
 fig, axs = plt.subplots(1, 2, figsize=(11, 4.2))
 for i, m in enumerate(orden):
@@ -391,6 +400,7 @@ glue("cal_peor_ece_platt", float(peor["ECE Platt"]), display=False)
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Calibración de probabilidades.
 cal.round(4)
 ```
 
@@ -414,6 +424,7 @@ cuando la decisión en las predicciones fuera de muestra fue favorable.
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Robustez y estabilidad.
 rob = pd.read_csv(RESULTADOS / "robustez" / "robustez.csv")
 sem = rob[rob.tipo == "semilla"]
 var_sem = sem.groupby(["modelo", "pliegue"]).pr_auc.std().groupby("modelo").mean()

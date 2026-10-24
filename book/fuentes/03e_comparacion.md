@@ -20,6 +20,7 @@ dirigidas entre finalistas con corrección de Holm y tamaños del efecto.
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Comparación estadística de los benchmarks.
 import sys, json, pickle, warnings
 sys.path.insert(0, "..")
 warnings.filterwarnings("ignore")
@@ -48,6 +49,7 @@ fin = {r["modelo"]: r for r in pickle.load(open(RESULTADOS / "final_clf.pkl", "r
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Etapa 1: prueba global sobre las 112 combinaciones.
 c112 = json.loads((E / "cd_112.json").read_text(encoding="utf-8"))
 for k in ("chi2", "p", "cd", "pares_signif", "pares_total", "gl"):
     glue(f"c112_{k}", c112[k], display=False)
@@ -74,6 +76,7 @@ mystnb:
       barras grises unen modelos cuya diferencia de rango medio no supera la CD de Nemenyi.
     name: fig-cd-bench
 ---
+# Calcula y muestra los resultados de Etapa 2: diagrama de diferencia crítica entre los mejores de cada modelo.
 tabla = pd.read_csv(E / "universo_pliegues.csv", index_col=0)
 fr = friedman(tabla); ne = nemenyi(fr["rangos"], fr["n_bloques"])
 from src.estilo import dibujar_cd
@@ -86,6 +89,7 @@ glue("fr7_ff", fr["F_iman_davenport"], display=False); glue("fr7_pff", fr["p_ima
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Etapa 2: diagrama de diferencia crítica entre los mejores de cada modelo.
 ne["pares"].assign(modelo_a=lambda d: d.modelo_a.map(NOMBRES_MODELO), modelo_b=lambda d: d.modelo_b.map(NOMBRES_MODELO)).sort_values("p_nemenyi").round(4)
 ```
 
@@ -103,6 +107,7 @@ difuso en el centro.
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Comparaciones dirigidas en la prueba reservada: DeLong con Holm.
 y = D.y_clf_test.values
 top = mejores.sort_values("pr_auc_mean", ascending=False).modelo.head(3).tolist()
 filas = []
@@ -137,6 +142,7 @@ días) y en las pruebas sobre bloques externos.
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Intervalos de confianza y tamaños del efecto.
 filas = []
 for m in mejores.sort_values("pr_auc_mean", ascending=False).modelo:
     s = fin[m]["pred_test"]
@@ -170,6 +176,7 @@ decisión por media, no una superioridad demostrada.
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Model Confidence Set.
 mcs = pd.read_csv(E / "mcs_regresion.csv")
 glue("mcs_n", int((mcs["¿En el conjunto?"] == "Sí").sum()), display=False)
 glue("mcs_mejor", mcs.iloc[0]["Combinación"], display=False)
@@ -187,6 +194,7 @@ se rechace. Con α = 0,10, el conjunto de confianza retiene {glue:text}`mcs_n` c
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Comparaciones dirigidas: Giacomini-White, Clark-West y Diebold-Mariano.
 dirig = pd.read_csv(E / "regresion_dirigidas.csv")
 cw = pd.read_csv(E / "regresion_clark_west.csv")
 sp = json.loads((E / "spa_regresion.json").read_text(encoding="utf-8"))

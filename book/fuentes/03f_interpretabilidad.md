@@ -31,7 +31,7 @@ D = cargar_datos()
 mejores = pd.read_csv(RESULTADOS / "mejores_clf.csv")
 fin = {r["modelo"]: r for r in pickle.load(open(RESULTADOS / "final_clf.pkl", "rb"))}
 # Para SHAP se usa el mejor modelo de árboles (explicación exacta con TreeSHAP); XGBoost además es el
-# modelo que la guía pide comparar con LIME.
+# modelo que se compara con LIME.
 arboles = [m for m in mejores.sort_values("pr_auc_mean", ascending=False).modelo if m in ("xgboost", "random_forest", "arbol")]
 M = "xgboost"
 pipe = joblib.load(ARTEFACTOS / f"{M}.joblib")
@@ -50,8 +50,9 @@ glue("modelo_shap", NOMBRES_MODELO[M], display=False)
 glue("rango_xgb", int(mejores.sort_values("pr_auc_mean", ascending=False).modelo.tolist().index(M) + 1), display=False)
 ```
 
-Este capítulo analiza el modelo de clasificación con SHAP {cite}`lundberg2017` y compara sus
-explicaciones con las de LIME. El modelo explicado es {glue:text}`modelo_shap`, que
+Este capítulo analiza el modelo de clasificación con SHAP {cite}`lundberg2017`, compara sus
+explicaciones con las de LIME y, en la última sección, aplica el mismo análisis al mejor modelo
+de regresión. El modelo de clasificación explicado es {glue:text}`modelo_shap`, que
 ocupa el puesto {glue:text}`rango_xgb` entre los benchmarks de clasificación y admite el
 algoritmo TreeSHAP {cite}`lundberg2020`, que calcula los valores de Shapley de forma exacta y en
 tiempo polinómico recorriendo los caminos de cada árbol. Los valores se expresan en log-odds de
@@ -250,3 +251,112 @@ correlacionadas y cuando la observación está cerca de una frontera de decisió
 explicación de SHAP es la más fiel al modelo, y la de LIME debe leerse en cuanto a las
 variables que identifica y su importancia relativa, pero no en cuanto al sentido de las
 contribuciones secundarias.
+
+## Interpretabilidad del modelo de regresión
+
+En regresión, SVR y XGBoost forman el conjunto de confianza de modelos de la comparación
+estadística y sus errores en la prueba difieren en menos de 2 m³/s, de modo que ambos pueden
+considerarse el mejor modelo de esa tarea. Se explica XGBoost porque TreeSHAP calcula sus valores
+de Shapley de forma exacta, mientras que la SVR con núcleo RBF exigiría KernelSHAP, una
+aproximación por muestreo cuyo costo crece con el número de observaciones explicadas. El modelo
+se reconstruyó con los hiperparámetros seleccionados en el entrenamiento 1947-2009, y sus
+predicciones coinciden con las guardadas en los resultados finales. Dado que el objetivo se
+estandariza dentro del pipeline, los valores de Shapley se reescalan a m³/s multiplicándolos por
+la desviación estándar del caudal de entrenamiento, transformación lineal que conserva la
+propiedad de eficiencia.
+
+```{code-cell} ipython3
+---
+tags: [hide-input]
+mystnb:
+  figure:
+    caption: Gráfico resumen de SHAP del modelo de regresión (XGBoost) en la prueba 2010-2026. La posición
+      horizontal es la contribución al caudal predicho en t + 15 (m³/s) y el color, el valor de la variable.
+    name: fig-shap-reg-resumen
+---
+# Reconstruye el mejor XGBoost de regresión con sus hiperparámetros finales y verifica que
+# reproduce las predicciones guardadas
+from src.models import construir_pipeline
+fin_reg = {r["modelo"]: r for r in pickle.load(open(RESULTADOS / "final_reg.pkl", "rb"))}
+r_xgb = fin_reg["xgboost"]
+modelo_reg = construir_pipeline("reg", "xgboost", r_xgb["params"], seed=SEED).fit(D.X, D.y_reg)
+pred_reg = modelo_reg.predict(D.X_test)
+glue("reg_dif_pred", float(np.abs(pred_reg - r_xgb["pred_test"]).max()), display=False)
+glue("reg_rmse_xgb", float(r_xgb["metricas_test"]["rmse"]), display=False)
+glue("reg_rmse_svr", float(fin_reg["svr"]["metricas_test"]["rmse"]), display=False)
+
+# TreeSHAP sobre el estimador interno; los valores se llevan de la escala estandarizada a m³/s
+pipe_reg = modelo_reg.regressor_
+Zr = D.X_test.values
+for _, paso in pipe_reg.steps[:-1]:
+    Zr = paso.transform(Zr)
+sv_std = shap.TreeExplainer(pipe_reg[-1])(Zr)
+escala, media = modelo_reg.transformer_.scale_[0], modelo_reg.transformer_.mean_[0]
+sv_reg = shap.Explanation(values=sv_std.values * escala, base_values=sv_std.base_values * escala + media,
+                          data=Xte.fillna(Xte.median()).values, feature_names=[etiqueta(c) for c in Xte.columns])
+shap.plots.beeswarm(sv_reg, max_display=15, show=False, plot_size=(9.5, 6))
+plt.title("Contribuciones SHAP por variable (regresión, m³/s)", loc="left", fontweight="bold"); plt.show()
+
+imp_reg = pd.Series(np.abs(sv_reg.values).mean(0), index=Xte.columns).sort_values(ascending=False)
+for k in range(3):
+    glue(f"reg_top{k + 1}", etiqueta(imp_reg.index[k]), display=False)
+glue("reg_imp1", float(imp_reg.iloc[0]), display=False)
+glue("reg_frac_top5", float(imp_reg.head(5).sum() / imp_reg.sum()), display=False)
+glue("reg_pos_dist", int(list(imp_reg.index).index("dist_qef") + 1), display=False)
+```
+
+Las predicciones del modelo reconstruido difieren de las guardadas en un máximo de
+{glue:text}`reg_dif_pred:.1f` m³/s, y su RMSE en la prueba es de {glue:text}`reg_rmse_xgb:,.0f` m³/s,
+frente a {glue:text}`reg_rmse_svr:,.0f` m³/s de la SVR. La variable dominante es
+«{glue:text}`reg_top1`», con una contribución media de {glue:text}`reg_imp1:,.0f` m³/s, seguida de
+«{glue:text}`reg_top2`» y «{glue:text}`reg_top3`»; las cinco primeras concentran el
+{glue:text}`reg_frac_top5:.0%` de la importancia total. El nivel actual del caudal y sus rezagos
+cortos fijan la base de la predicción, y los armónicos estacionales la corrigen según la época del
+año, de acuerdo con el régimen bimodal descrito en el capítulo 2. A diferencia de la clasificación,
+la distancia del caudal a la descarga efectiva ocupa apenas el puesto {glue:text}`reg_pos_dist`.
+Esa diferencia es coherente con la naturaleza de cada tarea, dado que en regresión el objetivo es
+el caudal mismo y su relación con el caudal actual es monótona, mientras que en clasificación la
+pertenencia a una banda exige una variable que mida la cercanía a su centro.
+
+```{code-cell} ipython3
+---
+tags: [hide-input]
+mystnb:
+  figure:
+    caption: Explicaciones locales del modelo de regresión en dos días de la prueba. (a) Día con el menor
+      error absoluto; (b) día con el mayor error absoluto. Las contribuciones están en m³/s.
+    name: fig-shap-reg-local
+---
+# Explicaciones locales del día mejor predicho y del día con mayor error absoluto
+yq_te = D.y_reg_test.values
+err_reg = np.abs(yq_te - pred_reg)
+fig = plt.figure(figsize=(10, 9))
+for k, (nombre, i, tit) in enumerate((("ok", int(np.argmin(err_reg)), "(a) Menor error"),
+                                       ("mal", int(np.argmax(err_reg)), "(b) Mayor error"))):
+    ax = fig.add_subplot(2, 1, k + 1); plt.sca(ax)
+    shap.plots.waterfall(sv_reg[i], max_display=10, show=False)
+    ax.set_title(f"{tit}: {D.fechas_test.iloc[i]:%Y-%m-%d}, observado {yq_te[i]:,.0f} m³/s, "
+                 f"predicho {pred_reg[i]:,.0f} m³/s", loc="left", fontsize=10)
+    glue(f"reg_fecha_{nombre}", f"{D.fechas_test.iloc[i]:%Y-%m-%d}", display=False)
+    glue(f"reg_obs_{nombre}", float(yq_te[i]), display=False)
+    glue(f"reg_pred_{nombre}", float(pred_reg[i]), display=False)
+    glue(f"reg_hoy_{nombre}", float(np.sqrt(Xte.calamar_cuad.iloc[i])), display=False)
+    top = pd.Series(sv_reg.values[i], index=Xte.columns).abs().sort_values(ascending=False).index[:3]
+    glue(f"reg_top_{nombre}", "; ".join(etiqueta(c) for c in top), display=False)
+glue("reg_base", float(sv_reg.base_values[0]), display=False)
+plt.tight_layout(); plt.show()
+```
+
+Ambas explicaciones parten del valor esperado del modelo, {glue:text}`reg_base:,.0f` m³/s. En el
+día mejor predicho ({glue:text}`reg_fecha_ok`) el caudal observado fue de
+{glue:text}`reg_obs_ok:,.0f` m³/s y la predicción, de {glue:text}`reg_pred_ok:,.0f` m³/s; el río
+partía de {glue:text}`reg_hoy_ok:,.0f` m³/s y las contribuciones principales
+(«{glue:text}`reg_top_ok`») corresponden al nivel del caudal, a la época del año y a su variación del último día.
+El mayor error ocurrió el {glue:text}`reg_fecha_mal`, cuando el caudal alcanzó
+{glue:text}`reg_obs_mal:,.0f` m³/s quince días después de un estado de {glue:text}`reg_hoy_mal:,.0f` m³/s
+y el modelo predijo {glue:text}`reg_pred_mal:,.0f` m³/s. Las variables que dominan esa predicción
+(«{glue:text}`reg_top_mal`») describen el paso de la temporada de lluvias de fin de año a la
+temporada seca, de manera que el modelo reprodujo la recesión típica de enero y no anticipó un
+ascenso atípico. Ese error tiene el mismo origen que el error elevado de la clasificación, dado
+que ninguno de los predictores contiene información sobre la precipitación que produce los
+ascensos rápidos fuera de la temporada de lluvias.

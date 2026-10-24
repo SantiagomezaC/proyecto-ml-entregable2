@@ -15,6 +15,7 @@ kernelspec:
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Comparación de los métodos de optimización.
 import sys, warnings
 sys.path.insert(0, "..")
 warnings.filterwarnings("ignore")
@@ -39,6 +40,7 @@ COL = dict(zip(OPT, (NEU, CAU, RIO, SED)))
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Métricas, tiempos y presupuesto.
 g = pl.groupby("optimizador")
 tab = pd.DataFrame({
     "PR-AUC externa (media)": g.pr_auc.mean(), "PR-AUC externa (desv.)": g.pr_auc.std(),
@@ -75,6 +77,7 @@ problemas. La prueba de Friedman da χ² = {glue:text}`fr_opt_chi2:.1f`
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Prueba global: Friedman con bloques = (modelo, balanceo, pliegue).
 ne["pares"].assign(modelo_a=lambda d: d.modelo_a.map(NOMBRES_OPT), modelo_b=lambda d: d.modelo_b.map(NOMBRES_OPT)).round(4)
 ```
 
@@ -102,6 +105,7 @@ mystnb:
       los cuatro métodos en ese mismo problema; se promedia sobre los 336 problemas.
     name: fig-anytime
 ---
+# Calcula y muestra los resultados de Convergencia: desempeño en cualquier momento.
 h2 = h.copy()
 clave = ["modelo", "balanceo", "pliegue"]
 techo = h2.groupby(clave).puntaje.max().rename("techo")
@@ -142,6 +146,7 @@ ef = pd.DataFrame(filas); ef["p (Holm)"] = holm(ef["p (Wilcoxon, unilateral)"].v
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Evidencia cuantitativa: progreso a mitad de presupuesto (t = 8), pareado por problema.
 ef.round(4)
 ```
 
@@ -186,6 +191,7 @@ mystnb:
       espacio de genes) por generación, promediada por modelo.
     name: fig-diversidad
 ---
+# Calcula y muestra los resultados de Diversidad genética y convergencia prematura.
 ga = h[(h.optimizador == "genetico")].dropna(subset=["generacion"])
 div = ga.groupby(["modelo", "generacion"]).diversidad.mean().unstack(0)
 fig, ax = plt.subplots(figsize=(8, 3.5))
@@ -213,6 +219,7 @@ a costa de presupuesto.
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Optimización multifidelidad.
 mf = pd.read_csv(RESULTADOS / "computacional" / "multifidelidad.csv")
 for m in mf.modelo.unique():
     a = mf[(mf.modelo == m) & mf.metodo.str.startswith("halving")].iloc[0]

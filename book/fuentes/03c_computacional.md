@@ -14,13 +14,14 @@ kernelspec:
 El experimento completo exigió del orden de 82.000 ajustes de modelos en un portátil con un
 procesador Intel Core i7-1255U (dos núcleos de rendimiento y ocho de eficiencia, doce hilos) y
 15,7 GB de memoria, sin GPU. Esta sección contrasta la complejidad teórica de cada modelo con su
-tiempo empírico, evalúa las variantes eficientes que propone la guía y documenta la
+tiempo empírico, evalúa variantes eficientes de cada algoritmo y documenta la
 paralelización y el perfilamiento que hicieron viable el experimento.
 
 ```{code-cell} ipython3
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Optimización computacional.
 import sys, json, warnings
 sys.path.insert(0, "..")
 warnings.filterwarnings("ignore")
@@ -45,6 +46,7 @@ mystnb:
       recta estima el exponente empírico de la complejidad.
     name: fig-escalamiento
 ---
+# Calcula y muestra los resultados de Complejidad teórica frente a tiempo empírico.
 fig, axs = plt.subplots(1, 2, figsize=(11, 4))
 for i, (m, g) in enumerate(esc[esc.variable == "n"].groupby("modelo")):
     c = (COLORES + ["#7a5c99", "#2f6b3a", "#9c6b30"])[i]
@@ -69,6 +71,7 @@ for m, v in exps[exps.variable == "n"].set_index("modelo").exponente_empirico.it
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Complejidad teórica frente a tiempo empírico.
 t.round(2)
 ```
 
@@ -94,6 +97,7 @@ rango subestima el orden asintótico.
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de KNN: estructuras de indexación y vecinos aproximados.
 knn = pd.read_csv(C / "knn.csv")
 base = knn.loc[knn.variante == "sklearn-brute", "t_consulta_ms"].iloc[0]
 knn["aceleración vs fuerza bruta"] = base / knn.t_consulta_ms
@@ -124,6 +128,7 @@ reemplazarlos por otros casi igual de cercanos apenas cambia la proporción de p
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Ridge y Lasso: solvers.
 pd.read_csv(C / "lineales.csv").round(4)
 ```
 
@@ -139,6 +144,7 @@ dan aquí; la decisión de usar el solver por defecto se apoya en esta medición
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Naive Bayes: aprendizaje incremental.
 pd.read_csv(C / "naive_bayes.csv").round(5)
 ```
 
@@ -156,6 +162,7 @@ subdiarias de toda la red.
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de XGBoost: histogramas y parada temprana.
 xg = pd.read_csv(C / "xgboost.csv")
 t_exact = xg.loc[xg.variante == "tree_method=exact", "t_fit"].iloc[0]
 t_hist = xg.loc[xg.variante == "tree_method=hist", "t_fit"].iloc[0]
@@ -178,6 +185,7 @@ parada temprana sobre el último 15 % cronológico del entrenamiento detiene el 
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de SVM: núcleo completo frente a aproximaciones lineales.
 sv = pd.read_csv(C / "svm.csv")
 t_rbf = sv.loc[sv.variante.str.startswith("SVC"), "t_fit"].iloc[0]
 sv["aceleración vs SVC"] = t_rbf / sv.t_fit
@@ -211,6 +219,7 @@ mystnb:
       (n_jobs) y para el paralelismo entre ajustes independientes con joblib (backend loky).
     name: fig-paralelo
 ---
+# Calcula y muestra los resultados de Paralelización.
 par = pd.read_csv(C / "paralelizacion.csv")
 fig, ax = plt.subplots(figsize=(7.5, 3.6))
 for (esc_, g), c in zip(par.groupby("escenario"), (RIO, SED)):
@@ -258,6 +267,7 @@ no tiene GPU NVIDIA, de modo que la aceleración con `device='cuda'` de XGBoost 
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Perfilamiento.
 perf = pd.read_csv(C / "perfil.csv")
 mem = pd.read_csv(C / "memoria.csv"); mem["modelo"] = mem.modelo.map(lambda m: NOMBRES_MODELO.get(m, m))
 display(perf.head(12).round(3))
@@ -279,6 +289,7 @@ carga de los procesos.
 ---
 tags: [hide-input]
 ---
+# Calcula y muestra los resultados de Modelo estándar frente a optimizado.
 filas = [
     ("KNN", "fuerza bruta", "FAISS HNSW", "O(n·p) por consulta", "O(log n) aprox.", knn.loc[knn.variante == "sklearn-brute", "t_consulta_ms"].iloc[0],
      knn.loc[knn.variante == "faiss-hnsw (aprox.)", "t_consulta_ms"].iloc[0], "ms/consulta",
