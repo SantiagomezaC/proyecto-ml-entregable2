@@ -15,7 +15,7 @@ kernelspec:
 ---
 tags: [hide-input]
 ---
-# Calcula y muestra los resultados de Resultados de clasificación.
+# Importa librerías y carga la tabla maestra, los mejores benchmarks y los modelos finales
 import sys, json, pickle, warnings
 sys.path.insert(0, "..")
 warnings.filterwarnings("ignore")
@@ -44,13 +44,13 @@ glue("n_tareas", len(pl), display=False)
 Las {glue:text}`n_combos` combinaciones se evaluaron en los doce bloques externos
 ({glue:text}`n_tareas` optimizaciones). La tabla muestra las veinte mejores según la PR-AUC
 media del bucle externo; la tabla completa, con los hiperparámetros de cada pliegue, el tiempo
-y la semilla, está en `results/tabla_maestra.csv` (capítulo 4).
+y la semilla, está en `results/tabla_maestra.csv` (capítulo 5).
 
 ```{code-cell} ipython3
 ---
 tags: [hide-input]
 ---
-# Calcula y muestra los resultados de Tabla maestra.
+# Las 20 mejores combinaciones según la PR-AUC media del bucle externo (media ± desviación)
 fmt = lambda m, s: f"{m:.3f} ± {s:.3f}"
 vista = res.sort_values("pr_auc_mean", ascending=False).head(20)
 pd.DataFrame({"Modelo": vista.nombre, "Balanceo": vista.balanceo_nombre, "Optimizador": vista.optimizador_nombre,
@@ -71,7 +71,7 @@ mystnb:
       un bloque de dos años; la caja resume los doce bloques.
     name: fig-cajas-modelos
 ---
-# Calcula y muestra los resultados de Tabla maestra.
+# Distribución de la PR-AUC por bloque externo de la mejor combinación de cada modelo
 orden = mejores.sort_values("pr_auc_mean", ascending=False).modelo.tolist()
 fig, ax = plt.subplots(figsize=(10, 3.9))
 datos_caja = []
@@ -168,7 +168,7 @@ mystnb:
       optimizadores y bloques). Valores positivos indican mejora.
     name: fig-balanceo
 ---
-# Calcula y muestra los resultados de Efecto del balanceo de clases.
+# Efecto de cada técnica de balanceo frente a no balancear, pareado por modelo, optimizador y bloque
 base = pl[pl.balanceo == "ninguno"].set_index(["modelo", "optimizador", "pliegue"])
 filas = []
 for b in ("smote", "adasyn", "balanced"):
@@ -207,7 +207,7 @@ for b in ("SMOTE", "ADASYN", "class_weight"):
 ---
 tags: [hide-input]
 ---
-# Calcula y muestra los resultados de Efecto del balanceo de clases.
+# Muestra la tabla del efecto del balanceo
 tab_b.round(4)
 ```
 
@@ -274,7 +274,7 @@ entrenamiento (1947-2009), se reentrenó el pipeline y se evaluó una única vez
 ---
 tags: [hide-input]
 ---
-# Calcula y muestra los resultados de Desempeño en la prueba reservada.
+# Métricas de cada modelo final en la prueba reservada 2010-2026
 y = D.y_clf_test.values
 filas = []
 for m in orden:
@@ -298,7 +298,7 @@ mystnb:
     caption: Curvas ROC y de precisión-exhaustividad en la prueba 2010-2026 de la mejor combinación de cada modelo.
     name: fig-roc-pr
 ---
-# Calcula y muestra los resultados de Desempeño en la prueba reservada.
+# Curvas ROC y de precisión-exhaustividad en la prueba
 fig, axs = plt.subplots(1, 2, figsize=(11, 4.2))
 for i, m in enumerate(orden):
     s = fin[m]["pred_test"]
@@ -321,7 +321,7 @@ mystnb:
     caption: Matrices de confusión en la prueba (umbral 0,5) de la mejor combinación de cada modelo.
     name: fig-confusion
 ---
-# Calcula y muestra los resultados de Desempeño en la prueba reservada.
+# Matrices de confusión en la prueba con umbral 0,5
 fig, axs = plt.subplots(1, len(orden), figsize=(14, 2.6))
 for ax, m in zip(axs, orden):
     cm = confusion_matrix(y, (fin[m]["pred_test"] >= .5).astype(int))
@@ -369,7 +369,7 @@ mystnb:
       recalibración de Platt ajustada con las predicciones fuera de muestra del bucle externo.
     name: fig-calibracion
 ---
-# Calcula y muestra los resultados de Calibración de probabilidades.
+# Calibración: diagrama de confiabilidad, Brier y ECE, antes y después de recalibrar con Platt
 filas = []
 fig, axs = plt.subplots(1, 2, figsize=(11, 4.2))
 for i, m in enumerate(orden):
@@ -400,7 +400,7 @@ glue("cal_peor_ece_platt", float(peor["ECE Platt"]), display=False)
 ---
 tags: [hide-input]
 ---
-# Calcula y muestra los resultados de Calibración de probabilidades.
+# Muestra la tabla de calibración
 cal.round(4)
 ```
 
@@ -424,7 +424,7 @@ cuando la decisión en las predicciones fuera de muestra fue favorable.
 ---
 tags: [hide-input]
 ---
-# Calcula y muestra los resultados de Robustez y estabilidad.
+# Robustez frente a la semilla: variabilidad entre semillas comparada con la variabilidad entre bloques
 rob = pd.read_csv(RESULTADOS / "robustez" / "robustez.csv")
 sem = rob[rob.tipo == "semilla"]
 var_sem = sem.groupby(["modelo", "pliegue"]).pr_auc.std().groupby("modelo").mean()
@@ -450,3 +450,85 @@ tiempo, las diez mejores combinaciones de la tabla maestra se separan en apenas
 entre semillas y muy inferior a la variabilidad entre bloques. Las diferencias entre los mejores
 benchmarks no son, por tanto, mayores que la variabilidad intrínseca de cada uno, y decidir entre
 ellos exige las pruebas formales de la sección de comparación estadística.
+
+## Sensibilidad al horizonte de predicción
+
+El horizonte de quince días se fijó al plantear el problema, antes de examinar el periodo de
+prueba. Para verificar que esa elección no convierte la tarea en un problema trivial ni en uno
+inabordable, se repitió el entrenamiento de los modelos finales de regresión logística y Random
+Forest con horizontes de 1, 7, 15, 30 y 60 días, conservando sus hiperparámetros, los predictores
+y el corte de prueba, y se comparó su PR-AUC con la de la persistencia, que supone que el río
+estará dentro de *h* días en la misma condición que hoy. El análisis es de sensibilidad y no se
+usó para elegir el horizonte.
+
+```{code-cell} ipython3
+---
+tags: [hide-input]
+mystnb:
+  figure:
+    caption: PR-AUC en la prueba 2010-2026 según el horizonte de predicción. La línea gris marca la
+      prevalencia de la clase positiva, que corresponde a una predicción sin información.
+    name: fig-sensibilidad-horizonte
+---
+# Reentrena la logística y Random Forest finales para cada horizonte y los compara con la persistencia
+from sklearn.metrics import average_precision_score
+from src.features import construir_tarea
+from src.splits import separar_prueba
+from src.models import construir_pipeline, puntaje_continuo
+from src.config import SEED
+caudales = pd.read_csv(DATOS_PROC / "caudales.csv", parse_dates=["fecha"])
+par_c = json.loads((DATOS_PROC / "parametros.json").read_text(encoding="utf-8"))["calamar"]
+filas = []
+for h in (1, 7, 15, 30, 60):
+    t_h = construir_tarea(caudales, "calamar", par_c["PREDICTORAS"], par_c["TRANSITOS"], par_c["Q_EF"],
+                          tuple(par_c["LIM"]), horizonte=h)
+    d_h, cols_h = t_h["datos"], t_h["columnas"]
+    i_tr, i_te = separar_prueba(d_h.fecha)
+    a, b = d_h.iloc[i_tr], d_h.iloc[i_te]
+    fila = {"Horizonte (días)": h, "Prevalencia": b.y.mean(),
+            "Persistencia": average_precision_score(b.y, b.calamar.between(*par_c["LIM"]).astype(int))}
+    for m in ("logistica", "random_forest"):
+        pipe_h = construir_pipeline("clf", m, fin[m]["params"], fin[m]["balanceo"], a.y.mean(), SEED)
+        pipe_h.fit(a[cols_h], a.y.astype(int))
+        fila[NOMBRES_MODELO[m]] = average_precision_score(b.y, puntaje_continuo(pipe_h, b[cols_h]))
+    filas.append(fila)
+hz = pd.DataFrame(filas).set_index("Horizonte (días)")
+nl, nr = NOMBRES_MODELO["logistica"], NOMBRES_MODELO["random_forest"]
+hz["Ventaja de RF sobre la persistencia"] = hz[nr] - hz["Persistencia"]
+
+fig, ax = plt.subplots(figsize=(8, 3.8))
+for col, c in ((nr, SED), (nl, CAU), ("Persistencia", RIO)):
+    ax.plot(hz.index, hz[col], "-o", color=c, label=col)
+ax.plot(hz.index, hz["Prevalencia"], ":", color=NEU, label="Prevalencia")
+ax.set(xlabel="Horizonte de predicción (días)", ylabel="PR-AUC en la prueba", xticks=list(hz.index))
+ax.legend(); ax.set_title("Desempeño según el horizonte", loc="left", fontweight="bold"); plt.show()
+
+for h in hz.index:
+    glue(f"hz_pers_{h}", float(hz.loc[h, "Persistencia"]), display=False)
+    glue(f"hz_rf_{h}", float(hz.loc[h, nr]), display=False)
+    glue(f"hz_log_{h}", float(hz.loc[h, nl]), display=False)
+    glue(f"hz_ven_{h}", float(hz.loc[h, "Ventaja de RF sobre la persistencia"]), display=False)
+```
+
+```{code-cell} ipython3
+---
+tags: [hide-input]
+---
+# Tabla de PR-AUC en la prueba por horizonte de predicción
+hz.round(3)
+```
+
+A un día de antelación la persistencia alcanza una PR-AUC de {glue:text}`hz_pers_1:.3f`, de modo
+que repetir el estado actual resuelve casi por completo la tarea y un modelo apenas aporta
+información. A medida que el horizonte crece, la persistencia pierde capacidad con rapidez,
+mientras que los modelos lo hacen con mayor lentitud. A quince días, Random Forest obtiene
+{glue:text}`hz_rf_15:.3f` y la regresión logística {glue:text}`hz_log_15:.3f`, frente a
+{glue:text}`hz_pers_15:.3f` de la persistencia, una ventaja de {glue:text}`hz_ven_15:.3f` para
+Random Forest. A treinta días la ventaja relativa se mantiene ({glue:text}`hz_ven_30:.3f`), pero
+el desempeño absoluto desciende a {glue:text}`hz_rf_30:.3f`, y a sesenta días a
+{glue:text}`hz_rf_60:.3f`. El horizonte de quince días ofrece, en consecuencia, una antelación
+suficiente para programar una purga o un dragado con un desempeño que todavía permite usar la
+predicción en la operación, y el problema a ese horizonte no es trivial, porque la persistencia
+queda muy por debajo de los modelos. La caída más lenta de Random Forest frente a la regresión
+logística en los horizontes largos es coherente con la ventaja de los modelos no lineales
+documentada en este capítulo.

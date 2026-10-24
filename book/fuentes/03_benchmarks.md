@@ -11,7 +11,7 @@ kernelspec:
 
 # Modelos benchmark: diseño experimental
 
-Este capítulo y sus secciones desarrollan el Entregable 2. Aquí se fija el diseño común a las
+Este capítulo y sus secciones presentan los modelos benchmark. Aquí se fija el diseño común a las
 140 combinaciones (validación anidada, espacios de búsqueda, optimizadores y técnicas de
 balanceo); las secciones siguientes presentan los resultados de clasificación, la comparación
 de los optimizadores, la optimización computacional, la tarea de regresión, la comparación
@@ -21,7 +21,7 @@ estadística y la interpretabilidad.
 ---
 tags: [hide-input]
 ---
-# Calcula y muestra los resultados de Modelos benchmark: diseño experimental.
+# Importa librerías y carga las particiones externas de la validación anidada
 import sys, json; sys.path.insert(0, "..")
 import numpy as np, pandas as pd
 from myst_nb import glue
@@ -87,7 +87,7 @@ cuadrático medio.
 ---
 tags: [hide-input]
 ---
-# Calcula y muestra los resultados de Espacios de búsqueda.
+# Tabla de los espacios de búsqueda de hiperparámetros de cada modelo
 filas = []
 for tarea, esp in (("clasificación", ESPACIOS_CLF), ("regresión", ESPACIOS_REG)):
     for m, params in esp.items():

@@ -17,5 +17,5 @@ parts:
           - file: 03f_interpretabilidad
   - caption: Cierre
     chapters:
-      - file: 04_reproducibilidad
       - file: 05_conclusiones
+      - file: 04_reproducibilidad

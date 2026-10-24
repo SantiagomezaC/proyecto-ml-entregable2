@@ -11,7 +11,7 @@ kernelspec:
 
 # Datos: ETL y análisis exploratorio
 
-Este capítulo reconstruye el ETL del Entregable 1 como un módulo reproducible
+Este capítulo reconstruye el ETL de la versión anterior como un módulo reproducible
 (`src/etl.py`, `src/features.py`) e incorpora las tres correcciones solicitadas: el periodo
 de modelado comienza cuando toda la red de estaciones está instalada, los intervalos de
 confianza se obtienen con bootstrap por bloques y el parámetro de regularización del modelo
@@ -21,7 +21,7 @@ periodos y la sensibilidad del desempeño a la estrategia de imputación.
 
 ```{code-cell} ipython3
 :tags: [hide-input]
-# Calcula y muestra los resultados de Datos: ETL y análisis exploratorio.
+# Importa librerías, carga la serie de caudales y los parámetros de la estación objetivo
 import sys, json, warnings
 sys.path.insert(0, "..")
 warnings.filterwarnings("ignore")
@@ -54,7 +54,7 @@ originales.
 
 ```{code-cell} ipython3
 :tags: [hide-input]
-# Calcula y muestra los resultados de Fuente, estructura y ETL.
+# Resume por estación el primer y último dato y el porcentaje de días sin registro
 filas = []
 for e in EST:
     s = caudales.set_index("fecha")[e]
@@ -76,7 +76,7 @@ etapa.
 
 ## Corrección 1: periodo de modelado y mecanismo de los faltantes
 
-La retroalimentación del Entregable 1 señaló que la imputación por mediana de estaciones que
+La retroalimentación sobre la versión anterior señaló que la imputación por mediana de estaciones que
 aún no existían carecía de justificación. La observación es correcta y su alcance era mayor
 de lo que el informe original reconocía: entre el 40 % y el 48 % de los valores de El Banco,
 San Roque, Tres Cruces y Coyongal eran medianas asignadas a años anteriores a su instalación.
@@ -94,7 +94,7 @@ mystnb:
       punteada, el del diseño alternativo con la red completa (1976).
     name: fig-cobertura
 ---
-# Calcula y muestra los resultados de Corrección 1: periodo de modelado y mecanismo de los faltantes.
+# Mapa de calor de la cobertura anual del registro por estación
 cob = caudales.set_index("fecha")[EST].notna().resample("YS").mean() * 100
 fig, ax = plt.subplots(figsize=(10, 3.4))
 im = ax.imshow(cob.T, aspect="auto", cmap=estilo.mapa_seq(), vmin=0, vmax=100,
@@ -112,21 +112,21 @@ La primera conserva las seis estaciones y recorta el periodo de modelado a 1976,
 conserva el periodo largo y restringe los predictores a las estaciones que existen durante
 todo él: Calamar, la estación objetivo, y Puerto Salgar, con registro desde 1946, de modo que
 el modelado empieza el 1 de enero de 1947. Se exige además un mínimo de 20.000 observaciones.
-La tabla siguiente compara los tres diseños (el del Entregable 1 y las dos
+La tabla siguiente compara los tres diseños (el de la versión anterior y las dos
 alternativas) con los mismos modelos de referencia evaluados en la prueba reservada.
 
 ```{code-cell} ipython3
 ---
 tags: [hide-input]
 ---
-# Calcula y muestra los resultados de Corrección 1: periodo de modelado y mecanismo de los faltantes.
+# Compara el desempeño de los tres diseños de periodo y estaciones (imputado, recorte a 1976 y adoptado)
 from src.features import construir_tarea
 from src.splits import separar_prueba
 from sklearn.metrics import average_precision_score
 from xgboost import XGBClassifier
 from src.models import construir_pipeline
 disenos = {
-    "Entregable 1: seis estaciones desde 1940, imputadas": (["coyongal", "el_banco", "pto_salgar", "san_roque", "tres_cruces"], "1940-01-01"),
+    "Versión anterior: seis estaciones desde 1940, imputadas": (["coyongal", "el_banco", "pto_salgar", "san_roque", "tres_cruces"], "1940-01-01"),
     "Alternativa: seis estaciones desde 1976": (["coyongal", "el_banco", "pto_salgar", "san_roque", "tres_cruces"], "1976-01-01"),
     "Adoptado: Calamar y Puerto Salgar desde 1947": (["pto_salgar"], "1947-01-01"),
 }
@@ -158,12 +158,12 @@ debajo del mínimo exigido. El diseño adoptado cumple ambas exigencias: no impu
 estación en años en que no existía y dispone de {glue:text}`n_a47:,` observaciones. La
 comparación empírica lo respalda. Con XGBoost, la PR-AUC en la prueba es
 {glue:text}`xg_a47:.3f` con Calamar y Puerto Salgar desde 1947, frente a {glue:text}`xg_r76:.3f`
-con las seis estaciones desde 1976 y {glue:text}`xg_e1:.3f` con el diseño del Entregable 1; con
+con las seis estaciones desde 1976 y {glue:text}`xg_e1:.3f` con el diseño anterior; con
 la regresión logística, menos sensible al tamaño de la muestra, los tres valores
 ({glue:text}`lr_a47:.3f`, {glue:text}`lr_r76:.3f` y {glue:text}`lr_e1:.3f`) difieren en menos de
 una centésima. En conjunto, los resultados indican que la ventaja del modelo no lineal proviene
 de los treinta años adicionales de registro, que abarcan más ciclos de El Niño y La Niña, y no las estaciones
-del bajo Magdalena. El diseño del Entregable 1 alcanzaba casi el mismo desempeño que el adoptado
+del bajo Magdalena. El diseño anterior alcanzaba casi el mismo desempeño que el adoptado
 porque también usaba el periodo largo, pero lo hacía alimentando cuatro predictores con medianas
 durante tres décadas; el diseño adoptado obtiene el mismo resultado sin esa imputación. La
 información anticipada de las estaciones del bajo Magdalena está en buena parte contenida en el
@@ -176,7 +176,7 @@ descarga efectiva se mantiene sobre 1940-2009, porque solo usa la serie de Calam
 ---
 tags: [hide-input]
 ---
-# Calcula y muestra los resultados de Corrección 1: periodo de modelado y mecanismo de los faltantes.
+# Mecanismo de los faltantes: caudal de Calamar en días con y sin registro (Mann-Whitney y A de Vargha-Delaney)
 inicio_op = {"pto_salgar": "1947-01-01", "arrancaplumas": "1947-01-01"}
 filas = []
 for e in EST:
@@ -224,7 +224,7 @@ condicional.
 
 ```{code-cell} ipython3
 :tags: [hide-input]
-# Calcula y muestra los resultados de Auditoría de la serie de transporte y descarga efectiva.
+# Resume la auditoría de la serie de transporte: ajuste Qs = a·Q^b por bloques de cinco años
 aud = pd.read_csv(DATOS_PROC / "auditoria_transporte.csv")
 glue("r2_min", float(aud.r2.min()), display=False)
 glue("n_r2_alto", int((aud.r2 > 0.997).sum()), display=False)
@@ -236,7 +236,7 @@ aud.rename(columns={"bloque": "Bloque", "a": "a", "b": "Exponente b", "r2": "R²
     {"Exponente b": 3, "R²": 5})
 ```
 
-La auditoría confirma el resultado del Entregable 1. En {glue:text}`n_r2_alto` de los
+La auditoría confirma el resultado de la versión anterior. En {glue:text}`n_r2_alto` de los
 {glue:text}`n_bloques_aud` bloques quinquenales la relación entre el transporte publicado y el
 caudal es una potencia con R² superior a 0,997; el bloque restante ({glue:text}`bloque_r2_min`,
 R² = {glue:text}`r2_min:.3f`) es aquel en que el exponente pasa de 1,44 a 1,94, de modo que
@@ -254,7 +254,7 @@ mystnb:
       frecuencia por el transporte de un día típico; su máximo define la descarga efectiva.
     name: fig-mf
 ---
-# Calcula y muestra los resultados de Auditoría de la serie de transporte y descarga efectiva.
+# Figura del análisis magnitud-frecuencia: frecuencia y carga transportada por clase de caudal
 mf = pd.read_csv(DATOS_PROC / "magnitud_frecuencia.csv")
 fig, ax = plt.subplots(figsize=(9.5, 3.8))
 ax.bar(mf.q_centro, 100 * mf.frec_rel, width=mf.q_sup - mf.q_inf, color=CAU, alpha=.45, label="Frecuencia")
@@ -283,7 +283,7 @@ mystnb:
       entrenamiento (1947-2009) de la prueba reservada (2010-2026).
     name: fig-prev
 ---
-# Calcula y muestra los resultados de Variable objetivo.
+# Proporción anual de días en la banda de descarga efectiva, en entrenamiento y en prueba
 tr = tarea[tarea.fecha < FECHA_CORTE_TEST]; te = tarea[tarea.fecha >= pd.Timestamp(FECHA_CORTE_TEST) + pd.Timedelta(days=30)]
 anual = tarea.groupby(tarea.fecha.dt.year).y.mean() * 100
 fig, ax = plt.subplots(figsize=(10, 3.2))
@@ -315,7 +315,7 @@ distintas.
 
 ```{code-cell} ipython3
 :tags: [hide-input]
-# Calcula y muestra los resultados de Análisis univariado y bivariado.
+# Estadísticos descriptivos, asimetría, curtosis y atípicos por IQR de cada estación
 cols_q = [e for e in EST if e != "arrancaplumas"]
 d47m = caudales[caudales.fecha >= INICIO_MODELADO]
 desc = d47m[cols_q].describe(percentiles=[.05, .25, .5, .75, .95]).T
@@ -344,7 +344,7 @@ mystnb:
       Magdalena forman dos bloques débilmente acoplados.
     name: fig-corr
 ---
-# Calcula y muestra los resultados de Análisis univariado y bivariado.
+# Matriz de correlación de Spearman entre estaciones (1976-2009)
 d76 = caudales[(caudales.fecha >= "1976-01-01") & (caudales.fecha < FECHA_CORTE_TEST)]
 cm = d76[EST].corr(method="spearman")
 fig, ax = plt.subplots(figsize=(6.4, 5.2))
@@ -360,7 +360,7 @@ plt.show()
 
 ```{code-cell} ipython3
 :tags: [hide-input]
-# Calcula y muestra los resultados de Análisis univariado y bivariado.
+# Información mutua de cada predictor con la clase y factores de inflación de varianza (VIF)
 from sklearn.feature_selection import mutual_info_classif
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 cols = par["BASE_COLS"] + par["DOM_COLS"]
@@ -390,7 +390,7 @@ del caudal en bruto, lo que confirma que la condición de banda no es monótona 
 día con caudal muy alto está tan lejos de la banda como uno con caudal muy bajo. El factor de
 inflación de varianza supera 10 en {glue:text}`vif_altos` variables, y es infinito para
 `dist_qef` y `dist_qef_rel`, que difieren solo en la escala (la segunda es la primera dividida
-por $Q_{ef}$); esa redundancia exacta, heredada del Entregable 1, es inocua para los árboles y
+por $Q_{ef}$); esa redundancia exacta, heredada de la versión anterior, es inocua para los árboles y
 la absorbe la regularización en los modelos lineales. El resto de la multicolinealidad es física (rezagos sucesivos de una serie con autocorrelación de 0,999 y estaciones vecinas
 sobre el mismo cauce) y no se elimina por selección de variables; se trata con regularización
 en los modelos lineales, cuyo parámetro se ajusta en la sección de correcciones 2 y 3.
@@ -399,7 +399,7 @@ en los modelos lineales, cuyo parámetro se ajusta en la sección de correccione
 
 ```{code-cell} ipython3
 :tags: [hide-input]
-# Calcula y muestra los resultados de Componente temporal.
+# Pruebas de estacionariedad (ADF y KPSS), autocorrelación y descomposición STL del caudal mensual
 from statsmodels.tsa.stattools import adfuller, kpss, acf, pacf
 from statsmodels.tsa.seasonal import STL
 s = caudales[(caudales.fecha >= INICIO_MODELADO) & (caudales.fecha < FECHA_CORTE_TEST)].set_index("fecha").calamar
@@ -442,7 +442,7 @@ mystnb:
     caption: Descomposición STL robusta del caudal medio mensual en Calamar (1947-2009).
     name: fig-stl
 ---
-# Calcula y muestra los resultados de Componente temporal.
+# Figura de la descomposición STL: observado, tendencia, estacionalidad y residuo
 fig, axs = plt.subplots(4, 1, figsize=(10, 6.4), sharex=True)
 for ax, (serie, nombre, c) in zip(axs, [(mens, "Observado", RIO), (stl.trend, "Tendencia", SED),
                                         (stl.seasonal, "Estacional", CAU), (stl.resid, "Residuo", NEU)]):
@@ -461,7 +461,7 @@ se cuantifica a continuación.
 
 ```{code-cell} ipython3
 :tags: [hide-input]
-# Calcula y muestra los resultados de Componente temporal.
+# Deriva de las distribuciones entre periodos con el índice de estabilidad poblacional (PSI)
 def psi(a, b, bins=10):
     q = np.quantile(a, np.linspace(0, 1, bins + 1)); q[0], q[-1] = -np.inf, np.inf
     pa, pb_ = np.histogram(a, q)[0] / len(a), np.histogram(b, q)[0] / len(b)
@@ -504,7 +504,7 @@ favor del diseño adoptado, que no usa esas estaciones como predictores de Calam
 
 ```{code-cell} ipython3
 :tags: [hide-input]
-# Calcula y muestra los resultados de Componente temporal.
+# Contrasta los tiempos de tránsito con la altitud y la latitud de las estaciones
 from src.etl import tiempos_transito
 ubic = pd.read_csv(DATOS_PROC / "ubicaciones.csv")
 ubic.columns = ["estacion", "codigo", "departamento", "municipio", "lat", "lon", "altitud"]
@@ -518,11 +518,32 @@ glue("rs_alt", rs, display=False); glue("rp_lat", rp, display=False)
 g[["estacion", "municipio", "altitud", "lat", "transito"]].sort_values("transito", ascending=False)
 ```
 
-Los tiempos de tránsito de la onda de crecida hacia Calamar, estimados en el Entregable 1 por
+Los tiempos de tránsito de la onda de crecida hacia Calamar, estimados en la versión anterior por
 correlación cruzada sin usar información geográfica, crecen con la distancia al mar: su
 correlación de Spearman con la altitud es {glue:text}`rs_alt:.2f` y la de Pearson con la latitud
 es {glue:text}`rp_lat:.2f`. Esa concordancia externa respalda el uso de cada estación desfasada
 por su tiempo de tránsito.
+
+```{code-cell} ipython3
+---
+tags: [hide-input]
+mystnb:
+  figure:
+    caption: Tiempo de tránsito estimado por correlación cruzada frente a la altitud (a) y la latitud (b) de
+      cada estación. Los rezagos se estimaron solo con las series de caudal, sin información geográfica.
+    name: fig-transito-geografia
+---
+# Figura del tiempo de tránsito frente a la altitud y la latitud de cada estación
+fig, axs = plt.subplots(1, 2, figsize=(10, 3.8), sharey=True)
+for ax, col, xl in ((axs[0], "altitud", "Altitud (m s. n. m.)"), (axs[1], "lat", "Latitud (°)")):
+    ax.scatter(g[col], g.transito, s=60, color=SED, zorder=3)
+    for _, f in g.iterrows():
+        ax.annotate(NL[f.clave], (f[col], f.transito), textcoords="offset points", xytext=(6, 4), fontsize=8)
+    ax.set_xlabel(xl)
+axs[0].set_ylabel("Tiempo de tránsito a Calamar (días)")
+axs[0].set_title("(a) Altitud", loc="left"); axs[1].set_title("(b) Latitud", loc="left")
+plt.tight_layout(); plt.show()
+```
 
 ## Análisis multivariado
 
@@ -535,7 +556,7 @@ mystnb:
       Varianza explicada acumulada; (b) proyección en las dos primeras componentes, coloreada por clase.
     name: fig-pca
 ---
-# Calcula y muestra los resultados de Análisis multivariado.
+# Análisis multivariado: PCA, Isolation Forest y distancia de Mahalanobis robusta (MCD)
 from sklearn.decomposition import PCA
 from sklearn.ensemble import IsolationForest
 from sklearn.covariance import MinCovDet
@@ -585,7 +606,7 @@ detección de atípicos se apoya en Isolation Forest, que no requiere ese supues
 
 ```{code-cell} ipython3
 :tags: [hide-input]
-# Calcula y muestra los resultados de Auditoría de fuga de datos.
+# Auditoría de fuga: AUC univariado de cada predictor sobre el entrenamiento
 from sklearn.metrics import roc_auc_score
 fuga = pd.DataFrame([{"variable": c, "AUC": max(roc_auc_score(tr.y, Xtr[c]), 1 - roc_auc_score(tr.y, Xtr[c]))}
                      for c in cols]).sort_values("AUC", ascending=False)
@@ -620,7 +641,7 @@ la única entidad es la red de estaciones.
 
 ```{code-cell} ipython3
 :tags: [hide-input]
-# Calcula y muestra los resultados de Corrección 2 y 3: modelo base con regularización ajustada e intervalos por bloques.
+# Modelo base corregido: ajuste de C con TimeSeriesSplit e intervalos por bootstrap de bloques
 from sklearn.model_selection import GridSearchCV, TimeSeriesSplit
 from sklearn.metrics import average_precision_score, f1_score
 from src.models import construir_pipeline
@@ -638,7 +659,7 @@ pers = D.X_test["dist_qef"].values <= 0.15 * par["Q_EF"]
 pers = pers.astype(float)
 L = longitud_bloque(y.astype(float))
 filas = []
-for nombre, s in (("Persistencia", pers), ("Logística C = 1 (Entregable 1)", p_def), (f"Logística C = {C_opt:.3g}, {pen}", p_ajust)):
+for nombre, s in (("Persistencia", pers), ("Logística C = 1 (versión anterior)", p_def), (f"Logística C = {C_opt:.3g}, {pen}", p_ajust)):
     ic_b = bootstrap_bloques(average_precision_score, y, s, media_bloque=L, n_boot=1000)
     rng = np.random.default_rng(SEED); iid = []
     for _ in range(1000):
@@ -659,7 +680,7 @@ El parámetro de regularización se elige ahora por búsqueda en rejilla con val
 cronológica de cinco pliegues y separación de 30 días sobre el entrenamiento, entre once
 valores de C de $10^{-3}$ a $10^{2}$ y las penalizaciones L1 y L2. El óptimo es
 C = {glue:text}`c_opt:.3g` con penalización {glue:text}`pen`, que con el diseño corregido coincide
-con el valor por defecto empleado en el Entregable 1: la diferencia está en que ahora la
+con el valor por defecto empleado en la versión anterior: la diferencia está en que ahora la
 elección se sustenta en la validación y no en la omisión del ajuste. En el capítulo siguiente
 este ajuste se generaliza a la validación anidada de los 140 modelos. Los intervalos de confianza se
 recalculan con bootstrap estacionario {cite}`politis1994`, cuya longitud media de bloque

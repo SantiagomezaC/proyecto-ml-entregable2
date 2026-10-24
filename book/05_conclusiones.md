@@ -2,7 +2,7 @@
 
 ## Hallazgos
 
-El primer hallazgo proviene de las correcciones al Entregable 1. La imputación de estaciones que
+El primer hallazgo proviene de las correcciones a la versión anterior del estudio. La imputación de estaciones que
 aún no existían inflaba la información aparente del modelo; al restringir los predictores a las
 estaciones que existen en todo el periodo (Calamar y Puerto Salgar, desde 1947) el problema
 queda libre de imputaciones estructurales, conserva 28.558 observaciones y no pierde desempeño,

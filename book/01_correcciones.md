@@ -1,6 +1,6 @@
-# Respuesta a la evaluación del Entregable 1
+# Correcciones a la versión anterior
 
-La evaluación del Entregable 1 reconoció la auditoría de la serie de transporte de sedimentos,
+La evaluación de la versión anterior del estudio reconoció la auditoría de la serie de transporte de sedimentos,
 la estimación robusta de la descarga efectiva, la verificación geográfica de los tiempos de
 tránsito y el uso de la persistencia como modelo de referencia. Identificó, además, tres
 problemas metodológicos del modelo base: los intervalos de confianza se obtuvieron remuestreando
@@ -30,7 +30,7 @@ sesgo que se buscaba corregir.
 
 La misma dependencia afecta la comparación entre modelos. Los pliegues de una validación
 cronológica comparten la mayor parte del conjunto de entrenamiento, por lo que sus puntajes no
-son independientes y la prueba t pareada del Entregable 1 subestimaba la varianza de las
+son independientes y la prueba t pareada de la versión anterior subestimaba la varianza de las
 diferencias. Las comparaciones sobre los doce bloques externos se basan ahora en la prueba de
 Wilcoxon con corrección de Holm y en la t corregida de Nadeau y Bengio {cite}`nadeau2003`, que infla la varianza por
 el factor $1/k + n_{\text{prueba}}/n_{\text{entrenamiento}}$. Para que estas pruebas pareadas sean
@@ -40,7 +40,7 @@ los mismos bloques.
 
 ## Regularización del modelo base
 
-En el Entregable 1 la regresión logística se entrenó con el valor por defecto C = 1. En esta
+En la versión anterior la regresión logística se entrenó con el valor por defecto C = 1. En esta
 versión, C se selecciona por búsqueda en rejilla entre once valores espaciados
 logarítmicamente de $10^{-3}$ a $10^{2}$, con penalización L1 o L2, mediante validación
 cronológica de cinco pliegues sobre el entrenamiento 1947-2009 y una separación de 30 días entre
@@ -71,7 +71,7 @@ predictores a las estaciones con registro en todo ese intervalo, Calamar y Puert
 operación desde 1946), con 28.558 observaciones después de descontar la separación de 30 días
 entre entrenamiento y prueba. Con los mismos modelos de referencia y la misma prueba, XGBoost
 obtiene una PR-AUC de 0,941 con el segundo diseño, frente a 0,919 con el recorte a 1976 y 0,940
-con el diseño imputado del Entregable 1; en la regresión logística los tres valores (0,880, 0,882
+con el diseño imputado de la versión anterior; en la regresión logística los tres valores (0,880, 0,882
 y 0,875) difieren en menos de una centésima. La ventaja del modelo no lineal proviene, por tanto,
 de los treinta años adicionales de registro, que abarcan más ciclos de El Niño y La Niña y un
 intervalo más amplio de estados hidrológicos, y no de las estaciones del bajo Magdalena. Esto es
@@ -85,7 +85,7 @@ En el diseño adoptado el faltante residual es operativo: el 1,2 % de los días 
 sin registro de cada estación mediante la prueba de Mann-Whitney, el tamaño de efecto A de Vargha
 y Delaney y la corrección de Holm. En Puerto Salgar A = 0,379, lo que indica que los huecos se
 concentran en aguas bajas; el mecanismo es MAR respecto del caudal de Calamar y no MCAR. Este
-diagnóstico corrige también un argumento del Entregable 1, que invocaba el mecanismo MAR para
+diagnóstico corrige también un argumento de la versión anterior, que invocaba el mecanismo MAR para
 justificar la mediana sin distinguir los faltantes estructurales de los operativos. Bajo un
 mecanismo MAR la imputación apropiada es la condicional, y la mediana solo es defendible si su
 efecto sobre el desempeño es despreciable. En los doce bloques externos, la diferencia media de
@@ -114,7 +114,7 @@ estructura.
 
 El README se reescribió con la descripción del problema, la estructura del repositorio, la
 instalación del entorno, los comandos de reproducción en orden y la ejecución de las pruebas.
-El ETL y la construcción de variables, que en el Entregable 1 residían en celdas de cuaderno con
+El ETL y la construcción de variables, que en la versión anterior residían en celdas de cuaderno con
 rutas absolutas, se trasladaron a los módulos `src/etl.py` y `src/features.py`, con rutas
 relativas centralizadas en `src/config.py`; el comando `python -m scripts.etl` regenera todas las
 tablas de `data/processed/`.

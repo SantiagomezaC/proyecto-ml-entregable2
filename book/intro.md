@@ -1,9 +1,9 @@
-# Descarga efectiva en el río Magdalena
+# Anticipación de los periodos de descarga efectiva en el río Magdalena
 
 Autores: Kevin Clemente y Manuel Meza
 Maestría · Universidad del Norte · Machine Learning, 2026-30
 
-```{admonition} Entregable 2: modelos benchmark
+```{admonition} Modelos benchmark
 :class: tip
 - **Repositorio:** <https://github.com/SantiagomezaC/proyecto-ml-entregable2>
 - **Libro en línea:** <https://santiagomezac.github.io/proyecto-ml-entregable2>
@@ -11,7 +11,7 @@ Maestría · Universidad del Norte · Machine Learning, 2026-30
 
 ## Resumen ejecutivo
 
-Este libro documenta el Entregable 2 del proyecto. A partir de 28.558 días de registro del
+Este libro documenta la evaluación de los modelos benchmark del proyecto. A partir de 28.558 días de registro del
 IDEAM (1947-2026) en Calamar y Puerto Salgar, se predice si el caudal del día *t* + 15 caerá en
 la banda de ±15 % alrededor de la descarga efectiva de Calamar (9.954 m³/s), una tarea de
 clasificación con 26 % de casos positivos; como tarea auxiliar de regresión se predice el propio
@@ -44,7 +44,7 @@ y campañas de muestreo de sedimentos.
 
 ## Objetivos
 
-1. Corregir el análisis del Entregable 1 según la retroalimentación recibida y ampliar el
+1. Corregir el análisis de la versión anterior del estudio según la retroalimentación recibida y ampliar el
    análisis exploratorio.
 2. Entrenar, optimizar y comparar estadísticamente 140 combinaciones de modelos, técnicas de
    balanceo y métodos de optimización con validación anidada cronológica.
@@ -53,9 +53,9 @@ y campañas de muestreo de sedimentos.
 
 ## Mapa del libro
 
-El capítulo 1 registra las correcciones al Entregable 1. El capítulo 2 reconstruye el ETL y
+El capítulo 1 registra las correcciones a la versión anterior del estudio. El capítulo 2 reconstruye el ETL y
 amplía el análisis exploratorio. El capítulo 3 y sus secciones presentan los modelos y sus
 resultados: diseño experimental, clasificación, comparación de optimizadores, optimización
-computacional, regresión, comparación estadística e interpretabilidad. El capítulo 4 documenta
-el entorno, la semilla, la tabla maestra de experimentos y la bibliografía, y el capítulo 5
-reúne las conclusiones.
+computacional, regresión, comparación estadística e interpretabilidad. El capítulo 4 reúne
+las conclusiones, y el capítulo 5 documenta el entorno, la semilla, la tabla maestra de
+experimentos y la bibliografía.
