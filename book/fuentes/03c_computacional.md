@@ -37,6 +37,10 @@ esc = pd.read_csv(C / "escalamiento.csv"); exps = pd.read_csv(C / "exponentes.cs
 
 ## Complejidad teórica frente a tiempo empírico
 
+La {numref}`fig-escalamiento` muestra cómo crece el tiempo de entrenamiento de cada modelo con el
+número de observaciones y de variables, en escala logarítmica, de modo que la pendiente de cada
+recta es el exponente empírico de su complejidad.
+
 ```{code-cell} ipython3
 ---
 tags: [hide-input]
@@ -66,6 +70,9 @@ t = t.rename(columns={"n": "exponente empírico en n", "p": "exponente empírico
 for m, v in exps[exps.variable == "n"].set_index("modelo").exponente_empirico.items():
     glue(f"exp_{m}", float(v), display=False)
 ```
+
+La tabla siguiente compara esos exponentes con el orden teórico del entrenamiento y de la
+inferencia de cada modelo.
 
 ```{code-cell} ipython3
 ---
@@ -285,6 +292,10 @@ carga de los procesos.
 
 ## Modelo estándar frente a optimizado
 
+La tabla final reúne, para los modelos en que la optimización computacional cambió la decisión
+de diseño, la versión estándar y la optimizada con su complejidad, sus tiempos y su efecto sobre
+la PR-AUC.
+
 ```{code-cell} ipython3
 ---
 tags: [hide-input]
@@ -313,3 +324,10 @@ tabla_so.insert(7, "Inferencia estándar (ms/fila)", inf_std); tabla_so.insert(8
 tabla_so["Memoria estándar (MB)"] = mem_std; tabla_so["Memoria optimizada (MB)"] = mem_opt
 tabla_so.round(4)
 ```
+
+En los tres casos la versión optimizada reduce el tiempo en uno o más órdenes de magnitud con un
+cambio de PR-AUC del orden de milésimas, que es menor que la variación entre semillas del propio
+modelo. El costo aparece en otra dimensión: HNSW cambia exactitud por velocidad al recuperar solo
+una parte de los vecinos exactos, y Nyström cambia memoria por tiempo. Ninguno de esos costos
+afectó las conclusiones del estudio, y sin estas optimizaciones la validación anidada de las 140
+combinaciones no habría sido viable en un computador portátil.

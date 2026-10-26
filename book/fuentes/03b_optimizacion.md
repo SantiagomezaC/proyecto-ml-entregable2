@@ -11,6 +11,10 @@ kernelspec:
 
 # Comparación de los métodos de optimización
 
+Los cuatro métodos de búsqueda de hiperparámetros (rejilla, búsqueda aleatoria, TPE y algoritmo
+genético) se aplicaron con el mismo presupuesto a los mismos problemas. Esta sección responde dos
+preguntas: si alguno encuentra mejores configuraciones y si alguno las encuentra antes.
+
 ```{code-cell} ipython3
 ---
 tags: [hide-input]
@@ -95,6 +99,9 @@ llega antes, que responde la curva de convergencia.
 
 ## Convergencia: desempeño en cualquier momento
 
+La {numref}`fig-anytime` mide cuánto de la mejora alcanzable ha conseguido cada método después de
+cada evaluación, con el puntaje normalizado entre el peor y el mejor valor de cada problema.
+
 ```{code-cell} ipython3
 ---
 tags: [hide-input]
@@ -141,6 +148,10 @@ for a, b in (("bayes", "grid"), ("bayes", "random"), ("genetico", "grid"), ("gen
                   "p (Wilcoxon, unilateral)": w.pvalue, "δ de Cliff": delta_cliff(p8[a], p8[b])})
 ef = pd.DataFrame(filas); ef["p (Holm)"] = holm(ef["p (Wilcoxon, unilateral)"].values)
 ```
+
+La tabla siguiente resume ese progreso con dos medidas: la fracción de la mejora alcanzada a mitad
+del presupuesto y el área bajo la curva anytime, con las pruebas que contrastan a los métodos
+guiados por el historial con los que no lo usan.
 
 ```{code-cell} ipython3
 ---

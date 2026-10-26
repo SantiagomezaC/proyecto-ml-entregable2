@@ -17,6 +17,8 @@ análisis con una tarea continua, ofrece una lectura complementaria del problema
 precisa del caudal no garantiza una clasificación precisa de la banda, porque los errores que
 importan para la clase son los que ocurren cerca de los límites.
 
+La tabla resume las mejores combinaciones de regresión según el RMSE medio del bucle externo.
+
 ```{code-cell} ipython3
 ---
 tags: [hide-input]
@@ -50,7 +52,15 @@ pd.DataFrame({"Modelo": vista.nombre, "Optimizador": vista.optimizador_nombre,
               "MAPE (%)": vista.mape_mean.round(2), "Tiempo total (s)": vista.t_total.round(0)}).reset_index(drop=True)
 ```
 
+SVR y XGBoost ocupan las primeras posiciones con los cuatro optimizadores, con RMSE externos entre
+576 y 600 m³/s; las diferencias entre ellas son de pocas decenas de m³/s, mucho menores que su
+desviación entre bloques, de alrededor de 70 m³/s. Como en la clasificación, la elección del
+algoritmo pesa más que la del optimizador.
+
 ## Métricas en la prueba reservada
+
+La tabla siguiente compara los siete regresores finales con la persistencia en la prueba
+reservada, junto con las pruebas de los supuestos del residuo.
 
 ```{code-cell} ipython3
 ---
@@ -85,6 +95,8 @@ glue("reg_acf1", float(tab_prue.set_index("Modelo").loc[NOMBRES_MODELO[mejor_reg
 tab_test.round(3)
 ```
 
+La tabla siguiente aplica a los residuos de cada modelo las pruebas de homocedasticidad, independencia y normalidad.
+
 ```{code-cell} ipython3
 ---
 tags: [hide-input]
@@ -112,6 +124,10 @@ independientes, y por eso la sección de comparación estadística usa estadíst
 de largo plazo y bootstrap estacionario.
 
 ## Entrenamiento, validación y prueba
+
+La {numref}`fig-reg-series` superpone el caudal observado y el predicho por el mejor regresor en
+los tres segmentos del registro: el ajuste dentro de muestra, las predicciones fuera de muestra de
+la validación externa y la prueba reservada.
 
 ```{code-cell} ipython3
 ---
@@ -147,6 +163,8 @@ ax.axhspan(*LIM, color=ALE, alpha=.07, label="Banda de descarga efectiva")
 ax.set(ylabel="Caudal en t+15 (m³/s)", title=f"{NOMBRES_MODELO[mejor_reg]}: observado frente a predicho")
 ax.legend(ncol=4, fontsize=8, loc="upper left"); plt.show()
 ```
+
+La tabla siguiente cuantifica el error de cada segmento y lo compara con la persistencia.
 
 ```{code-cell} ipython3
 ---

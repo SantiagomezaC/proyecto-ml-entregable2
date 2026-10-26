@@ -9,13 +9,13 @@ kernelspec:
   name: ml-final
 ---
 
-# Modelos benchmark: diseño experimental
+# Modelos de referencia: diseño experimental
 
-Este capítulo y sus secciones presentan los modelos benchmark. Aquí se fija el diseño común a las
+Este capítulo y sus secciones presentan los modelos de referencia. Aquí se fija el diseño común a las
 140 combinaciones (validación anidada, espacios de búsqueda, optimizadores y técnicas de
 balanceo); las secciones siguientes presentan los resultados de clasificación, la comparación
 de los optimizadores, la optimización computacional, la tarea de regresión, la comparación
-estadística y la interpretabilidad.
+estadística, la interpretabilidad y el contraste con modelos de pronóstico de series de tiempo.
 
 ```{code-cell} ipython3
 ---

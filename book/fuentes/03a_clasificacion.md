@@ -15,7 +15,7 @@ kernelspec:
 ---
 tags: [hide-input]
 ---
-# Importa librerías y carga la tabla maestra, los mejores benchmarks y los modelos finales
+# Importa librerías y carga la tabla maestra, los mejores modelos de referencia y los modelos finales
 import sys, json, pickle, warnings
 sys.path.insert(0, "..")
 warnings.filterwarnings("ignore")
@@ -44,7 +44,7 @@ glue("n_tareas", len(pl), display=False)
 Las {glue:text}`n_combos` combinaciones se evaluaron en los doce bloques externos
 ({glue:text}`n_tareas` optimizaciones). La tabla muestra las veinte mejores según la PR-AUC
 media del bucle externo; la tabla completa, con los hiperparámetros de cada pliegue, el tiempo
-y la semilla, está en `results/tabla_maestra.csv` (capítulo 5).
+y la semilla, está en `results/tabla_maestra.csv` y se describe en {doc}`04_reproducibilidad`.
 
 ```{code-cell} ipython3
 ---
@@ -61,6 +61,10 @@ pd.DataFrame({"Modelo": vista.nombre, "Balanceo": vista.balanceo_nombre, "Optimi
               "Brier": [fmt(a, b) for a, b in zip(vista.brier_mean, vista.brier_std)],
               "Tiempo total (s)": vista.t_total.round(0)}).reset_index(drop=True)
 ```
+
+La tabla muestra medias muy próximas entre las mejores combinaciones y desviaciones mucho
+mayores que esas diferencias. La {numref}`fig-cajas-modelos` muestra esa dispersión bloque por
+bloque para la mejor combinación de cada modelo.
 
 ```{code-cell} ipython3
 ---
@@ -159,6 +163,10 @@ pareados y no en comparaciones de medias.
 
 ## Efecto del balanceo de clases
 
+Con un 26 % de días positivos, cabe preguntarse si el sobremuestreo o la ponderación de la clase
+minoritaria mejoran los modelos. La {numref}`fig-balanceo` muestra el cambio medio de tres
+métricas respecto de no balancear, para cada modelo y técnica.
+
 ```{code-cell} ipython3
 ---
 tags: [hide-input]
@@ -202,6 +210,9 @@ for b in ("SMOTE", "ADASYN", "class_weight"):
     for metr in ("pr_auc", "recall"):
         glue(f"bal_{b}_{metr}", float(tab_b[(tab_b.balanceo == b) & (tab_b["métrica"] == metr)]["Δ media"].iloc[0]), display=False)
 ```
+
+La tabla siguiente resume esas diferencias para todos los modelos juntos, con la prueba de
+Wilcoxon sobre las diferencias pareadas y la corrección de Holm.
 
 ```{code-cell} ipython3
 ---
@@ -270,6 +281,8 @@ positivos, no presenta esa concentración, y su efecto sobre la PR-AUC no es sig
 Con la combinación ganadora de cada modelo se repitió la optimización sobre todo el
 entrenamiento (1947-2009), se reentrenó el pipeline y se evaluó una única vez en 2010-2026.
 
+La tabla reúne las métricas de los siete modelos finales en la prueba reservada.
+
 ```{code-cell} ipython3
 ---
 tags: [hide-input]
@@ -289,6 +302,9 @@ glue("test_mejor_pr", float(tabla_test["PR-AUC"].max()), display=False)
 glue("test_mejor_modelo", tabla_test.loc[tabla_test["PR-AUC"].idxmax(), "Modelo"], display=False)
 tabla_test.round(4)
 ```
+
+La {numref}`fig-roc-pr` muestra las curvas completas, que no dependen del umbral, y la
+{numref}`fig-confusion`, los aciertos y errores con el umbral de 0,5.
 
 ```{code-cell} ipython3
 ---
@@ -339,7 +355,7 @@ seguidos de XGBoost y KNN; Random Forest obtiene además el mejor F1 y el menor 
 de la prueba superan a las medias externas porque el periodo 2010-2026 no contiene un tramo tan
 desfavorable como el bloque 2008-2009, lo que refuerza la conveniencia de evaluar sobre muchos
 bloques y no sobre una única partición. Todos los modelos superan con amplitud a la persistencia
-(PR-AUC de 0,65 en el capítulo 2), que es la referencia exigente en una serie con autocorrelación
+(PR-AUC de 0,65, {doc}`02_datos`), que es la referencia exigente en una serie con autocorrelación
 de 0,92 a quince días. Los tiempos de inferencia son del orden de milésimas de milisegundo por
 día, salvo KNN, que debe calcular distancias a todo el entrenamiento.
 
@@ -359,6 +375,10 @@ costo directo y la precisión resulta prioritaria. Al reportar la PR-AUC, que in
 comparación entre modelos no depende de esa elección, que corresponde al usuario final.
 
 ## Calibración de probabilidades
+
+Una probabilidad útil debe ser también confiable: si el modelo anuncia un 70 %, el evento debería
+ocurrir cerca del 70 % de las veces. La {numref}`fig-calibracion` compara la probabilidad predicha
+con la frecuencia observada, antes y después de recalibrar.
 
 ```{code-cell} ipython3
 ---
@@ -396,6 +416,9 @@ glue("cal_peor", peor.Modelo, display=False); glue("cal_peor_ece", float(peor.EC
 glue("cal_peor_ece_platt", float(peor["ECE Platt"]), display=False)
 ```
 
+La tabla cuantifica la calibración de cada modelo con el puntaje de Brier y el error de
+calibración esperado (ECE), con y sin recalibración.
+
 ```{code-cell} ipython3
 ---
 tags: [hide-input]
@@ -432,7 +455,7 @@ var_blq = sem.groupby(["modelo", "seed"]).pr_auc.std().groupby("modelo").mean()
 ref = mejores.sort_values("pr_auc_mean", ascending=False).iloc[0].modelo
 tab_sem = pd.DataFrame({"desviación entre semillas (media por bloque)": var_sem,
                         "desviación entre bloques (media por semilla)": var_blq})
-tab_sem.index = [f"{NOMBRES_MODELO[ref]} (mejor benchmark)" for i in tab_sem.index]
+tab_sem.index = [f"{NOMBRES_MODELO[ref]} (mejor modelo de referencia)" for i in tab_sem.index]
 glue("sd_sem_bench", float(var_sem["benchmark"]), display=False); glue("sd_blq_bench", float(var_blq["benchmark"]), display=False)
 dif_top = res.sort_values("pr_auc_mean", ascending=False).pr_auc_mean.head(10)
 glue("rango_top10", float(dif_top.max() - dif_top.min()), display=False)
@@ -440,7 +463,7 @@ tab_sem.round(4)
 ```
 
 Todas las métricas de este capítulo se reportan como media ± desviación estándar sobre los doce
-bloques externos y no como valores puntuales. Para el mejor benchmark, la sensibilidad a la
+bloques externos y no como valores puntuales. Para el mejor modelo de referencia, la sensibilidad a la
 semilla de inicialización (cinco semillas, con los hiperparámetros elegidos en cada bloque) es
 pequeña: la desviación media entre semillas dentro de un bloque es de {glue:text}`sd_sem_bench:.4f`,
 frente a una desviación entre bloques de {glue:text}`sd_blq_bench:.4f`. La aleatoriedad del
@@ -448,7 +471,7 @@ algoritmo pesa, por tanto, mucho menos que la variabilidad hidrológica entre pe
 tiempo, las diez mejores combinaciones de la tabla maestra se separan en apenas
 {glue:text}`rango_top10:.4f` de PR-AUC media, una diferencia del mismo orden que la variabilidad
 entre semillas y muy inferior a la variabilidad entre bloques. Las diferencias entre los mejores
-benchmarks no son, por tanto, mayores que la variabilidad intrínseca de cada uno, y decidir entre
+modelos de referencia no son, por tanto, mayores que la variabilidad intrínseca de cada uno, y decidir entre
 ellos exige las pruebas formales de la sección de comparación estadística.
 
 ## Sensibilidad al horizonte de predicción
@@ -509,6 +532,9 @@ for h in hz.index:
     glue(f"hz_log_{h}", float(hz.loc[h, nl]), display=False)
     glue(f"hz_ven_{h}", float(hz.loc[h, "Ventaja de RF sobre la persistencia"]), display=False)
 ```
+
+La {numref}`fig-sensibilidad-horizonte` muestra la PR-AUC de los dos modelos y de la persistencia
+en función del horizonte; la tabla siguiente da los valores exactos.
 
 ```{code-cell} ipython3
 ---

@@ -11,10 +11,17 @@ kernelspec:
 
 # Interpretabilidad global y local
 
+Un modelo que se usará para programar operaciones debe poder explicar sus predicciones. Esta
+sección examina qué variables usa XGBoost, el segundo mejor clasificador y un modelo de árboles
+cuyos valores de Shapley pueden calcularse de forma exacta con TreeSHAP {cite}`lundberg2020`,
+tanto en el conjunto de la prueba como en días concretos; compara esas explicaciones con las de
+LIME y extiende el análisis al mejor modelo de regresión.
+
 ```{code-cell} ipython3
 ---
 tags: [hide-input]
 ---
+# Modelo XGBoost final, datos de prueba transformados por su pipeline y valores SHAP exactos (TreeSHAP)
 import sys, pickle, warnings
 sys.path.insert(0, "..")
 warnings.filterwarnings("ignore")
@@ -53,12 +60,15 @@ glue("rango_xgb", int(mejores.sort_values("pr_auc_mean", ascending=False).modelo
 Este capítulo analiza el modelo de clasificación con SHAP {cite}`lundberg2017`, compara sus
 explicaciones con las de LIME y, en la última sección, aplica el mismo análisis al mejor modelo
 de regresión. El modelo de clasificación explicado es {glue:text}`modelo_shap`, que
-ocupa el puesto {glue:text}`rango_xgb` entre los benchmarks de clasificación y admite el
+ocupa el puesto {glue:text}`rango_xgb` entre los modelos de referencia de clasificación y admite el
 algoritmo TreeSHAP {cite}`lundberg2020`, que calcula los valores de Shapley de forma exacta y en
 tiempo polinómico recorriendo los caminos de cada árbol. Los valores se expresan en log-odds de
 la clase positiva, la escala aditiva del modelo.
 
 ## Interpretabilidad global
+
+La {numref}`fig-shap-resumen` muestra, para cada variable, la contribución de cada día de la prueba
+a su predicción, coloreada por el valor de la variable.
 
 ```{code-cell} ipython3
 ---
@@ -69,6 +79,7 @@ mystnb:
       contribución a la predicción (log-odds) y el color, el valor de la variable (rojo alto, azul bajo).
     name: fig-shap-resumen
 ---
+# Gráfico resumen de SHAP e importancia media absoluta por variable
 shap.plots.beeswarm(sv, max_display=15, show=False, plot_size=(9.5, 6))
 plt.title("Contribuciones SHAP por variable", loc="left", fontweight="bold"); plt.show()
 imp = pd.Series(np.abs(sv.values).mean(0), index=Xte.columns).sort_values(ascending=False)
@@ -93,9 +104,12 @@ estacionales contribuyen con signo coherente con el régimen bimodal. Puerto Sal
 aporta apenas el {glue:text}`shap_frac_arriba:.1%` de la importancia: con un horizonte de quince
 días y un tránsito de veintiuno, su señal anticipada existe pero queda en buena parte contenida en
 el estado reciente de Calamar, lo que confirma lo observado en la comparación de diseños del
-capítulo 2.
+{doc}`02_datos`.
 
 ## Interpretabilidad local
+
+La {numref}`fig-shap-local` descompone la predicción de dos días concretos: el acierto con mayor
+confianza y el error más grande de la prueba.
 
 ```{code-cell} ipython3
 ---
@@ -106,6 +120,7 @@ mystnb:
       confianza; (b) día con el mayor error absoluto entre la probabilidad predicha y la clase observada.
     name: fig-shap-local
 ---
+# Explicaciones en cascada del acierto más confiado y del error más grande de la prueba
 p = fin[M]["pred_test"]; y = D.y_clf_test.values
 err = np.abs(y - p)
 i_ok = int(np.argmax(np.where((y == 1) & (p > .5), p, -1)))
@@ -141,10 +156,14 @@ el caudal, y no solo de qué lado, podría reducir este tipo de error.
 
 ## Comparación con LIME
 
+LIME explica una predicción con un modelo lineal ajustado a perturbaciones de la observación. La
+tabla compara sus explicaciones con las de SHAP en los mismos dos días.
+
 ```{code-cell} ipython3
 ---
 tags: [hide-input]
 ---
+# LIME en los dos días de la figura anterior: ajuste del sustituto local y concordancia con SHAP
 from lime.lime_tabular import LimeTabularExplainer
 from scipy.stats import spearmanr
 Xtr = D.X.fillna(D.X.median())
@@ -174,6 +193,9 @@ for r in cmp.itertuples():
     glue(f"lime_rho_{k}", float(r[4]), display=False)
 cmp.round(3)
 ```
+
+Para comprobar si lo observado en esos dos días es general, la tabla siguiente repite la
+comparación en una muestra de cien días próximos a un límite de la banda y cien alejados.
 
 ```{code-cell} ipython3
 ---
@@ -312,7 +334,7 @@ frente a {glue:text}`reg_rmse_svr:,.0f` m³/s de la SVR. La variable dominante e
 «{glue:text}`reg_top2`» y «{glue:text}`reg_top3`»; las cinco primeras concentran el
 {glue:text}`reg_frac_top5:.0%` de la importancia total. El nivel actual del caudal y sus rezagos
 cortos fijan la base de la predicción, y los armónicos estacionales la corrigen según la época del
-año, de acuerdo con el régimen bimodal descrito en el capítulo 2. A diferencia de la clasificación,
+año, de acuerdo con el régimen bimodal descrito en {doc}`02_datos`. A diferencia de la clasificación,
 la distancia del caudal a la descarga efectiva ocupa apenas el puesto {glue:text}`reg_pos_dist`.
 Esa diferencia es coherente con la naturaleza de cada tarea, dado que en regresión el objetivo es
 el caudal mismo y su relación con el caudal actual es monótona, mientras que en clasificación la

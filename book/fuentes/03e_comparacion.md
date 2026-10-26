@@ -9,7 +9,7 @@ kernelspec:
   name: ml-final
 ---
 
-# Comparación estadística de los benchmarks
+# Comparación estadística de los modelos de referencia
 
 Con 140 modelos, el número de comparaciones pareadas posibles es 9.730, y aplicarlas sin control
 produciría cerca de 487 falsos positivos al 5 %. La comparación sigue por eso una secuencia
@@ -67,6 +67,9 @@ finalistas.
 
 ### Etapa 2: diagrama de diferencia crítica entre los mejores de cada modelo
 
+La {numref}`fig-cd-bench` repite la prueba solo con la mejor combinación de cada modelo, que es
+la comparación de interés.
+
 ```{code-cell} ipython3
 ---
 tags: [hide-input]
@@ -85,6 +88,9 @@ glue("fr7_chi2", fr["chi2"], display=False); glue("fr7_p", fr["p"], display=Fals
 glue("fr7_ff", fr["F_iman_davenport"], display=False); glue("fr7_pff", fr["p_iman_davenport"], display=False)
 ```
 
+La tabla siguiente detalla los pares de modelos cuya diferencia de rango medio supera la
+diferencia crítica.
+
 ```{code-cell} ipython3
 ---
 tags: [hide-input]
@@ -98,7 +104,7 @@ Entre las mejores combinaciones de los siete modelos, Friedman rechaza la iguald
 da {glue:text}`fr7_ff:.1f`), pero la diferencia crítica de {glue:text}`cd7:.2f` rangos solo separa
 a Naive Bayes de los cuatro mejores modelos. Random Forest, XGBoost, SVM y KNN forman un grupo
 estadísticamente indistinguible, al que se suman la regresión logística y el árbol en el límite
-de la significancia. El ordenamiento de los benchmarks es, por tanto, robusto en sus extremos y
+de la significancia. El ordenamiento de los modelos de referencia es, por tanto, robusto en sus extremos y
 difuso en el centro.
 
 ### Comparaciones dirigidas en la prueba reservada: DeLong con Holm
@@ -160,12 +166,12 @@ w[["modelo", "dif_media", "victorias", "p", "p_holm", "delta_cliff", "magnitud"]
 ```
 
 Los intervalos de la PR-AUC en la prueba se solapan ampliamente entre los cuatro mejores modelos.
-La comparación de {glue:text}`ref_bench` con cada benchmark mediante Wilcoxon con Holm sobre los
+La comparación de {glue:text}`ref_bench` con cada uno de los demás modelos mediante Wilcoxon con Holm sobre los
 doce bloques confirma la estructura del diagrama de diferencia crítica: la ventaja es
 significativa y de tamaño no despreciable frente a Naive Bayes (δ de Cliff grande), el árbol de
 decisión y la regresión logística (pequeño), y no lo es frente a KNN, XGBoost ni SVM, con tamaños
-del efecto despreciables. Entre los mejores benchmarks, por tanto, las diferencias observadas son
-menores que la variabilidad entre bloques, y elegir a Random Forest como mejor benchmark es una
+del efecto despreciables. Entre los mejores modelos de referencia, por tanto, las diferencias observadas son
+menores que la variabilidad entre bloques, y elegir a Random Forest como mejor modelo de referencia es una
 decisión por media, no una superioridad demostrada.
 
 ## Regresión: secuencia jerárquica
@@ -214,6 +220,6 @@ tamaños de efecto despreciables (|d| < 0,08). La prueba de Clark-West, aplicada
 anidamiento natural del problema, el de la persistencia ($\hat Q_{t+15} = Q_t$) dentro de los
 modelos que usan el caudal actual, rechaza con claridad que los finalistas no mejoren sobre ella
 {cite}`clark2007`. Finalmente, la prueba SPA de Hansen {cite}`hansen2005` con Ridge como
-benchmark da un p-valor consistente de 0,0005: hay al menos un modelo que supera de forma genuina
+modelo de comparación da un p-valor consistente de 0,0005: hay al menos un modelo que supera de forma genuina
 a la regresión lineal regularizada, y esa conclusión no es producto de haber probado muchos
 modelos.

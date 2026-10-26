@@ -3,7 +3,6 @@ root: intro
 parts:
   - caption: Datos
     chapters:
-      - file: 01_correcciones
       - file: 02_datos
   - caption: Modelos y resultados
     chapters:
@@ -15,7 +14,11 @@ parts:
           - file: 03d_regresion
           - file: 03e_comparacion
           - file: 03f_interpretabilidad
+          - file: 03g_ltsf
   - caption: Cierre
     chapters:
       - file: 05_conclusiones
       - file: 04_reproducibilidad
+  - caption: Apéndices
+    chapters:
+      - file: A_revisiones

@@ -1,24 +1,25 @@
-# Descarga efectiva en el río Magdalena: Entregable 2
+# Descarga efectiva en el río Magdalena: modelos de referencia
 
 Predicción, con quince días de anticipación, de si el caudal del río Magdalena en Calamar caerá
 dentro de la banda de **descarga efectiva**: el rango de caudales que, a lo largo de las décadas,
-transporta la mayor fracción del sedimento. Entregable 2 (modelos benchmark) del proyecto del
-curso de Machine Learning (maestría, Universidad del Norte).
+transporta la mayor fracción del sedimento. Este repositorio contiene la evaluación de los modelos
+de referencia del estudio. Universidad del Norte, Barranquilla, 2026.
 
 **Autores:** Kevin Clemente Rosario y Manuel Santiago Meza Castro
 
 | Producto | Enlace |
 |---|---|
-| Informe técnico (Jupyter Book) | https://santiagomezac.github.io/proyecto-ml-entregable2/ |
+| Libro de los modelos de referencia | https://santiagomezac.github.io/proyecto-ml-entregable2/ |
 | Repositorio | https://github.com/SantiagomezaC/proyecto-ml-entregable2 |
+| Estudio completo (modelo propuesto y aplicación) | https://santiagomezac.github.io/proyecto-ml-final/ |
 
 ## Contenido
 
 - **Datos:** ETL de siete series diarias del IDEAM (1940-2026), auditoría de la serie de
-  transporte de sedimentos, análisis magnitud-frecuencia y EDA ampliado, con las correcciones
-  del Entregable 1 (intervalos por bootstrap de bloques, ajuste de C, sin imputar estaciones que
-  aún no existían). Base de modelado: 28.558 observaciones (Calamar y Puerto Salgar, 1947-2026).
-- **140 modelos benchmark** con validación anidada cronológica (12 bloques externos de dos años,
+  transporte de sedimentos, análisis magnitud-frecuencia y EDA ampliado, con las revisiones
+  de la versión preliminar (intervalos por bootstrap de bloques, ajuste de C, sin imputar
+  estaciones que aún no existían). Base de modelado: 28.558 observaciones (Calamar y Puerto Salgar, 1947-2026).
+- **140 modelos de referencia** con validación anidada cronológica (12 bloques externos de dos años,
   `TimeSeriesSplit` interno con separación de 30 días):
   - Clasificación: 7 modelos (KNN, Naive Bayes, regresión logística, árbol, Random Forest,
     XGBoost, SVM) × 4 balanceos (ninguno, SMOTE, ADASYN, ponderación por clase) × 4
@@ -34,6 +35,8 @@ curso de Machine Learning (maestría, Universidad del Norte).
   bootstrap estacionario; en regresión, MCS, Diebold-Mariano (HLN), Giacomini-White,
   Clark-West y SPA.
 - **Interpretabilidad:** SHAP (TreeSHAP) global y local, y comparación con LIME en XGBoost.
+- **Modelos de pronóstico de series de tiempo:** la familia LTSF-Linear (Linear, NLinear y
+  DLinear; Zeng et al., 2023), evaluada con el mismo protocolo como contraste.
 
 ## Estructura
 
@@ -48,13 +51,15 @@ curso de Machine Learning (maestría, Universidad del Norte).
 │   ├── models.py           catálogo de modelos, balanceo y pipelines
 │   ├── optim.py            Grid, Random, TPE (Optuna) y genético (DEAP)
 │   ├── experiment.py       motor de la validación anidada (resumible)
+│   ├── dlinear.py          LTSF-Linear: Linear, NLinear y DLinear
+│   ├── ltsf.py             validación anidada de los modelos LTSF-Linear
 │   ├── stats_tests.py      pruebas estadísticas y bootstrap por bloques
 │   ├── evaluation.py       calibración y valores de Shapley por permutaciones
 │   ├── artifacts.py        serialización, metadata y prueba de ida y vuelta
 │   ├── analysis.py         tablas de resultados para el libro
 │   ├── data.py             formato de números y nombres legibles de los predictores
 │   └── estilo.py           estilo de las figuras
-├── scripts/                etl, run_benchmarks, final_models, robustez, computational,
+├── scripts/                etl, run_benchmarks, run_ltsf, final_models, robustez, computational,
 │                           estadistica, ejecutar_libro
 ├── artifacts/              mejores modelos de clasificación (.joblib) y metadata.json
 ├── data/processed/         tablas de modelado y particiones
@@ -92,9 +97,10 @@ incluyen en `data/processed/`, de modo que el libro se puede regenerar sin los a
 python -m scripts.etl                      # tablas de modelado y particiones
 python -m scripts.run_benchmarks clf       # 112 combinaciones (validación anidada)
 python -m scripts.run_benchmarks reg       # 28 combinaciones
+python -m scripts.run_ltsf                 # Linear, NLinear y DLinear con el mismo protocolo
 python -m scripts.final_models clf         # selección, reentrenamiento y artefactos
 python -m scripts.final_models reg
-python -m scripts.robustez                 # sensibilidad del mejor benchmark a la semilla
+python -m scripts.robustez                 # sensibilidad del mejor modelo a la semilla
 python -m scripts.computational            # complejidad, variantes eficientes, perfiles
 python -m scripts.estadistica              # pruebas estadísticas
 python -m pytest                           # pruebas unitarias

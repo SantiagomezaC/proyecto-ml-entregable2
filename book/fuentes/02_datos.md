@@ -333,20 +333,23 @@ montaña con crecidas rápidas, mientras que Calamar es casi simétrica (asimetr
 {glue:text}`asim_cal:.2f`) porque la depresión momposina amortigua los picos. Los valores
 fuera de 1,5 veces el rango intercuartílico corresponden a crecidas y estiajes reales y se
 conservan; los modelos de árboles son invariantes a transformaciones monótonas y en los
-demás se aplica escalado estándar dentro del pipeline.
+demás se aplica escalado estándar dentro del pipeline. La {numref}`fig-corr` muestra cómo se
+relacionan las estaciones entre sí el mismo día.
 
 ```{code-cell} ipython3
 ---
 tags: [hide-input]
 mystnb:
   figure:
-    caption: Correlación de Spearman entre estaciones (1976-2009). Las estaciones del alto y del bajo
+    caption: Correlación de Spearman entre estaciones el mismo día (1976-2009). Las estaciones del alto y del bajo
       Magdalena forman dos bloques débilmente acoplados.
     name: fig-corr
 ---
-# Matriz de correlación de Spearman entre estaciones (1976-2009)
+# Correlación de rangos entre estaciones, sin desfase, en el periodo con la red completa
 d76 = caudales[(caudales.fecha >= "1976-01-01") & (caudales.fecha < FECHA_CORTE_TEST)]
 cm = d76[EST].corr(method="spearman")
+glue("corr_cal_ps", float(cm.loc["calamar", "pto_salgar"]), display=False)
+glue("corr_cal_coy", float(cm.loc["calamar", "coyongal"]), display=False)
 fig, ax = plt.subplots(figsize=(6.4, 5.2))
 im = ax.imshow(cm, cmap=estilo.mapa_div(), vmin=-1, vmax=1)
 ax.set_xticks(range(len(EST)), [NL[e] for e in EST], rotation=40, ha="right"); ax.set_yticks(range(len(EST)), [NL[e] for e in EST])
@@ -357,6 +360,15 @@ for i in range(len(EST)):
 ax.grid(False); ax.set_title("Correlación de Spearman")
 plt.show()
 ```
+
+La matriz separa dos grupos. Las estaciones del bajo Magdalena están fuertemente correlacionadas
+con Calamar, que se ubica aguas abajo de ellas (Coyongal alcanza {glue:text}`corr_cal_coy:.2f`),
+mientras que la correlación del mismo día entre Calamar y Puerto Salgar es apenas
+{glue:text}`corr_cal_ps:.2f`. Esa baja correlación no indica falta de relación: la onda de crecida
+tarda unas tres semanas en recorrer el cauce desde Puerto Salgar, de modo que la información útil
+de esa estación está en su caudal desfasado, y por eso entra en los modelos con un rezago igual a
+su tiempo de tránsito. La tabla siguiente mide la asociación de cada predictor con la variable
+objetivo y su redundancia con los demás.
 
 ```{code-cell} ipython3
 :tags: [hide-input]
@@ -522,7 +534,7 @@ Los tiempos de tránsito de la onda de crecida hacia Calamar, estimados en la ve
 correlación cruzada sin usar información geográfica, crecen con la distancia al mar: su
 correlación de Spearman con la altitud es {glue:text}`rs_alt:.2f` y la de Pearson con la latitud
 es {glue:text}`rp_lat:.2f`. Esa concordancia externa respalda el uso de cada estación desfasada
-por su tiempo de tránsito.
+por su tiempo de tránsito. La {numref}`fig-transito-geografia` la muestra estación por estación.
 
 ```{code-cell} ipython3
 ---
@@ -544,6 +556,12 @@ axs[0].set_ylabel("Tiempo de tránsito a Calamar (días)")
 axs[0].set_title("(a) Altitud", loc="left"); axs[1].set_title("(b) Latitud", loc="left")
 plt.tight_layout(); plt.show()
 ```
+
+Las estaciones se ordenan casi sin excepciones: las del bajo Magdalena, a menos de 35 m de
+altitud, llegan a Calamar en una a dos semanas, y las del alto Magdalena, por encima de 150 m, en
+unas tres. La única inversión es la de Arrancaplumas, aguas arriba de Puerto Salgar pero con un
+día menos de tránsito estimado; una diferencia de un día está dentro de la resolución de la
+correlación cruzada con datos diarios y no altera el orden entre los dos tramos del río.
 
 ## Análisis multivariado
 

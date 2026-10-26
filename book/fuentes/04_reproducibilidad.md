@@ -39,8 +39,8 @@ La semilla global es `SEED = 42`, definida una sola vez en `src/config.py`. La f
 `random_state` (scikit-learn, XGBoost e imbalanced-learn), el muestreador
 TPE de Optuna en `seed` y el algoritmo genético la usa tanto en el generador de numpy que crea
 la población inicial como en el módulo `random` que emplea DEAP en la selección, el cruce y la
-mutación. La sensibilidad a la semilla se evaluó explícitamente con cinco semillas en el mejor benchmark
-(sección de robustez del capítulo 3).
+mutación. La sensibilidad a la semilla se evaluó explícitamente con cinco semillas en el mejor modelo de referencia
+({doc}`03a_clasificacion`).
 
 ## Tabla maestra de experimentos
 
@@ -51,13 +51,13 @@ tags: [hide-input]
 # Tabla maestra por pliegue con hiperparámetros, métricas y tiempos
 from src.analysis import tabla_pliegues
 partes = []
-for carpeta, tarea in (("clf_calamar", "clasificación"), ("reg_calamar", "regresión")):
+for carpeta, tarea in (("clf_calamar", "clasificación"), ("reg_calamar", "regresión"), ("ltsf_calamar", "clasificación (LTSF-Linear)")):
     t = tabla_pliegues(carpeta); t["tarea"] = tarea
     partes.append(t)
 largo = pd.concat(partes, ignore_index=True)
 from src.analysis import cargar_carpeta
 params = {(r["modelo"], r["balanceo"], r["optimizador"], r["pliegue"]): json.dumps(r["params"])
-          for c in ("clf_calamar", "reg_calamar") for r in cargar_carpeta(c)}
+          for c in ("clf_calamar", "reg_calamar", "ltsf_calamar") for r in cargar_carpeta(c)}
 largo["hiperparametros"] = [params[(a, b, c, d)] for a, b, c, d in zip(largo.modelo, largo.balanceo, largo.optimizador, largo.pliegue)]
 largo["semilla"] = SEED
 metricas = [c for c in ("pr_auc", "roc_auc", "f1", "precision", "recall", "accuracy", "brier", "rmse", "mae", "r2", "mape") if c in largo]

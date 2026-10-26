@@ -43,7 +43,7 @@ html:
   use_issues_button: false
   home_page_in_navbar: true
   favicon: figuras/logo.png
-  extra_footer: "Universidad del Norte · Maestría · Machine Learning 2026-30"
+  extra_footer: "Kevin Clemente Rosario y Manuel Santiago Meza Castro · Universidad del Norte · Barranquilla, 2026"
 
 launch_buttons:
   notebook_interface: classic
