@@ -11,7 +11,6 @@ de referencia del estudio. Universidad del Norte, Barranquilla, 2026.
 |---|---|
 | Libro de los modelos de referencia | https://santiagomezac.github.io/proyecto-ml-entregable2/ |
 | Repositorio | https://github.com/SantiagomezaC/proyecto-ml-entregable2 |
-| Estudio completo (modelo propuesto y aplicación) | https://santiagomezac.github.io/proyecto-ml-final/ |
 
 ## Contenido
 
