@@ -17,7 +17,6 @@
 ```{admonition} Recursos del estudio
 :class: tip
 - **Código y resultados:** <https://github.com/SantiagomezaC/proyecto-ml-entregable2>
-- **Estudio completo**, con el modelo propuesto y la aplicación interactiva: <https://santiagomezac.github.io/proyecto-ml-final/>
 ```
 
 ## Resumen
@@ -76,8 +75,3 @@ de series de tiempo de la familia LTSF-Linear. {doc}`05_conclusiones` reúne los
 {doc}`04_reproducibilidad` documenta el entorno, la semilla, la tabla maestra de experimentos y la
 bibliografía. El {doc}`A_revisiones` registra los cambios metodológicos respecto de la versión
 preliminar del estudio.
-
-Este libro es la parte del estudio dedicada a los modelos de referencia. El estudio completo,
-que propone un modelo de boosting distribucional para el mismo problema, lo valida
-estadísticamente y lo pone a disposición en una aplicación interactiva, está en
-<{LIBRO_E3}>.

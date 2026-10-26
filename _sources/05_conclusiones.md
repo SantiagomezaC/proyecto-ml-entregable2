@@ -72,12 +72,10 @@ regulación por embalses y el cambio de uso del suelo implican que el pasado pue
 el futuro; la evaluación en el periodo 2010-2026 sugiere que la relación aprendida se mantiene,
 pero no lo garantiza ante cambios mayores en la cuenca.
 
-## Continuación del estudio
+## Trabajo futuro
 
 El análisis de errores de este libro muestra que todos los modelos fallan en los mismos días: los
 que cruzan los límites de la banda por un margen pequeño, donde la etiqueta binaria descarta la
-información de cuánto se alejó el caudal. Esa observación motivó la continuación del estudio, que
-propone un modelo de boosting distribucional que aprende la distribución del caudal futuro y la
-orienta a la probabilidad de la banda, lo valida frente a estos modelos de referencia y a métodos
-recientes, y lo pone a disposición en una aplicación interactiva:
-<https://santiagomezac.github.io/proyecto-ml-final/>.
+información de cuánto se alejó el caudal. La extensión natural es un modelo que aprenda la
+distribución del caudal futuro y la oriente a la probabilidad de la banda, de modo que use esa
+información continua en lugar de descartarla.
