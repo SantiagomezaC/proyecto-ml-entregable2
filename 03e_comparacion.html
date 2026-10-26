@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Comparación estadística de los benchmarks &#8212; Anticipación de los periodos de descarga efectiva en el río Magdalena</title>
+    <title>Comparación estadística de los modelos de referencia &#8212; Anticipación de los periodos de descarga efectiva en el río Magdalena</title>
   
   
   
@@ -34,9 +34,10 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/autores.css?v=569575d9" />
   
   <!-- So that users can add custom icons -->
   <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
@@ -73,7 +74,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="es"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="2026-10-23"/>
+    <meta name="docbuild:last-update" content="2026-10-25"/>
   
     
     <script src="_static/searchtools.js"></script>
@@ -226,18 +227,18 @@
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01_correcciones.html">Correcciones a la versión anterior</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_datos.html">Datos: ETL y análisis exploratorio</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="03_benchmarks.html">Modelos benchmark: diseño experimental</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="03_benchmarks.html">Modelos de referencia: diseño experimental</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="03a_clasificacion.html">Resultados de clasificación</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03b_optimizacion.html">Comparación de los métodos de optimización</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03c_computacional.html">Optimización computacional</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03d_regresion.html">Regresión del caudal a quince días</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Comparación estadística de los benchmarks</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Comparación estadística de los modelos de referencia</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03f_interpretabilidad.html">Interpretabilidad global y local</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03g_ltsf.html">Modelos de pronóstico de series de tiempo: familia LTSF-Linear</a></li>
 </ul>
 </details></li>
 </ul>
@@ -245,6 +246,10 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="05_conclusiones.html">Conclusiones</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_reproducibilidad.html">Reproducibilidad y bibliografía</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Apéndices</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="A_revisiones.html">Apéndice A. Revisiones respecto de la versión preliminar</a></li>
 </ul>
 
     </div>
@@ -395,7 +400,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Comparación estadística de los benchmarks</h1>
+    <h1>Comparación estadística de los modelos de referencia</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -428,8 +433,8 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="comparacion-estadistica-de-los-benchmarks">
-<h1>Comparación estadística de los benchmarks<a class="headerlink" href="#comparacion-estadistica-de-los-benchmarks" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="comparacion-estadistica-de-los-modelos-de-referencia">
+<h1>Comparación estadística de los modelos de referencia<a class="headerlink" href="#comparacion-estadistica-de-los-modelos-de-referencia" title="Link to this heading">#</a></h1>
 <p>Con 140 modelos, el número de comparaciones pareadas posibles es 9.730, y aplicarlas sin control
 produciría cerca de 487 falsos positivos al 5 %. La comparación sigue por eso una secuencia
 jerárquica: una prueba global, un análisis post-hoc con control del error familiar, comparaciones
@@ -583,6 +588,8 @@ finalistas.</p>
 </section>
 <section id="etapa-2-diagrama-de-diferencia-critica-entre-los-mejores-de-cada-modelo">
 <h3>Etapa 2: diagrama de diferencia crítica entre los mejores de cada modelo<a class="headerlink" href="#etapa-2-diagrama-de-diferencia-critica-entre-los-mejores-de-cada-modelo" title="Link to this heading">#</a></h3>
+<p>La <a class="reference internal" href="#fig-cd-bench"><span class="std std-numref">Figura 20</span></a> repite la prueba solo con la mejor combinación de cada modelo, que es
+la comparación de interés.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -610,6 +617,8 @@ finalistas.</p>
 </figure>
 </div>
 </div>
+<p>La tabla siguiente detalla los pares de modelos cuya diferencia de rango medio supera la
+diferencia crítica.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -827,7 +836,7 @@ finalistas.</p>
 da <span class="pasted-text">11,3</span>), pero la diferencia crítica de <span class="pasted-text">2,60</span> rangos solo separa
 a Naive Bayes de los cuatro mejores modelos. Random Forest, XGBoost, SVM y KNN forman un grupo
 estadísticamente indistinguible, al que se suman la regresión logística y el árbol en el límite
-de la significancia. El ordenamiento de los benchmarks es, por tanto, robusto en sus extremos y
+de la significancia. El ordenamiento de los modelos de referencia es, por tanto, robusto en sus extremos y
 difuso en el centro.</p>
 </section>
 <section id="comparaciones-dirigidas-en-la-prueba-reservada-delong-con-holm">
@@ -1195,12 +1204,12 @@ días) y en las pruebas sobre bloques externos.</p>
 </div></div></div>
 </div>
 <p>Los intervalos de la PR-AUC en la prueba se solapan ampliamente entre los cuatro mejores modelos.
-La comparación de <span class="pasted-text">Random Forest</span> con cada benchmark mediante Wilcoxon con Holm sobre los
+La comparación de <span class="pasted-text">Random Forest</span> con cada uno de los demás modelos mediante Wilcoxon con Holm sobre los
 doce bloques confirma la estructura del diagrama de diferencia crítica: la ventaja es
 significativa y de tamaño no despreciable frente a Naive Bayes (δ de Cliff grande), el árbol de
 decisión y la regresión logística (pequeño), y no lo es frente a KNN, XGBoost ni SVM, con tamaños
-del efecto despreciables. Entre los mejores benchmarks, por tanto, las diferencias observadas son
-menores que la variabilidad entre bloques, y elegir a Random Forest como mejor benchmark es una
+del efecto despreciables. Entre los mejores modelos de referencia, por tanto, las diferencias observadas son
+menores que la variabilidad entre bloques, y elegir a Random Forest como mejor modelo de referencia es una
 decisión por media, no una superioridad demostrada.</p>
 </section>
 </section>
@@ -1728,7 +1737,7 @@ tamaños de efecto despreciables (|d| &lt; 0,08). La prueba de Clark-West, aplic
 anidamiento natural del problema, el de la persistencia (<span class="math notranslate nohighlight">\(\hat Q_{t+15} = Q_t\)</span>) dentro de los
 modelos que usan el caudal actual, rechaza con claridad que los finalistas no mejoren sobre ella
 <span class="bibtex-citation" id="id4">[<a class="reference internal" href="04_reproducibilidad.html#id45" title="Todd E. Clark and Kenneth D. West. Approximately normal tests for equal predictive accuracy in nested models. Journal of Econometrics, 138(1):291–311, 2007.">Clark and West, 2007</a>]</span>. Finalmente, la prueba SPA de Hansen <span class="bibtex-citation" id="id5">[<a class="reference internal" href="04_reproducibilidad.html#id47" title="Peter R. Hansen. A test for superior predictive ability. Journal of Business and Economic Statistics, 23(4):365–380, 2005.">Hansen, 2005</a>]</span> con Ridge como
-benchmark da un p-valor consistente de 0,0005: hay al menos un modelo que supera de forma genuina
+modelo de comparación da un p-valor consistente de 0,0005: hay al menos un modelo que supera de forma genuina
 a la regresión lineal regularizada, y esa conclusión no es producto de haber probado muchos
 modelos.</p>
 </section>
@@ -1839,7 +1848,7 @@ Por Kevin Clemente Rosario y Manuel Santiago Meza Castro
   
   <div class="footer-item">
     <p class="last-updated">
-  Actualizado por última vez en 2026-10-23.
+  Actualizado por última vez en 2026-10-25.
   <br/>
 </p>
   </div>
@@ -1847,7 +1856,7 @@ Por Kevin Clemente Rosario y Manuel Santiago Meza Castro
   <div class="footer-item">
     
 <div class="extra_footer">
-  Universidad del Norte · Maestría · Machine Learning 2026-30
+  Kevin Clemente Rosario y Manuel Santiago Meza Castro · Universidad del Norte · Barranquilla, 2026
 </div>
   </div>
   

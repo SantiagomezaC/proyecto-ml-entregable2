@@ -1,15 +1,15 @@
-# Correcciones a la versión anterior
+# Apéndice A. Revisiones respecto de la versión preliminar
 
-La evaluación de la versión anterior del estudio reconoció la auditoría de la serie de transporte de sedimentos,
+Una versión preliminar de este estudio fue sometida a revisión académica. La revisión reconoció la auditoría de la serie de transporte de sedimentos,
 la estimación robusta de la descarga efectiva, la verificación geográfica de los tiempos de
 tránsito y el uso de la persistencia como modelo de referencia. Identificó, además, tres
 problemas metodológicos del modelo base: los intervalos de confianza se obtuvieron remuestreando
 días como si fueran independientes, pese a una autocorrelación de 0,999; el parámetro de
 regularización de la regresión logística no se ajustó; y se imputaron valores de estaciones en
-años en que aún no existían. Pidió también actualizar el README y explorar modelos no lineales.
-En este capítulo se discute cada problema, la decisión metodológica adoptada y su efecto
-cuantitativo sobre los resultados. Los análisis completos se encuentran en el capítulo 2 y en la
-sección 3.5.
+años en que aún no existían. Recomendó también documentar mejor la reproducción del estudio y explorar modelos no lineales.
+Este apéndice discute cada problema, la decisión metodológica adoptada y su efecto
+cuantitativo sobre los resultados. Los análisis completos se encuentran en {doc}`02_datos` y en
+{doc}`03e_comparacion`.
 
 ## Dependencia temporal e intervalos de confianza
 
@@ -48,7 +48,7 @@ entrenamiento y validación, mayor que el horizonte de quince días de la variab
 evitar que la etiqueta de un día de entrenamiento dependa de caudales del periodo de validación.
 El óptimo es C = 1 con penalización L2, igual al valor empleado antes, y la PR-AUC en la prueba
 es 0,881. La coincidencia no hace irrelevante la corrección: el valor de C pasó de ser un supuesto
-no examinado a una estimación respaldada por validación. En el capítulo 3 este ajuste se
+no examinado a una estimación respaldada por validación. En {doc}`03_benchmarks` este ajuste se
 incorpora a la validación anidada, en la que la regresión logística, Ridge y Lasso se optimizan
 dentro de cada bloque externo con cuatro métodos de búsqueda, de forma que el desempeño reportado
 no incluye el optimismo de seleccionar hiperparámetros con los mismos datos con que se evalúa.
@@ -96,7 +96,7 @@ solo con los datos de entrenamiento.
 
 ## Modelos no lineales
 
-El capítulo 3 evalúa siete clasificadores con cuatro técnicas de balanceo y cuatro métodos de
+El estudio evalúa siete clasificadores con cuatro técnicas de balanceo y cuatro métodos de
 optimización (112 combinaciones) y siete regresores con los cuatro optimizadores (28
 combinaciones). Los modelos no lineales superan al lineal: Random Forest alcanza una PR-AUC externa
 de 0,910 ± 0,075, XGBoost 0,905, KNN 0,888 y la SVM con núcleo RBF 0,886, frente a 0,850 ± 0,136
@@ -107,12 +107,12 @@ física. La pertenencia a la banda de descarga efectiva no es monótona en el ca
 caudal demasiado bajo y uno demasiado alto quedan ambos fuera de ella; un modelo lineal solo
 puede representar esa relación a través de variables construidas, como la distancia del caudal
 actual a la descarga efectiva, mientras que los árboles y los núcleos la aprenden directamente.
-La interpretación con SHAP y LIME del capítulo 3 confirma que el modelo no lineal utiliza esa
+La interpretación con SHAP y LIME de {doc}`03f_interpretabilidad` confirma que el modelo no lineal utiliza esa
 estructura.
 
 ## Reproducibilidad
 
-El README se reescribió con la descripción del problema, la estructura del repositorio, la
+El README del repositorio se reescribió con la descripción del problema, la estructura del repositorio, la
 instalación del entorno, los comandos de reproducción en orden y la ejecución de las pruebas.
 El ETL y la construcción de variables, que en la versión anterior residían en celdas de cuaderno con
 rutas absolutas, se trasladaron a los módulos `src/etl.py` y `src/features.py`, con rutas

@@ -34,9 +34,10 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/autores.css?v=569575d9" />
   
   <!-- So that users can add custom icons -->
   <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
@@ -67,11 +68,11 @@
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
     <link rel="next" title="Reproducibilidad y bibliografía" href="04_reproducibilidad.html" />
-    <link rel="prev" title="Interpretabilidad global y local" href="03f_interpretabilidad.html" />
+    <link rel="prev" title="Modelos de pronóstico de series de tiempo: familia LTSF-Linear" href="03g_ltsf.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="es"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="2026-10-23"/>
+    <meta name="docbuild:last-update" content="2026-10-25"/>
   
     
     <script src="_static/searchtools.js"></script>
@@ -224,18 +225,18 @@
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01_correcciones.html">Correcciones a la versión anterior</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_datos.html">Datos: ETL y análisis exploratorio</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="03_benchmarks.html">Modelos benchmark: diseño experimental</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="03_benchmarks.html">Modelos de referencia: diseño experimental</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="03a_clasificacion.html">Resultados de clasificación</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03b_optimizacion.html">Comparación de los métodos de optimización</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03c_computacional.html">Optimización computacional</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03d_regresion.html">Regresión del caudal a quince días</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03e_comparacion.html">Comparación estadística de los benchmarks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03e_comparacion.html">Comparación estadística de los modelos de referencia</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03f_interpretabilidad.html">Interpretabilidad global y local</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03g_ltsf.html">Modelos de pronóstico de series de tiempo: familia LTSF-Linear</a></li>
 </ul>
 </details></li>
 </ul>
@@ -243,6 +244,10 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Conclusiones</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_reproducibilidad.html">Reproducibilidad y bibliografía</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Apéndices</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="A_revisiones.html">Apéndice A. Revisiones respecto de la versión preliminar</a></li>
 </ul>
 
     </div>
@@ -405,6 +410,7 @@
                 <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hallazgos">Hallazgos</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitaciones">Limitaciones</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuacion-del-estudio">Continuación del estudio</a></li>
 </ul>
             </nav>
         </div>
@@ -420,15 +426,15 @@
 <h1>Conclusiones<a class="headerlink" href="#conclusiones" title="Link to this heading">#</a></h1>
 <section id="hallazgos">
 <h2>Hallazgos<a class="headerlink" href="#hallazgos" title="Link to this heading">#</a></h2>
-<p>El primer hallazgo proviene de las correcciones a la versión anterior del estudio. La imputación de estaciones que
+<p>El primer hallazgo proviene de la revisión de la versión preliminar del estudio. La imputación de estaciones que
 aún no existían inflaba la información aparente del modelo; al restringir los predictores a las
 estaciones que existen en todo el periodo (Calamar y Puerto Salgar, desde 1947) el problema
 queda libre de imputaciones estructurales, conserva 28.558 observaciones y no pierde desempeño,
 porque treinta años adicionales de registro aportan más que las estaciones del bajo Magdalena.
 Los intervalos de confianza calculados con bootstrap por bloques resultaron unas cuatro veces más
-anchos que los del informe original, que subestimaba la incertidumbre en esa proporción.</p>
+anchos que los de la versión preliminar, que subestimaba la incertidumbre en esa proporción.</p>
 <p>El segundo se refiere a los modelos. Con validación anidada cronológica en doce bloques de dos
-años, el mejor benchmark de clasificación es Random Forest con ponderación por clase (PR-AUC
+años, el mejor modelo de referencia de clasificación es Random Forest con ponderación por clase (PR-AUC
 externa de 0,910 ± 0,075), pero Random Forest, XGBoost, SVM y KNN son estadísticamente
 indistinguibles; Naive Bayes, el árbol de decisión y la regresión logística quedan por debajo,
 con diferencias significativas tras la corrección de Holm. La dificultad de cada bloque se explica casi por completo por
@@ -464,6 +470,14 @@ de prueba, LIME identifica las mismas variables relevantes que SHAP, pero cerca 
 la banda invierte el sentido de algunas contribuciones secundarias. Los errores se concentran en los días que cruzan los límites de la banda por
 un margen pequeño, donde la etiqueta binaria trata igual un caudal que roza el umbral y uno que
 cae en el centro de la banda.</p>
+<p>El séptimo se refiere a los modelos de pronóstico de series de tiempo. Los tres modelos de la
+familia LTSF-Linear (Linear, NLinear y DLinear), evaluados con el mismo protocolo, alcanzan
+PR-AUC externas entre 0,847 y 0,871, al nivel de la regresión logística y del árbol de decisión y
+por debajo de los cuatro clasificadores no lineales; Random Forest supera a NLinear y a DLinear con
+diferencias significativas tras Holm. Como pronosticadores del caudal reducen el error de la
+persistencia, pero quedan por encima de Ridge, que también es lineal y recibe los predictores
+hidrológicos. En este río, el conocimiento codificado en los predictores aporta más que una
+representación más elaborada de la historia del caudal.</p>
 </section>
 <section id="limitaciones">
 <h2>Limitaciones<a class="headerlink" href="#limitaciones" title="Link to this heading">#</a></h2>
@@ -475,6 +489,16 @@ limitada. El 89,6 % del registro de Calamar tiene nivel de aprobación prelimina
 regulación por embalses y el cambio de uso del suelo implican que el pasado puede no representar
 el futuro; la evaluación en el periodo 2010-2026 sugiere que la relación aprendida se mantiene,
 pero no lo garantiza ante cambios mayores en la cuenca.</p>
+</section>
+<section id="continuacion-del-estudio">
+<h2>Continuación del estudio<a class="headerlink" href="#continuacion-del-estudio" title="Link to this heading">#</a></h2>
+<p>El análisis de errores de este libro muestra que todos los modelos fallan en los mismos días: los
+que cruzan los límites de la banda por un margen pequeño, donde la etiqueta binaria descarta la
+información de cuánto se alejó el caudal. Esa observación motivó la continuación del estudio, que
+propone un modelo de boosting distribucional que aprende la distribución del caudal futuro y la
+orienta a la probabilidad de la banda, lo valida frente a estos modelos de referencia y a métodos
+recientes, y lo pone a disposición en una aplicación interactiva:
+<a class="reference external" href="https://santiagomezac.github.io/proyecto-ml-final/">https://santiagomezac.github.io/proyecto-ml-final/</a>.</p>
 </section>
 </section>
 
@@ -509,12 +533,12 @@ pero no lo garantiza ante cambios mayores en la cuenca.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="03f_interpretabilidad.html"
+       href="03g_ltsf.html"
        title="página anterior">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">anterior</p>
-        <p class="prev-next-title">Interpretabilidad global y local</p>
+        <p class="prev-next-title">Modelos de pronóstico de series de tiempo: familia LTSF-Linear</p>
       </div>
     </a>
     <a class="right-next"
@@ -546,6 +570,7 @@ pero no lo garantiza ante cambios mayores en la cuenca.</p>
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hallazgos">Hallazgos</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitaciones">Limitaciones</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuacion-del-estudio">Continuación del estudio</a></li>
 </ul>
   </nav></div>
 
@@ -572,7 +597,7 @@ Por Kevin Clemente Rosario y Manuel Santiago Meza Castro
   
   <div class="footer-item">
     <p class="last-updated">
-  Actualizado por última vez en 2026-10-23.
+  Actualizado por última vez en 2026-10-25.
   <br/>
 </p>
   </div>
@@ -580,7 +605,7 @@ Por Kevin Clemente Rosario y Manuel Santiago Meza Castro
   <div class="footer-item">
     
 <div class="extra_footer">
-  Universidad del Norte · Maestría · Machine Learning 2026-30
+  Kevin Clemente Rosario y Manuel Santiago Meza Castro · Universidad del Norte · Barranquilla, 2026
 </div>
   </div>
   

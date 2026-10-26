@@ -34,9 +34,10 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/autores.css?v=569575d9" />
   
   <!-- So that users can add custom icons -->
   <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
@@ -69,11 +70,11 @@
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
     <link rel="next" title="Comparación de los métodos de optimización" href="03b_optimizacion.html" />
-    <link rel="prev" title="Modelos benchmark: diseño experimental" href="03_benchmarks.html" />
+    <link rel="prev" title="Modelos de referencia: diseño experimental" href="03_benchmarks.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="es"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="2026-10-23"/>
+    <meta name="docbuild:last-update" content="2026-10-25"/>
   
     
     <script src="_static/searchtools.js"></script>
@@ -226,18 +227,18 @@
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01_correcciones.html">Correcciones a la versión anterior</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_datos.html">Datos: ETL y análisis exploratorio</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="03_benchmarks.html">Modelos benchmark: diseño experimental</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="03_benchmarks.html">Modelos de referencia: diseño experimental</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Resultados de clasificación</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03b_optimizacion.html">Comparación de los métodos de optimización</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03c_computacional.html">Optimización computacional</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03d_regresion.html">Regresión del caudal a quince días</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03e_comparacion.html">Comparación estadística de los benchmarks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03e_comparacion.html">Comparación estadística de los modelos de referencia</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03f_interpretabilidad.html">Interpretabilidad global y local</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03g_ltsf.html">Modelos de pronóstico de series de tiempo: familia LTSF-Linear</a></li>
 </ul>
 </details></li>
 </ul>
@@ -245,6 +246,10 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="05_conclusiones.html">Conclusiones</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_reproducibilidad.html">Reproducibilidad y bibliografía</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Apéndices</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="A_revisiones.html">Apéndice A. Revisiones respecto de la versión preliminar</a></li>
 </ul>
 
     </div>
@@ -434,7 +439,7 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importa librerías y carga la tabla maestra, los mejores benchmarks y los modelos finales</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importa librerías y carga la tabla maestra, los mejores modelos de referencia y los modelos finales</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">json</span><span class="o">,</span><span class="w"> </span><span class="nn">pickle</span><span class="o">,</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">".."</span><span class="p">)</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">)</span>
@@ -466,7 +471,7 @@
 <p>Las <span class="pasted-text">112</span> combinaciones se evaluaron en los doce bloques externos
 (<span class="pasted-text">1344</span> optimizaciones). La tabla muestra las veinte mejores según la PR-AUC
 media del bucle externo; la tabla completa, con los hiperparámetros de cada pliegue, el tiempo
-y la semilla, está en <code class="docutils literal notranslate"><span class="pre">results/tabla_maestra.csv</span></code> (capítulo 5).</p>
+y la semilla, está en <code class="docutils literal notranslate"><span class="pre">results/tabla_maestra.csv</span></code> y se describe en <a class="reference internal" href="04_reproducibilidad.html"><span class="doc">Reproducibilidad y bibliografía</span></a>.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -763,6 +768,9 @@ y la semilla, está en <code class="docutils literal notranslate"><span class="p
 </table>
 </div></div></div>
 </div>
+<p>La tabla muestra medias muy próximas entre las mejores combinaciones y desviaciones mucho
+mayores que esas diferencias. La <a class="reference internal" href="#fig-cajas-modelos"><span class="std std-numref">Figura 8</span></a> muestra esa dispersión bloque por
+bloque para la mejor combinación de cada modelo.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -994,6 +1002,9 @@ pareados y no en comparaciones de medias.</p>
 </section>
 <section id="efecto-del-balanceo-de-clases">
 <h2>Efecto del balanceo de clases<a class="headerlink" href="#efecto-del-balanceo-de-clases" title="Link to this heading">#</a></h2>
+<p>Con un 26 % de días positivos, cabe preguntarse si el sobremuestreo o la ponderación de la clase
+minoritaria mejoran los modelos. La <a class="reference internal" href="#fig-balanceo"><span class="std std-numref">Figura 9</span></a> muestra el cambio medio de tres
+métricas respecto de no balancear, para cada modelo y técnica.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1047,6 +1058,8 @@ pareados y no en comparaciones de medias.</p>
 </figure>
 </div>
 </div>
+<p>La tabla siguiente resume esas diferencias para todos los modelos juntos, con la prueba de
+Wilcoxon sobre las diferencias pareadas y la corrección de Holm.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1219,15 +1232,15 @@ qué días están en la banda.</p>
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  File "C:\Users\Qclem\miniconda3\envs\jbook\Lib\site-packages\joblib\externals\loky\backend\context.py", line 257, in _count_physical_cores
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  File "C:\Users\User\miniconda3\envs\ml-final\Lib\site-packages\joblib\externals\loky\backend\context.py", line 257, in _count_physical_cores
     cpu_info = subprocess.run(
                ^^^^^^^^^^^^^^^
-  File "C:\Users\Qclem\miniconda3\envs\jbook\Lib\subprocess.py", line 548, in run
+  File "C:\Users\User\miniconda3\envs\ml-final\Lib\subprocess.py", line 548, in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Qclem\miniconda3\envs\jbook\Lib\subprocess.py", line 1026, in __init__
+  File "C:\Users\User\miniconda3\envs\ml-final\Lib\subprocess.py", line 1026, in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-  File "C:\Users\Qclem\miniconda3\envs\jbook\Lib\subprocess.py", line 1538, in _execute_child
+  File "C:\Users\User\miniconda3\envs\ml-final\Lib\subprocess.py", line 1538, in _execute_child
     hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 </pre></div>
@@ -1301,6 +1314,7 @@ positivos, no presenta esa concentración, y su efecto sobre la PR-AUC no es sig
 <h2>Desempeño en la prueba reservada<a class="headerlink" href="#desempeno-en-la-prueba-reservada" title="Link to this heading">#</a></h2>
 <p>Con la combinación ganadora de cada modelo se repitió la optimización sobre todo el
 entrenamiento (1947-2009), se reentrenó el pipeline y se evaluó una única vez en 2010-2026.</p>
+<p>La tabla reúne las métricas de los siete modelos finales en la prueba reservada.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1461,6 +1475,8 @@ entrenamiento (1947-2009), se reentrenó el pipeline y se evaluó una única vez
 </table>
 </div></div></div>
 </div>
+<p>La <a class="reference internal" href="#fig-roc-pr"><span class="std std-numref">Figura 10</span></a> muestra las curvas completas, que no dependen del umbral, y la
+<a class="reference internal" href="#fig-confusion"><span class="std std-numref">Figura 11</span></a>, los aciertos y errores con el umbral de 0,5.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1530,7 +1546,7 @@ seguidos de XGBoost y KNN; Random Forest obtiene además el mejor F1 y el menor 
 de la prueba superan a las medias externas porque el periodo 2010-2026 no contiene un tramo tan
 desfavorable como el bloque 2008-2009, lo que refuerza la conveniencia de evaluar sobre muchos
 bloques y no sobre una única partición. Todos los modelos superan con amplitud a la persistencia
-(PR-AUC de 0,65 en el capítulo 2), que es la referencia exigente en una serie con autocorrelación
+(PR-AUC de 0,65, <a class="reference internal" href="02_datos.html"><span class="doc">Datos: ETL y análisis exploratorio</span></a>), que es la referencia exigente en una serie con autocorrelación
 de 0,92 a quince días. Los tiempos de inferencia son del orden de milésimas de milisegundo por
 día, salvo KNN, que debe calcular distancias a todo el entrenamiento.</p>
 <section id="justificacion-de-la-metrica-principal">
@@ -1551,6 +1567,9 @@ comparación entre modelos no depende de esa elección, que corresponde al usuar
 </section>
 <section id="calibracion-de-probabilidades">
 <h2>Calibración de probabilidades<a class="headerlink" href="#calibracion-de-probabilidades" title="Link to this heading">#</a></h2>
+<p>Una probabilidad útil debe ser también confiable: si el modelo anuncia un 70 %, el evento debería
+ocurrir cerca del 70 % de las veces. La <a class="reference internal" href="#fig-calibracion"><span class="std std-numref">Figura 12</span></a> compara la probabilidad predicha
+con la frecuencia observada, antes y después de recalibrar.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1596,6 +1615,8 @@ comparación entre modelos no depende de esa elección, que corresponde al usuar
 </figure>
 </div>
 </div>
+<p>La tabla cuantifica la calibración de cada modelo con el puntaje de Brier y el error de
+calibración esperado (ECE), con y sin recalibración.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1751,7 +1772,7 @@ cuando la decisión en las predicciones fuera de muestra fue favorable.</p>
 <span class="n">ref</span> <span class="o">=</span> <span class="n">mejores</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"pr_auc_mean"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">modelo</span>
 <span class="n">tab_sem</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"desviación entre semillas (media por bloque)"</span><span class="p">:</span> <span class="n">var_sem</span><span class="p">,</span>
                         <span class="s2">"desviación entre bloques (media por semilla)"</span><span class="p">:</span> <span class="n">var_blq</span><span class="p">})</span>
-<span class="n">tab_sem</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">NOMBRES_MODELO</span><span class="p">[</span><span class="n">ref</span><span class="p">]</span><span class="si">}</span><span class="s2"> (mejor benchmark)"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tab_sem</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+<span class="n">tab_sem</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">NOMBRES_MODELO</span><span class="p">[</span><span class="n">ref</span><span class="p">]</span><span class="si">}</span><span class="s2"> (mejor modelo de referencia)"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tab_sem</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
 <span class="n">glue</span><span class="p">(</span><span class="s2">"sd_sem_bench"</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">var_sem</span><span class="p">[</span><span class="s2">"benchmark"</span><span class="p">]),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span> <span class="n">glue</span><span class="p">(</span><span class="s2">"sd_blq_bench"</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">var_blq</span><span class="p">[</span><span class="s2">"benchmark"</span><span class="p">]),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">dif_top</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"pr_auc_mean"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">pr_auc_mean</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">glue</span><span class="p">(</span><span class="s2">"rango_top10"</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">dif_top</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">dif_top</span><span class="o">.</span><span class="n">min</span><span class="p">()),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -1785,7 +1806,7 @@ cuando la decisión en las predicciones fuera de muestra fue favorable.</p>
   </thead>
   <tbody>
     <tr>
-      <th>Random Forest (mejor benchmark)</th>
+      <th>Random Forest (mejor modelo de referencia)</th>
       <td>0.0058</td>
       <td>0.0785</td>
     </tr>
@@ -1794,7 +1815,7 @@ cuando la decisión en las predicciones fuera de muestra fue favorable.</p>
 </div></div></div>
 </div>
 <p>Todas las métricas de este capítulo se reportan como media ± desviación estándar sobre los doce
-bloques externos y no como valores puntuales. Para el mejor benchmark, la sensibilidad a la
+bloques externos y no como valores puntuales. Para el mejor modelo de referencia, la sensibilidad a la
 semilla de inicialización (cinco semillas, con los hiperparámetros elegidos en cada bloque) es
 pequeña: la desviación media entre semillas dentro de un bloque es de <span class="pasted-text">0,0058</span>,
 frente a una desviación entre bloques de <span class="pasted-text">0,0785</span>. La aleatoriedad del
@@ -1802,7 +1823,7 @@ algoritmo pesa, por tanto, mucho menos que la variabilidad hidrológica entre pe
 tiempo, las diez mejores combinaciones de la tabla maestra se separan en apenas
 <span class="pasted-text">0,0042</span> de PR-AUC media, una diferencia del mismo orden que la variabilidad
 entre semillas y muy inferior a la variabilidad entre bloques. Las diferencias entre los mejores
-benchmarks no son, por tanto, mayores que la variabilidad intrínseca de cada uno, y decidir entre
+modelos de referencia no son, por tanto, mayores que la variabilidad intrínseca de cada uno, y decidir entre
 ellos exige las pruebas formales de la sección de comparación estadística.</p>
 </section>
 <section id="sensibilidad-al-horizonte-de-prediccion">
@@ -1865,13 +1886,15 @@ usó para elegir el horizonte.</p>
 </details>
 <div class="cell_output docutils container">
 <figure class="align-default" id="fig-sensibilidad-horizonte">
-<img alt="_images/eaae3b6f2446649a38925ddd921730f4753269088e8270adb6b787ba8e3c70ed.png" src="_images/eaae3b6f2446649a38925ddd921730f4753269088e8270adb6b787ba8e3c70ed.png" />
+<img alt="_images/93d3a9c3dd3a5cedd245abc1358469275b11d4b1b5252c2c65ba34e4b6e84ee9.png" src="_images/93d3a9c3dd3a5cedd245abc1358469275b11d4b1b5252c2c65ba34e4b6e84ee9.png" />
 <figcaption>
 <p><span class="caption-number">Figura 13 </span><span class="caption-text">PR-AUC en la prueba 2010-2026 según el horizonte de predicción. La línea gris marca la prevalencia de la clase positiva, que corresponde a una predicción sin información.</span><a class="headerlink" href="#fig-sensibilidad-horizonte" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </div>
 </div>
+<p>La <a class="reference internal" href="#fig-sensibilidad-horizonte"><span class="std std-numref">Figura 13</span></a> muestra la PR-AUC de los dos modelos y de la persistencia
+en función del horizonte; la tabla siguiente da los valores exactos.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -2017,7 +2040,7 @@ documentada en este capítulo.</p>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">anterior</p>
-        <p class="prev-next-title">Modelos benchmark: diseño experimental</p>
+        <p class="prev-next-title">Modelos de referencia: diseño experimental</p>
       </div>
     </a>
     <a class="right-next"
@@ -2082,7 +2105,7 @@ Por Kevin Clemente Rosario y Manuel Santiago Meza Castro
   
   <div class="footer-item">
     <p class="last-updated">
-  Actualizado por última vez en 2026-10-23.
+  Actualizado por última vez en 2026-10-25.
   <br/>
 </p>
   </div>
@@ -2090,7 +2113,7 @@ Por Kevin Clemente Rosario y Manuel Santiago Meza Castro
   <div class="footer-item">
     
 <div class="extra_footer">
-  Universidad del Norte · Maestría · Machine Learning 2026-30
+  Kevin Clemente Rosario y Manuel Santiago Meza Castro · Universidad del Norte · Barranquilla, 2026
 </div>
   </div>
   

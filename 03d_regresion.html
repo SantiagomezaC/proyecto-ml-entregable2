@@ -34,9 +34,10 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/autores.css?v=569575d9" />
   
   <!-- So that users can add custom icons -->
   <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
@@ -68,12 +69,12 @@
     <link rel="icon" href="_static/logo.png"/>
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
-    <link rel="next" title="Comparación estadística de los benchmarks" href="03e_comparacion.html" />
+    <link rel="next" title="Comparación estadística de los modelos de referencia" href="03e_comparacion.html" />
     <link rel="prev" title="Optimización computacional" href="03c_computacional.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="es"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="2026-10-23"/>
+    <meta name="docbuild:last-update" content="2026-10-25"/>
   
     
     <script src="_static/searchtools.js"></script>
@@ -226,18 +227,18 @@
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01_correcciones.html">Correcciones a la versión anterior</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_datos.html">Datos: ETL y análisis exploratorio</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="03_benchmarks.html">Modelos benchmark: diseño experimental</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="03_benchmarks.html">Modelos de referencia: diseño experimental</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="03a_clasificacion.html">Resultados de clasificación</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03b_optimizacion.html">Comparación de los métodos de optimización</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03c_computacional.html">Optimización computacional</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Regresión del caudal a quince días</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03e_comparacion.html">Comparación estadística de los benchmarks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03e_comparacion.html">Comparación estadística de los modelos de referencia</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03f_interpretabilidad.html">Interpretabilidad global y local</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03g_ltsf.html">Modelos de pronóstico de series de tiempo: familia LTSF-Linear</a></li>
 </ul>
 </details></li>
 </ul>
@@ -245,6 +246,10 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="05_conclusiones.html">Conclusiones</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_reproducibilidad.html">Reproducibilidad y bibliografía</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Apéndices</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="A_revisiones.html">Apéndice A. Revisiones respecto de la versión preliminar</a></li>
 </ul>
 
     </div>
@@ -426,6 +431,7 @@ predictores, las mismas particiones y el mismo motor de experimentos. Además de
 análisis con una tarea continua, ofrece una lectura complementaria del problema: una regresión
 precisa del caudal no garantiza una clasificación precisa de la banda, porque los errores que
 importan para la clase son los que ocurren cerca de los límites.</p>
+<p>La tabla resume las mejores combinaciones de regresión según el RMSE medio del bucle externo.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -777,8 +783,14 @@ importan para la clase son los que ocurren cerca de los límites.</p>
 </table>
 </div></div></div>
 </div>
+<p>SVR y XGBoost ocupan las primeras posiciones con los cuatro optimizadores, con RMSE externos entre
+576 y 600 m³/s; las diferencias entre ellas son de pocas decenas de m³/s, mucho menores que su
+desviación entre bloques, de alrededor de 70 m³/s. Como en la clasificación, la elección del
+algoritmo pesa más que la del optimizador.</p>
 <section id="metricas-en-la-prueba-reservada">
 <h2>Métricas en la prueba reservada<a class="headerlink" href="#metricas-en-la-prueba-reservada" title="Link to this heading">#</a></h2>
+<p>La tabla siguiente compara los siete regresores finales con la persistencia en la prueba
+reservada, junto con las pruebas de los supuestos del residuo.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -912,6 +924,7 @@ importan para la clase son los que ocurren cerca de los límites.</p>
 </table>
 </div></div></div>
 </div>
+<p>La tabla siguiente aplica a los residuos de cada modelo las pruebas de homocedasticidad, independencia y normalidad.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1063,6 +1076,9 @@ de largo plazo y bootstrap estacionario.</p>
 </section>
 <section id="entrenamiento-validacion-y-prueba">
 <h2>Entrenamiento, validación y prueba<a class="headerlink" href="#entrenamiento-validacion-y-prueba" title="Link to this heading">#</a></h2>
+<p>La <a class="reference internal" href="#fig-reg-series"><span class="std std-numref">Figura 18</span></a> superpone el caudal observado y el predicho por el mejor regresor en
+los tres segmentos del registro: el ajuste dentro de muestra, las predicciones fuera de muestra de
+la validación externa y la prueba reservada.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1106,6 +1122,7 @@ de largo plazo y bootstrap estacionario.</p>
 </figure>
 </div>
 </div>
+<p>La tabla siguiente cuantifica el error de cada segmento y lo compara con la persistencia.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1306,7 +1323,7 @@ estado del río, de modo que un intervalo de predicción de ancho constante ser�
        title="siguiente página">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">siguiente</p>
-        <p class="prev-next-title">Comparación estadística de los benchmarks</p>
+        <p class="prev-next-title">Comparación estadística de los modelos de referencia</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1357,7 +1374,7 @@ Por Kevin Clemente Rosario y Manuel Santiago Meza Castro
   
   <div class="footer-item">
     <p class="last-updated">
-  Actualizado por última vez en 2026-10-23.
+  Actualizado por última vez en 2026-10-25.
   <br/>
 </p>
   </div>
@@ -1365,7 +1382,7 @@ Por Kevin Clemente Rosario y Manuel Santiago Meza Castro
   <div class="footer-item">
     
 <div class="extra_footer">
-  Universidad del Norte · Maestría · Machine Learning 2026-30
+  Kevin Clemente Rosario y Manuel Santiago Meza Castro · Universidad del Norte · Barranquilla, 2026
 </div>
   </div>
   

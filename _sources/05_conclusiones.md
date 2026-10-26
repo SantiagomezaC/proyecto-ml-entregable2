@@ -2,16 +2,16 @@
 
 ## Hallazgos
 
-El primer hallazgo proviene de las correcciones a la versión anterior del estudio. La imputación de estaciones que
+El primer hallazgo proviene de la revisión de la versión preliminar del estudio. La imputación de estaciones que
 aún no existían inflaba la información aparente del modelo; al restringir los predictores a las
 estaciones que existen en todo el periodo (Calamar y Puerto Salgar, desde 1947) el problema
 queda libre de imputaciones estructurales, conserva 28.558 observaciones y no pierde desempeño,
 porque treinta años adicionales de registro aportan más que las estaciones del bajo Magdalena.
 Los intervalos de confianza calculados con bootstrap por bloques resultaron unas cuatro veces más
-anchos que los del informe original, que subestimaba la incertidumbre en esa proporción.
+anchos que los de la versión preliminar, que subestimaba la incertidumbre en esa proporción.
 
 El segundo se refiere a los modelos. Con validación anidada cronológica en doce bloques de dos
-años, el mejor benchmark de clasificación es Random Forest con ponderación por clase (PR-AUC
+años, el mejor modelo de referencia de clasificación es Random Forest con ponderación por clase (PR-AUC
 externa de 0,910 ± 0,075), pero Random Forest, XGBoost, SVM y KNN son estadísticamente
 indistinguibles; Naive Bayes, el árbol de decisión y la regresión logística quedan por debajo,
 con diferencias significativas tras la corrección de Holm. La dificultad de cada bloque se explica casi por completo por
@@ -52,6 +52,15 @@ la banda invierte el sentido de algunas contribuciones secundarias. Los errores 
 un margen pequeño, donde la etiqueta binaria trata igual un caudal que roza el umbral y uno que
 cae en el centro de la banda.
 
+El séptimo se refiere a los modelos de pronóstico de series de tiempo. Los tres modelos de la
+familia LTSF-Linear (Linear, NLinear y DLinear), evaluados con el mismo protocolo, alcanzan
+PR-AUC externas entre 0,847 y 0,871, al nivel de la regresión logística y del árbol de decisión y
+por debajo de los cuatro clasificadores no lineales; Random Forest supera a NLinear y a DLinear con
+diferencias significativas tras Holm. Como pronosticadores del caudal reducen el error de la
+persistencia, pero quedan por encima de Ridge, que también es lineal y recibe los predictores
+hidrológicos. En este río, el conocimiento codificado en los predictores aporta más que una
+representación más elaborada de la historia del caudal.
+
 ## Limitaciones
 
 El conjunto de predictores carece de variables meteorológicas. Sin precipitación ni índices del
@@ -62,3 +71,13 @@ limitada. El 89,6 % del registro de Calamar tiene nivel de aprobación prelimina
 regulación por embalses y el cambio de uso del suelo implican que el pasado puede no representar
 el futuro; la evaluación en el periodo 2010-2026 sugiere que la relación aprendida se mantiene,
 pero no lo garantiza ante cambios mayores en la cuenca.
+
+## Continuación del estudio
+
+El análisis de errores de este libro muestra que todos los modelos fallan en los mismos días: los
+que cruzan los límites de la banda por un margen pequeño, donde la etiqueta binaria descarta la
+información de cuánto se alejó el caudal. Esa observación motivó la continuación del estudio, que
+propone un modelo de boosting distribucional que aprende la distribución del caudal futuro y la
+orienta a la probabilidad de la banda, lo valida frente a estos modelos de referencia y a métodos
+recientes, y lo pone a disposición en una aplicación interactiva:
+<https://santiagomezac.github.io/proyecto-ml-final/>.

@@ -34,9 +34,10 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/autores.css?v=569575d9" />
   
   <!-- So that users can add custom icons -->
   <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
@@ -68,11 +69,11 @@
     <link rel="icon" href="_static/logo.png"/>
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
-    <link rel="next" title="Correcciones a la versión anterior" href="01_correcciones.html" />
+    <link rel="next" title="Datos: ETL y análisis exploratorio" href="02_datos.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="es"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="2026-10-23"/>
+    <meta name="docbuild:last-update" content="2026-10-25"/>
   
     
     <script src="_static/searchtools.js"></script>
@@ -227,18 +228,18 @@
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01_correcciones.html">Correcciones a la versión anterior</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_datos.html">Datos: ETL y análisis exploratorio</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="03_benchmarks.html">Modelos benchmark: diseño experimental</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="03_benchmarks.html">Modelos de referencia: diseño experimental</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="03a_clasificacion.html">Resultados de clasificación</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03b_optimizacion.html">Comparación de los métodos de optimización</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03c_computacional.html">Optimización computacional</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03d_regresion.html">Regresión del caudal a quince días</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03e_comparacion.html">Comparación estadística de los benchmarks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03e_comparacion.html">Comparación estadística de los modelos de referencia</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03f_interpretabilidad.html">Interpretabilidad global y local</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03g_ltsf.html">Modelos de pronóstico de series de tiempo: familia LTSF-Linear</a></li>
 </ul>
 </details></li>
 </ul>
@@ -246,6 +247,10 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="05_conclusiones.html">Conclusiones</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_reproducibilidad.html">Reproducibilidad y bibliografía</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Apéndices</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="A_revisiones.html">Apéndice A. Revisiones respecto de la versión preliminar</a></li>
 </ul>
 
     </div>
@@ -406,10 +411,10 @@
             </div>
             <nav aria-label="Page">
                 <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-ejecutivo">Resumen ejecutivo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen">Resumen</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problema">Problema</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos">Objetivos</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mapa-del-libro">Mapa del libro</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#organizacion-del-libro">Organización del libro</a></li>
 </ul>
             </nav>
         </div>
@@ -423,18 +428,28 @@
                   
   <section class="tex2jax_ignore mathjax_ignore" id="anticipacion-de-los-periodos-de-descarga-efectiva-en-el-rio-magdalena">
 <h1>Anticipación de los periodos de descarga efectiva en el río Magdalena<a class="headerlink" href="#anticipacion-de-los-periodos-de-descarga-efectiva-en-el-rio-magdalena" title="Link to this heading">#</a></h1>
-<p>Autores: Kevin Clemente y Manuel Meza
-Maestría · Universidad del Norte · Machine Learning, 2026-30</p>
+<p><strong>Evaluación de modelos de referencia para la predicción a quince días</strong></p>
+<div class="autores-libro">
+  <div class="autor">
+    <img src="_static/autor_kevin.jpg" alt="Fotografía de Kevin Clemente Rosario">
+    <div><div class="nombre">Kevin Clemente Rosario</div><div class="rol">Geólogo · Estudiante de M.Sc.</div></div>
+  </div>
+  <div class="autor">
+    <img src="_static/autor_manuel.jpg" alt="Fotografía de Manuel Santiago Meza Castro">
+    <div><div class="nombre">Manuel Santiago Meza Castro</div><div class="rol">Estudiante de Geología y de M.Sc.</div></div>
+  </div>
+</div>
+<p class="afiliacion">Universidad del Norte, Barranquilla, Colombia</p>
 <div class="tip admonition">
-<p class="admonition-title">Modelos benchmark</p>
+<p class="admonition-title">Recursos del estudio</p>
 <ul class="simple">
-<li><p><strong>Repositorio:</strong> <a class="github reference external" href="https://github.com/SantiagomezaC/proyecto-ml-entregable2">SantiagomezaC/proyecto-ml-entregable2</a></p></li>
-<li><p><strong>Libro en línea:</strong> <a class="reference external" href="https://santiagomezac.github.io/proyecto-ml-entregable2">https://santiagomezac.github.io/proyecto-ml-entregable2</a></p></li>
+<li><p><strong>Código y resultados:</strong> <a class="github reference external" href="https://github.com/SantiagomezaC/proyecto-ml-entregable2">SantiagomezaC/proyecto-ml-entregable2</a></p></li>
+<li><p><strong>Estudio completo</strong>, con el modelo propuesto y la aplicación interactiva: <a class="reference external" href="https://santiagomezac.github.io/proyecto-ml-final/">https://santiagomezac.github.io/proyecto-ml-final/</a></p></li>
 </ul>
 </div>
-<section id="resumen-ejecutivo">
-<h2>Resumen ejecutivo<a class="headerlink" href="#resumen-ejecutivo" title="Link to this heading">#</a></h2>
-<p>Este libro documenta la evaluación de los modelos benchmark del proyecto. A partir de 28.558 días de registro del
+<section id="resumen">
+<h2>Resumen<a class="headerlink" href="#resumen" title="Link to this heading">#</a></h2>
+<p>Este libro documenta la evaluación de los modelos de referencia del estudio. A partir de 28.558 días de registro del
 IDEAM (1947-2026) en Calamar y Puerto Salgar, se predice si el caudal del día <em>t</em> + 15 caerá en
 la banda de ±15 % alrededor de la descarga efectiva de Calamar (9.954 m³/s), una tarea de
 clasificación con 26 % de casos positivos; como tarea auxiliar de regresión se predice el propio
@@ -442,14 +457,18 @@ caudal a quince días.</p>
 <p>Se entrenaron y compararon 140 combinaciones: siete clasificadores con cuatro técnicas de
 balanceo y cuatro métodos de optimización de hiperparámetros (112), y siete regresores con los
 cuatro optimizadores (28), todas con validación anidada cronológica en doce bloques externos de
-dos años y el mismo presupuesto de evaluaciones. El mejor benchmark de clasificación es Random
+dos años y el mismo presupuesto de evaluaciones. El mejor modelo de referencia de clasificación es Random
 Forest con ponderación por clase (PR-AUC externa de 0,910 ± 0,075), estadísticamente
 indistinguible de XGBoost, SVM y KNN. El balanceo no mejora la discriminación y los cuatro
 optimizadores alcanzan la misma calidad final, aunque TPE y el algoritmo genético llegan antes
 que la rejilla. En regresión, SVR y XGBoost integran el conjunto de confianza de modelos y
 reducen en un tercio el error de la persistencia. El estudio se completa con la optimización
 computacional de cada familia, la calibración de probabilidades, la interpretación con SHAP y
-LIME y la comparación estadística con pruebas adecuadas para datos dependientes.</p>
+LIME y la comparación estadística con pruebas adecuadas para datos dependientes. Como contraste, se
+evaluaron con el mismo protocolo los tres modelos de la familia LTSF-Linear de pronóstico de series
+de tiempo (Linear, NLinear y DLinear): se ubican al nivel de la regresión logística y por debajo
+de los clasificadores no lineales, lo que indica que lo que separa a los mejores modelos es la
+capacidad de representar relaciones no lineales y no la forma de presentar la historia del caudal.</p>
 </section>
 <section id="problema">
 <h2>Problema<a class="headerlink" href="#problema" title="Link to this heading">#</a></h2>
@@ -467,23 +486,31 @@ y campañas de muestreo de sedimentos.</p>
 <section id="objetivos">
 <h2>Objetivos<a class="headerlink" href="#objetivos" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
-<li><p>Corregir el análisis de la versión anterior del estudio según la retroalimentación recibida y ampliar el
-análisis exploratorio.</p></li>
+<li><p>Revisar la metodología de la versión preliminar del estudio y ampliar el análisis exploratorio.</p></li>
 <li><p>Entrenar, optimizar y comparar estadísticamente 140 combinaciones de modelos, técnicas de
-balanceo y métodos de optimización con validación anidada cronológica.</p></li>
+balanceo y métodos de optimización con validación anidada cronológica, y contrastarlas con
+modelos recientes de pronóstico de series de tiempo.</p></li>
 <li><p>Medir y reducir el costo computacional de cada familia de modelos.</p></li>
 <li><p>Interpretar los mejores modelos y documentar el experimento de forma reproducible.</p></li>
 </ol>
 </section>
-<section id="mapa-del-libro">
-<h2>Mapa del libro<a class="headerlink" href="#mapa-del-libro" title="Link to this heading">#</a></h2>
-<p>El capítulo 1 registra las correcciones a la versión anterior del estudio. El capítulo 2 reconstruye el ETL y
-amplía el análisis exploratorio. El capítulo 3 y sus secciones presentan los modelos y sus
-resultados: diseño experimental, clasificación, comparación de optimizadores, optimización
-computacional, regresión, comparación estadística e interpretabilidad. El capítulo 4 reúne
-las conclusiones, y el capítulo 5 documenta el entorno, la semilla, la tabla maestra de
-experimentos y la bibliografía.</p>
+<section id="organizacion-del-libro">
+<h2>Organización del libro<a class="headerlink" href="#organizacion-del-libro" title="Link to this heading">#</a></h2>
+<p>El capítulo <a class="reference internal" href="02_datos.html"><span class="doc">Datos: ETL y análisis exploratorio</span></a> reconstruye el ETL y deriva del análisis exploratorio las decisiones
+de preparación. <a class="reference internal" href="03_benchmarks.html"><span class="doc">Modelos de referencia: diseño experimental</span></a> y sus secciones presentan los modelos y sus resultados:
+diseño experimental, clasificación, comparación de optimizadores, optimización computacional,
+regresión, comparación estadística, interpretabilidad y, como contraste, los modelos de pronóstico
+de series de tiempo de la familia LTSF-Linear. <a class="reference internal" href="05_conclusiones.html"><span class="doc">Conclusiones</span></a> reúne los hallazgos y
+<a class="reference internal" href="04_reproducibilidad.html"><span class="doc">Reproducibilidad y bibliografía</span></a> documenta el entorno, la semilla, la tabla maestra de experimentos y la
+bibliografía. El <a class="reference internal" href="A_revisiones.html"><span class="doc">Apéndice A. Revisiones respecto de la versión preliminar</span></a> registra los cambios metodológicos respecto de la versión
+preliminar del estudio.</p>
+<p>Este libro es la parte del estudio dedicada a los modelos de referencia. El estudio completo,
+que propone un modelo de boosting distribucional para el mismo problema, lo valida
+estadísticamente y lo pone a disposición en una aplicación interactiva, está en
+&lt;{LIBRO_E3}&gt;.</p>
 </section>
+<div class="toctree-wrapper compound">
+</div>
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
@@ -523,11 +550,11 @@ experimentos y la bibliografía.</p>
                   
 <div class="prev-next-area">
     <a class="right-next"
-       href="01_correcciones.html"
+       href="02_datos.html"
        title="siguiente página">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">siguiente</p>
-        <p class="prev-next-title">Correcciones a la versión anterior</p>
+        <p class="prev-next-title">Datos: ETL y análisis exploratorio</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -549,10 +576,10 @@ experimentos y la bibliografía.</p>
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-ejecutivo">Resumen ejecutivo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen">Resumen</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problema">Problema</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos">Objetivos</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mapa-del-libro">Mapa del libro</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#organizacion-del-libro">Organización del libro</a></li>
 </ul>
   </nav></div>
 
@@ -579,7 +606,7 @@ Por Kevin Clemente Rosario y Manuel Santiago Meza Castro
   
   <div class="footer-item">
     <p class="last-updated">
-  Actualizado por última vez en 2026-10-23.
+  Actualizado por última vez en 2026-10-25.
   <br/>
 </p>
   </div>
@@ -587,7 +614,7 @@ Por Kevin Clemente Rosario y Manuel Santiago Meza Castro
   <div class="footer-item">
     
 <div class="extra_footer">
-  Universidad del Norte · Maestría · Machine Learning 2026-30
+  Kevin Clemente Rosario y Manuel Santiago Meza Castro · Universidad del Norte · Barranquilla, 2026
 </div>
   </div>
   

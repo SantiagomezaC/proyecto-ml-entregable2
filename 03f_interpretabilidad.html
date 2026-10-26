@@ -34,9 +34,10 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/autores.css?v=569575d9" />
   
   <!-- So that users can add custom icons -->
   <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
@@ -66,12 +67,12 @@
     <link rel="icon" href="_static/logo.png"/>
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
-    <link rel="next" title="Conclusiones" href="05_conclusiones.html" />
-    <link rel="prev" title="Comparación estadística de los benchmarks" href="03e_comparacion.html" />
+    <link rel="next" title="Modelos de pronóstico de series de tiempo: familia LTSF-Linear" href="03g_ltsf.html" />
+    <link rel="prev" title="Comparación estadística de los modelos de referencia" href="03e_comparacion.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="es"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="2026-10-23"/>
+    <meta name="docbuild:last-update" content="2026-10-25"/>
   
     
     <script src="_static/searchtools.js"></script>
@@ -224,18 +225,18 @@
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01_correcciones.html">Correcciones a la versión anterior</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_datos.html">Datos: ETL y análisis exploratorio</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="03_benchmarks.html">Modelos benchmark: diseño experimental</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="03_benchmarks.html">Modelos de referencia: diseño experimental</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="03a_clasificacion.html">Resultados de clasificación</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03b_optimizacion.html">Comparación de los métodos de optimización</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03c_computacional.html">Optimización computacional</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03d_regresion.html">Regresión del caudal a quince días</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03e_comparacion.html">Comparación estadística de los benchmarks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03e_comparacion.html">Comparación estadística de los modelos de referencia</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Interpretabilidad global y local</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03g_ltsf.html">Modelos de pronóstico de series de tiempo: familia LTSF-Linear</a></li>
 </ul>
 </details></li>
 </ul>
@@ -243,6 +244,10 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="05_conclusiones.html">Conclusiones</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_reproducibilidad.html">Reproducibilidad y bibliografía</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Apéndices</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="A_revisiones.html">Apéndice A. Revisiones respecto de la versión preliminar</a></li>
 </ul>
 
     </div>
@@ -420,6 +425,11 @@
                   
   <section class="tex2jax_ignore mathjax_ignore" id="interpretabilidad-global-y-local">
 <h1>Interpretabilidad global y local<a class="headerlink" href="#interpretabilidad-global-y-local" title="Link to this heading">#</a></h1>
+<p>Un modelo que se usará para programar operaciones debe poder explicar sus predicciones. Esta
+sección examina qué variables usa XGBoost, el segundo mejor clasificador y un modelo de árboles
+cuyos valores de Shapley pueden calcularse de forma exacta con TreeSHAP <span class="bibtex-citation" id="id1">[<a class="reference internal" href="04_reproducibilidad.html#id57" title="Scott M. Lundberg, Gabriel Erion, Hugh Chen, Alex DeGrave, Jordan M. Prutkin, Bala Nair, Ronit Katz, Jonathan Himmelfarb, Nisha Bansal, and Su-In Lee. From local explanations to global understanding with explainable AI for trees. Nature Machine Intelligence, 2(1):56–67, 2020.">Lundberg <em>et al.</em>, 2020</a>]</span>,
+tanto en el conjunto de la prueba como en días concretos; compara esas explicaciones con las de
+LIME y extiende el análisis al mejor modelo de regresión.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -427,7 +437,8 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">pickle</span><span class="o">,</span><span class="w"> </span><span class="nn">warnings</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Modelo XGBoost final, datos de prueba transformados por su pipeline y valores SHAP exactos (TreeSHAP)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">pickle</span><span class="o">,</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">".."</span><span class="p">)</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">)</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span><span class="o">,</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span><span class="o">,</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
@@ -465,15 +476,17 @@
 </div>
 </details>
 </div>
-<p>Este capítulo analiza el modelo de clasificación con SHAP <span class="bibtex-citation" id="id1">[<a class="reference internal" href="04_reproducibilidad.html#id56" title="Scott M. Lundberg and Su-In Lee. A unified approach to interpreting model predictions. In Advances in Neural Information Processing Systems, volume 30. 2017.">Lundberg and Lee, 2017</a>]</span>, compara sus
+<p>Este capítulo analiza el modelo de clasificación con SHAP <span class="bibtex-citation" id="id2">[<a class="reference internal" href="04_reproducibilidad.html#id56" title="Scott M. Lundberg and Su-In Lee. A unified approach to interpreting model predictions. In Advances in Neural Information Processing Systems, volume 30. 2017.">Lundberg and Lee, 2017</a>]</span>, compara sus
 explicaciones con las de LIME y, en la última sección, aplica el mismo análisis al mejor modelo
 de regresión. El modelo de clasificación explicado es <span class="pasted-text">XGBoost</span>, que
-ocupa el puesto <span class="pasted-text">2</span> entre los benchmarks de clasificación y admite el
-algoritmo TreeSHAP <span class="bibtex-citation" id="id2">[<a class="reference internal" href="04_reproducibilidad.html#id57" title="Scott M. Lundberg, Gabriel Erion, Hugh Chen, Alex DeGrave, Jordan M. Prutkin, Bala Nair, Ronit Katz, Jonathan Himmelfarb, Nisha Bansal, and Su-In Lee. From local explanations to global understanding with explainable AI for trees. Nature Machine Intelligence, 2(1):56–67, 2020.">Lundberg <em>et al.</em>, 2020</a>]</span>, que calcula los valores de Shapley de forma exacta y en
+ocupa el puesto <span class="pasted-text">2</span> entre los modelos de referencia de clasificación y admite el
+algoritmo TreeSHAP <span class="bibtex-citation" id="id3">[<a class="reference internal" href="04_reproducibilidad.html#id57" title="Scott M. Lundberg, Gabriel Erion, Hugh Chen, Alex DeGrave, Jordan M. Prutkin, Bala Nair, Ronit Katz, Jonathan Himmelfarb, Nisha Bansal, and Su-In Lee. From local explanations to global understanding with explainable AI for trees. Nature Machine Intelligence, 2(1):56–67, 2020.">Lundberg <em>et al.</em>, 2020</a>]</span>, que calcula los valores de Shapley de forma exacta y en
 tiempo polinómico recorriendo los caminos de cada árbol. Los valores se expresan en log-odds de
 la clase positiva, la escala aditiva del modelo.</p>
 <section id="interpretabilidad-global">
 <h2>Interpretabilidad global<a class="headerlink" href="#interpretabilidad-global" title="Link to this heading">#</a></h2>
+<p>La <a class="reference internal" href="#fig-shap-resumen"><span class="std std-numref">Figura 21</span></a> muestra, para cada variable, la contribución de cada día de la prueba
+a su predicción, coloreada por el valor de la variable.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -481,7 +494,8 @@ la clase positiva, la escala aditiva del modelo.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">shap</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">beeswarm</span><span class="p">(</span><span class="n">sv</span><span class="p">,</span> <span class="n">max_display</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_size</span><span class="o">=</span><span class="p">(</span><span class="mf">9.5</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Gráfico resumen de SHAP e importancia media absoluta por variable</span>
+<span class="n">shap</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">beeswarm</span><span class="p">(</span><span class="n">sv</span><span class="p">,</span> <span class="n">max_display</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_size</span><span class="o">=</span><span class="p">(</span><span class="mf">9.5</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Contribuciones SHAP por variable"</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 <span class="n">imp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">sv</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">Xte</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">glue</span><span class="p">(</span><span class="s2">"shap_top1"</span><span class="p">,</span> <span class="n">etiqueta</span><span class="p">(</span><span class="n">imp</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span> <span class="n">glue</span><span class="p">(</span><span class="s2">"shap_top2"</span><span class="p">,</span> <span class="n">etiqueta</span><span class="p">(</span><span class="n">imp</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -497,7 +511,7 @@ la clase positiva, la escala aditiva del modelo.</p>
 </details>
 <div class="cell_output docutils container">
 <figure class="align-default" id="fig-shap-resumen">
-<img alt="_images/5ebcd04882e3bdf8951921e1e12f7c202c3589150bf41c91de9409909948c74c.png" src="_images/5ebcd04882e3bdf8951921e1e12f7c202c3589150bf41c91de9409909948c74c.png" />
+<img alt="_images/d3cdc9281467e61aa5762c030d3bf94d8d195ec956a4f7397aae6489c74070bc.png" src="_images/d3cdc9281467e61aa5762c030d3bf94d8d195ec956a4f7397aae6489c74070bc.png" />
 <figcaption>
 <p><span class="caption-number">Figura 21 </span><span class="caption-text">Gráfico resumen de SHAP en la prueba 2010-2026. Cada punto es un día; la posición horizontal es la contribución a la predicción (log-odds) y el color, el valor de la variable (rojo alto, azul bajo).</span><a class="headerlink" href="#fig-shap-resumen" title="Link to this image">#</a></p>
 </figcaption>
@@ -516,10 +530,12 @@ estacionales contribuyen con signo coherente con el régimen bimodal. Puerto Sal
 aporta apenas el <span class="pasted-text">0,6 %</span> de la importancia: con un horizonte de quince
 días y un tránsito de veintiuno, su señal anticipada existe pero queda en buena parte contenida en
 el estado reciente de Calamar, lo que confirma lo observado en la comparación de diseños del
-capítulo 2.</p>
+<a class="reference internal" href="02_datos.html"><span class="doc">Datos: ETL y análisis exploratorio</span></a>.</p>
 </section>
 <section id="interpretabilidad-local">
 <h2>Interpretabilidad local<a class="headerlink" href="#interpretabilidad-local" title="Link to this heading">#</a></h2>
+<p>La <a class="reference internal" href="#fig-shap-local"><span class="std std-numref">Figura 22</span></a> descompone la predicción de dos días concretos: el acierto con mayor
+confianza y el error más grande de la prueba.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -527,7 +543,8 @@ capítulo 2.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">fin</span><span class="p">[</span><span class="n">M</span><span class="p">][</span><span class="s2">"pred_test"</span><span class="p">];</span> <span class="n">y</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">y_clf_test</span><span class="o">.</span><span class="n">values</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Explicaciones en cascada del acierto más confiado y del error más grande de la prueba</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">fin</span><span class="p">[</span><span class="n">M</span><span class="p">][</span><span class="s2">"pred_test"</span><span class="p">];</span> <span class="n">y</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">y_clf_test</span><span class="o">.</span><span class="n">values</span>
 <span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span>
 <span class="n">i_ok</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mf">.5</span><span class="p">),</span> <span class="n">p</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
 <span class="n">i_mal</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">err</span><span class="p">))</span>
@@ -573,6 +590,8 @@ el caudal, y no solo de qué lado, podría reducir este tipo de error.</p>
 </section>
 <section id="comparacion-con-lime">
 <h2>Comparación con LIME<a class="headerlink" href="#comparacion-con-lime" title="Link to this heading">#</a></h2>
+<p>LIME explica una predicción con un modelo lineal ajustado a perturbaciones de la observación. La
+tabla compara sus explicaciones con las de SHAP en los mismos dos días.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -580,7 +599,8 @@ el caudal, y no solo de qué lado, podría reducir este tipo de error.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lime.lime_tabular</span><span class="w"> </span><span class="kn">import</span> <span class="n">LimeTabularExplainer</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># LIME en los dos días de la figura anterior: ajuste del sustituto local y concordancia con SHAP</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lime.lime_tabular</span><span class="w"> </span><span class="kn">import</span> <span class="n">LimeTabularExplainer</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">spearmanr</span>
 <span class="n">Xtr</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">median</span><span class="p">())</span>
 <span class="n">lime_exp</span> <span class="o">=</span> <span class="n">LimeTabularExplainer</span><span class="p">(</span><span class="n">Xtr</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">Xte</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="n">class_names</span><span class="o">=</span><span class="p">[</span><span class="s2">"fuera"</span><span class="p">,</span> <span class="s2">"en banda"</span><span class="p">],</span>
@@ -662,6 +682,8 @@ el caudal, y no solo de qué lado, podría reducir este tipo de error.</p>
 </table>
 </div></div></div>
 </div>
+<p>Para comprobar si lo observado en esos dos días es general, la tabla siguiente repite la
+comparación en una muestra de cien días próximos a un límite de la banda y cien alejados.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -759,7 +781,7 @@ el caudal, y no solo de qué lado, podría reducir este tipo de error.</p>
 </table>
 </div></div></div>
 </div>
-<p>LIME <span class="bibtex-citation" id="id3">[<a class="reference internal" href="04_reproducibilidad.html#id59" title="Marco Tulio Ribeiro, Sameer Singh, and Carlos Guestrin. &quot;why should I trust you?&quot;: explaining the predictions of any classifier. In Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining, 1135–1144. 2016.">Ribeiro <em>et al.</em>, 2016</a>]</span> explica cada predicción ajustando un modelo lineal ponderado a
+<p>LIME <span class="bibtex-citation" id="id4">[<a class="reference internal" href="04_reproducibilidad.html#id59" title="Marco Tulio Ribeiro, Sameer Singh, and Carlos Guestrin. &quot;why should I trust you?&quot;: explaining the predictions of any classifier. In Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining, 1135–1144. 2016.">Ribeiro <em>et al.</em>, 2016</a>]</span> explica cada predicción ajustando un modelo lineal ponderado a
 perturbaciones de la observación en un entorno local, mientras que SHAP distribuye la predicción
 entre las variables según los valores de Shapley, que cumplen eficiencia (la suma de las
 contribuciones es exactamente la diferencia entre la predicción y el valor esperado), simetría y
@@ -849,7 +871,7 @@ propiedad de eficiencia.</p>
 </details>
 <div class="cell_output docutils container">
 <figure class="align-default" id="fig-shap-reg-resumen">
-<img alt="_images/13ca41b886b3f18f5ede1fc8caf063376f2357d3283266918f20852f0a76bba7.png" src="_images/13ca41b886b3f18f5ede1fc8caf063376f2357d3283266918f20852f0a76bba7.png" />
+<img alt="_images/dd41e888fa9f7c0b8ed43e27eb2b27b733e959f32632e68793dfc2bead081c16.png" src="_images/dd41e888fa9f7c0b8ed43e27eb2b27b733e959f32632e68793dfc2bead081c16.png" />
 <figcaption>
 <p><span class="caption-number">Figura 23 </span><span class="caption-text">Gráfico resumen de SHAP del modelo de regresión (XGBoost) en la prueba 2010-2026. La posición horizontal es la contribución al caudal predicho en t + 15 (m³/s) y el color, el valor de la variable.</span><a class="headerlink" href="#fig-shap-reg-resumen" title="Link to this image">#</a></p>
 </figcaption>
@@ -863,7 +885,7 @@ frente a <span class="pasted-text">643</span> m³/s de la SVR. La variable domin
 «<span class="pasted-text">Caudal en Calamar hace 1 días (m³/s)</span>» y «<span class="pasted-text">Coseno del ciclo anual (–)</span>»; las cinco primeras concentran el
 <span class="pasted-text">64 %</span> de la importancia total. El nivel actual del caudal y sus rezagos
 cortos fijan la base de la predicción, y los armónicos estacionales la corrigen según la época del
-año, de acuerdo con el régimen bimodal descrito en el capítulo 2. A diferencia de la clasificación,
+año, de acuerdo con el régimen bimodal descrito en <a class="reference internal" href="02_datos.html"><span class="doc">Datos: ETL y análisis exploratorio</span></a>. A diferencia de la clasificación,
 la distancia del caudal a la descarga efectiva ocupa apenas el puesto <span class="pasted-text">8</span>.
 Esa diferencia es coherente con la naturaleza de cada tarea, dado que en regresión el objetivo es
 el caudal mismo y su relación con el caudal actual es monótona, mientras que en clasificación la
@@ -958,15 +980,15 @@ ascensos rápidos fuera de la temporada de lluvias.</p>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">anterior</p>
-        <p class="prev-next-title">Comparación estadística de los benchmarks</p>
+        <p class="prev-next-title">Comparación estadística de los modelos de referencia</p>
       </div>
     </a>
     <a class="right-next"
-       href="05_conclusiones.html"
+       href="03g_ltsf.html"
        title="siguiente página">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">siguiente</p>
-        <p class="prev-next-title">Conclusiones</p>
+        <p class="prev-next-title">Modelos de pronóstico de series de tiempo: familia LTSF-Linear</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1018,7 +1040,7 @@ Por Kevin Clemente Rosario y Manuel Santiago Meza Castro
   
   <div class="footer-item">
     <p class="last-updated">
-  Actualizado por última vez en 2026-10-23.
+  Actualizado por última vez en 2026-10-25.
   <br/>
 </p>
   </div>
@@ -1026,7 +1048,7 @@ Por Kevin Clemente Rosario y Manuel Santiago Meza Castro
   <div class="footer-item">
     
 <div class="extra_footer">
-  Universidad del Norte · Maestría · Machine Learning 2026-30
+  Kevin Clemente Rosario y Manuel Santiago Meza Castro · Universidad del Norte · Barranquilla, 2026
 </div>
   </div>
   

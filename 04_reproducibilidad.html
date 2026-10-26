@@ -34,9 +34,10 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/autores.css?v=569575d9" />
   
   <!-- So that users can add custom icons -->
   <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
@@ -66,11 +67,12 @@
     <link rel="icon" href="_static/logo.png"/>
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Apéndice A. Revisiones respecto de la versión preliminar" href="A_revisiones.html" />
     <link rel="prev" title="Conclusiones" href="05_conclusiones.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="es"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="2026-10-23"/>
+    <meta name="docbuild:last-update" content="2026-10-25"/>
   
     
     <script src="_static/searchtools.js"></script>
@@ -223,18 +225,18 @@
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01_correcciones.html">Correcciones a la versión anterior</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_datos.html">Datos: ETL y análisis exploratorio</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="03_benchmarks.html">Modelos benchmark: diseño experimental</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="03_benchmarks.html">Modelos de referencia: diseño experimental</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="03a_clasificacion.html">Resultados de clasificación</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03b_optimizacion.html">Comparación de los métodos de optimización</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03c_computacional.html">Optimización computacional</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03d_regresion.html">Regresión del caudal a quince días</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03e_comparacion.html">Comparación estadística de los benchmarks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03e_comparacion.html">Comparación estadística de los modelos de referencia</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03f_interpretabilidad.html">Interpretabilidad global y local</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03g_ltsf.html">Modelos de pronóstico de series de tiempo: familia LTSF-Linear</a></li>
 </ul>
 </details></li>
 </ul>
@@ -242,6 +244,10 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="05_conclusiones.html">Conclusiones</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Reproducibilidad y bibliografía</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Apéndices</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="A_revisiones.html">Apéndice A. Revisiones respecto de la versión preliminar</a></li>
 </ul>
 
     </div>
@@ -544,8 +550,8 @@ procesador Intel Core i7-1255U y 15,7 GB de memoria, sin GPU.</p>
 <code class="docutils literal notranslate"><span class="pre">random_state</span></code> (scikit-learn, XGBoost e imbalanced-learn), el muestreador
 TPE de Optuna en <code class="docutils literal notranslate"><span class="pre">seed</span></code> y el algoritmo genético la usa tanto en el generador de numpy que crea
 la población inicial como en el módulo <code class="docutils literal notranslate"><span class="pre">random</span></code> que emplea DEAP en la selección, el cruce y la
-mutación. La sensibilidad a la semilla se evaluó explícitamente con cinco semillas en el mejor benchmark
-(sección de robustez del capítulo 3).</p>
+mutación. La sensibilidad a la semilla se evaluó explícitamente con cinco semillas en el mejor modelo de referencia
+(<a class="reference internal" href="03a_clasificacion.html"><span class="doc">Resultados de clasificación</span></a>).</p>
 </section>
 <section id="tabla-maestra-de-experimentos">
 <h2>Tabla maestra de experimentos<a class="headerlink" href="#tabla-maestra-de-experimentos" title="Link to this heading">#</a></h2>
@@ -559,13 +565,13 @@ mutación. La sensibilidad a la semilla se evaluó explícitamente con cinco sem
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Tabla maestra por pliegue con hiperparámetros, métricas y tiempos</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">src.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">tabla_pliegues</span>
 <span class="n">partes</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">carpeta</span><span class="p">,</span> <span class="n">tarea</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">"clf_calamar"</span><span class="p">,</span> <span class="s2">"clasificación"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"reg_calamar"</span><span class="p">,</span> <span class="s2">"regresión"</span><span class="p">)):</span>
+<span class="k">for</span> <span class="n">carpeta</span><span class="p">,</span> <span class="n">tarea</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">"clf_calamar"</span><span class="p">,</span> <span class="s2">"clasificación"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"reg_calamar"</span><span class="p">,</span> <span class="s2">"regresión"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"ltsf_calamar"</span><span class="p">,</span> <span class="s2">"clasificación (LTSF-Linear)"</span><span class="p">)):</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">tabla_pliegues</span><span class="p">(</span><span class="n">carpeta</span><span class="p">);</span> <span class="n">t</span><span class="p">[</span><span class="s2">"tarea"</span><span class="p">]</span> <span class="o">=</span> <span class="n">tarea</span>
     <span class="n">partes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
 <span class="n">largo</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">partes</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">src.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">cargar_carpeta</span>
 <span class="n">params</span> <span class="o">=</span> <span class="p">{(</span><span class="n">r</span><span class="p">[</span><span class="s2">"modelo"</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="s2">"balanceo"</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="s2">"optimizador"</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="s2">"pliegue"</span><span class="p">]):</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"params"</span><span class="p">])</span>
-          <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"clf_calamar"</span><span class="p">,</span> <span class="s2">"reg_calamar"</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">cargar_carpeta</span><span class="p">(</span><span class="n">c</span><span class="p">)}</span>
+          <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"clf_calamar"</span><span class="p">,</span> <span class="s2">"reg_calamar"</span><span class="p">,</span> <span class="s2">"ltsf_calamar"</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">cargar_carpeta</span><span class="p">(</span><span class="n">c</span><span class="p">)}</span>
 <span class="n">largo</span><span class="p">[</span><span class="s2">"hiperparametros"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">params</span><span class="p">[(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)]</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">largo</span><span class="o">.</span><span class="n">modelo</span><span class="p">,</span> <span class="n">largo</span><span class="o">.</span><span class="n">balanceo</span><span class="p">,</span> <span class="n">largo</span><span class="o">.</span><span class="n">optimizador</span><span class="p">,</span> <span class="n">largo</span><span class="o">.</span><span class="n">pliegue</span><span class="p">)]</span>
 <span class="n">largo</span><span class="p">[</span><span class="s2">"semilla"</span><span class="p">]</span> <span class="o">=</span> <span class="n">SEED</span>
 <span class="n">metricas</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"pr_auc"</span><span class="p">,</span> <span class="s2">"roc_auc"</span><span class="p">,</span> <span class="s2">"f1"</span><span class="p">,</span> <span class="s2">"precision"</span><span class="p">,</span> <span class="s2">"recall"</span><span class="p">,</span> <span class="s2">"accuracy"</span><span class="p">,</span> <span class="s2">"brier"</span><span class="p">,</span> <span class="s2">"rmse"</span><span class="p">,</span> <span class="s2">"mae"</span><span class="p">,</span> <span class="s2">"r2"</span><span class="p">,</span> <span class="s2">"mape"</span><span class="p">)</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">largo</span><span class="p">]</span>
@@ -583,7 +589,7 @@ mutación. La sensibilidad a la semilla se evaluó explícitamente con cinco sem
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>140 combinaciones (112 de clasificación, 28 de regresión) y 1,680 registros por pliegue.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>143 combinaciones (112 de clasificación, 28 de regresión) y 1,716 registros por pliegue.
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -903,121 +909,125 @@ README. Las pruebas unitarias se ejecutan con <code class="docutils literal notr
 <span class="label"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></span>
 <p>M. Gordon Wolman and John P. Miller. Magnitude and frequency of forces in geomorphic processes. <em>The Journal of Geology</em>, 68(1):54–74, 1960.</p>
 </div>
-<div class="citation" id="id49" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></span>
-<p>Dimitris N. Politis and Joseph P. Romano. The stationary bootstrap. <em>Journal of the American Statistical Association</em>, 89(428):1303–1313, 1994.</p>
-</div>
-<div class="citation" id="id50" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></span>
-<p>Dimitris N. Politis and Halbert White. Automatic block-length selection for the dependent bootstrap. <em>Econometric Reviews</em>, 23(1):53–70, 2004.</p>
-</div>
-<div class="citation" id="id40" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></span>
-<p>Claude Nadeau and Yoshua Bengio. Inference for the generalization error. <em>Machine Learning</em>, 52:239–281, 2003.</p>
-</div>
 <div class="citation" id="id74" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></span>
 <p>IDEAM. Consulta y descarga de datos hidrometeorológicos (DHIME). <a class="reference external" href="http://dhime.ideam.gov.co">http://dhime.ideam.gov.co</a>, 2026. Instituto de Hidrología, Meteorología y Estudios Ambientales de Colombia.</p>
 </div>
 <div class="citation" id="id4" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></span>
 <p>David B. Nash. Effective sediment-transporting discharge from magnitude-frequency analysis. <em>The Journal of Geology</em>, 102(1):79–95, 1994.</p>
 </div>
 <div class="citation" id="id75" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>9<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></span>
 <p>Takaya Saito and Marc Rehmsmeier. The precision-recall plot is more informative than the ROC plot when evaluating binary classifiers on imbalanced datasets. <em>PLOS ONE</em>, 10(3):e0118432, 2015.</p>
 </div>
 <div class="citation" id="id73" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>10<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></span>
 <p>Yoav Benjamini and Yosef Hochberg. Controlling the false discovery rate: a practical and powerful approach to multiple testing. <em>Journal of the Royal Statistical Society: Series B (Methodological)</em>, 57(1):289–300, 1995.</p>
 </div>
 <div class="citation" id="id64" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>11<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></span>
 <p>Robert B. Cleveland, William S. Cleveland, Jean E. McRae, and Irma Terpenning. STL: a seasonal-trend decomposition procedure based on loess. <em>Journal of Official Statistics</em>, 6(1):3–73, 1990.</p>
 </div>
+<div class="citation" id="id49" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>9<span class="fn-bracket">]</span></span>
+<p>Dimitris N. Politis and Joseph P. Romano. The stationary bootstrap. <em>Journal of the American Statistical Association</em>, 89(428):1303–1313, 1994.</p>
+</div>
+<div class="citation" id="id50" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>10<span class="fn-bracket">]</span></span>
+<p>Dimitris N. Politis and Halbert White. Automatic block-length selection for the dependent bootstrap. <em>Econometric Reviews</em>, 23(1):53–70, 2004.</p>
+</div>
 <div class="citation" id="id34" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>12<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>11<span class="fn-bracket">]</span></span>
 <p>Sudhir Varma and Richard Simon. Bias in error estimation when using cross-validation for model selection. <em>BMC Bioinformatics</em>, 7:91, 2006.</p>
 </div>
 <div class="citation" id="id35" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>13<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>12<span class="fn-bracket">]</span></span>
 <p>Gavin C. Cawley and Nicola L. C. Talbot. On over-fitting in model selection and subsequent selection bias in performance evaluation. <em>Journal of Machine Learning Research</em>, 11:2079–2107, 2010.</p>
 </div>
 <div class="citation" id="id36" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>14<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>13<span class="fn-bracket">]</span></span>
 <p>Christoph Bergmeir and José M. Benítez. On the use of cross-validation for time series predictor evaluation. <em>Information Sciences</em>, 191:192–213, 2012.</p>
 </div>
 <div class="citation" id="id29" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>15<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>14<span class="fn-bracket">]</span></span>
 <p>James Bergstra and Yoshua Bengio. Random search for hyper-parameter optimization. <em>Journal of Machine Learning Research</em>, 13:281–305, 2012.</p>
 </div>
 <div class="citation" id="id26" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>16<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>15<span class="fn-bracket">]</span></span>
 <p>James Bergstra, Rémi Bardenet, Yoshua Bengio, and Balázs Kégl. Algorithms for hyper-parameter optimization. In <em>Advances in Neural Information Processing Systems</em>, volume 24. 2011.</p>
 </div>
 <div class="citation" id="id28" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>17<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>16<span class="fn-bracket">]</span></span>
 <p>Félix-Antoine Fortin, François-Michel De Rainville, Marc-André Gardner, Marc Parizeau, and Christian Gagné. DEAP: evolutionary algorithms made easy. <em>Journal of Machine Learning Research</em>, 13:2171–2175, 2012.</p>
 </div>
 <div class="citation" id="id31" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>18<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>17<span class="fn-bracket">]</span></span>
 <p>Kevin Jamieson and Ameet Talwalkar. Non-stochastic best arm identification and hyperparameter optimization. In <em>Proceedings of the 19th International Conference on Artificial Intelligence and Statistics</em>, volume 51 of PMLR, 240–248. 2016.</p>
 </div>
 <div class="citation" id="id32" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>19<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>18<span class="fn-bracket">]</span></span>
 <p>Nitesh V. Chawla, Kevin W. Bowyer, Lawrence O. Hall, and W. Philip Kegelmeyer. SMOTE: synthetic minority over-sampling technique. <em>Journal of Artificial Intelligence Research</em>, 16:321–357, 2002.</p>
 </div>
 <div class="citation" id="id33" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>20<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>19<span class="fn-bracket">]</span></span>
 <p>Haibo He, Yang Bai, Edwardo A. Garcia, and Shutao Li. ADASYN: adaptive synthetic sampling approach for imbalanced learning. In <em>IEEE International Joint Conference on Neural Networks</em>, 1322–1328. 2008.</p>
 </div>
 <div class="citation" id="id67" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>21<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>20<span class="fn-bracket">]</span></span>
 <p>Jeff Johnson, Matthijs Douze, and Hervé Jégou. Billion-scale similarity search with GPUs. <em>IEEE Transactions on Big Data</em>, 7(3):535–547, 2021.</p>
 </div>
 <div class="citation" id="id68" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>22<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>21<span class="fn-bracket">]</span></span>
 <p>Yu A. Malkov and D. A. Yashunin. Efficient and robust approximate nearest neighbor search using hierarchical navigable small world graphs. <em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em>, 42(4):824–836, 2020.</p>
 </div>
 <div class="citation" id="id70" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>23<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>22<span class="fn-bracket">]</span></span>
 <p>Aaron Defazio, Francis Bach, and Simon Lacoste-Julien. SAGA: a fast incremental gradient method with support for non-strongly convex composite objectives. In <em>Advances in Neural Information Processing Systems</em>, volume 27. 2014.</p>
 </div>
 <div class="citation" id="id69" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>24<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>23<span class="fn-bracket">]</span></span>
 <p>Christopher K. I. Williams and Matthias Seeger. Using the Nyström method to speed up kernel machines. In <em>Advances in Neural Information Processing Systems</em>, volume 13, 682–688. 2001.</p>
 </div>
 <div class="citation" id="id46" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>25<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>24<span class="fn-bracket">]</span></span>
 <p>Peter R. Hansen, Asger Lunde, and James M. Nason. The model confidence set. <em>Econometrica</em>, 79(2):453–497, 2011.</p>
 </div>
 <div class="citation" id="id43" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>26<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>25<span class="fn-bracket">]</span></span>
 <p>David Harvey, Stephen Leybourne, and Paul Newbold. Testing the equality of prediction mean squared errors. <em>International Journal of Forecasting</em>, 13(2):281–291, 1997.</p>
 </div>
 <div class="citation" id="id44" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>27<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>26<span class="fn-bracket">]</span></span>
 <p>Raffaella Giacomini and Halbert White. Tests of conditional predictive ability. <em>Econometrica</em>, 74(6):1545–1578, 2006.</p>
 </div>
 <div class="citation" id="id45" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>28<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>27<span class="fn-bracket">]</span></span>
 <p>Todd E. Clark and Kenneth D. West. Approximately normal tests for equal predictive accuracy in nested models. <em>Journal of Econometrics</em>, 138(1):291–311, 2007.</p>
 </div>
 <div class="citation" id="id47" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>29<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>28<span class="fn-bracket">]</span></span>
 <p>Peter R. Hansen. A test for superior predictive ability. <em>Journal of Business and Economic Statistics</em>, 23(4):365–380, 2005.</p>
+</div>
+<div class="citation" id="id57" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>29<span class="fn-bracket">]</span></span>
+<p>Scott M. Lundberg, Gabriel Erion, Hugh Chen, Alex DeGrave, Jordan M. Prutkin, Bala Nair, Ronit Katz, Jonathan Himmelfarb, Nisha Bansal, and Su-In Lee. From local explanations to global understanding with explainable AI for trees. <em>Nature Machine Intelligence</em>, 2(1):56–67, 2020.</p>
 </div>
 <div class="citation" id="id56" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span>30<span class="fn-bracket">]</span></span>
 <p>Scott M. Lundberg and Su-In Lee. A unified approach to interpreting model predictions. In <em>Advances in Neural Information Processing Systems</em>, volume 30. 2017.</p>
 </div>
-<div class="citation" id="id57" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>31<span class="fn-bracket">]</span></span>
-<p>Scott M. Lundberg, Gabriel Erion, Hugh Chen, Alex DeGrave, Jordan M. Prutkin, Bala Nair, Ronit Katz, Jonathan Himmelfarb, Nisha Bansal, and Su-In Lee. From local explanations to global understanding with explainable AI for trees. <em>Nature Machine Intelligence</em>, 2(1):56–67, 2020.</p>
-</div>
 <div class="citation" id="id59" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>32<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>31<span class="fn-bracket">]</span></span>
 <p>Marco Tulio Ribeiro, Sameer Singh, and Carlos Guestrin. &quot;why should I trust you?&quot;: explaining the predictions of any classifier. In <em>Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em>, 1135–1144. 2016.</p>
+</div>
+<div class="citation" id="id77" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>32<span class="fn-bracket">]</span></span>
+<p>Ailing Zeng, Muxi Chen, Lei Zhang, and Qiang Xu. Are transformers effective for time series forecasting? In <em>Proceedings of the AAAI Conference on Artificial Intelligence</em>, volume 37, 11121–11128. 2023. <a class="reference external" href="https://doi.org/10.1609/aaai.v37i9.26317">doi:10.1609/aaai.v37i9.26317</a>.</p>
+</div>
+<div class="citation" id="id40" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>33<span class="fn-bracket">]</span></span>
+<p>Claude Nadeau and Yoshua Bengio. Inference for the generalization error. <em>Machine Learning</em>, 52:239–281, 2003.</p>
 </div>
 </div>
 </div>
@@ -1062,6 +1072,15 @@ README. Las pruebas unitarias se ejecutan con <code class="docutils literal notr
         <p class="prev-next-subtitle">anterior</p>
         <p class="prev-next-title">Conclusiones</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="A_revisiones.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">Apéndice A. Revisiones respecto de la versión preliminar</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -1112,7 +1131,7 @@ Por Kevin Clemente Rosario y Manuel Santiago Meza Castro
   
   <div class="footer-item">
     <p class="last-updated">
-  Actualizado por última vez en 2026-10-23.
+  Actualizado por última vez en 2026-10-25.
   <br/>
 </p>
   </div>
@@ -1120,7 +1139,7 @@ Por Kevin Clemente Rosario y Manuel Santiago Meza Castro
   <div class="footer-item">
     
 <div class="extra_footer">
-  Universidad del Norte · Maestría · Machine Learning 2026-30
+  Kevin Clemente Rosario y Manuel Santiago Meza Castro · Universidad del Norte · Barranquilla, 2026
 </div>
   </div>
   
